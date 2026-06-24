@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-24T23:03:26.746Z
+// Fonte: football-data.org. 2026-06-24T23:43:11.686Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -293,7 +293,20 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {},
+  knockoutTeams: {
+  "75": {
+    "a": "de"
+  },
+  "79": {
+    "a": "mx"
+  },
+  "82": {
+    "a": "us"
+  },
+  "87": {
+    "a": "ar"
+  }
+},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -319,7 +332,7 @@ window.BRACKET_LIVE = {
     "opp": "Escócia",
     "oppCode": "gb-sct",
     "status": "aovivo",
-    "score": "2-0",
+    "score": "3-0",
     "result": "v"
   }
 ],
@@ -351,7 +364,7 @@ window.BRACKET_LIVE = {
     "opp": "Escócia",
     "oppCode": "gb-sct",
     "status": "aovivo",
-    "score": "2-0",
+    "score": "3-0",
     "result": "v"
   }
 ]
