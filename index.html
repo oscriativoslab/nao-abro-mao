@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#FFE6A8" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+  <title>NÃO ABRO MÃO — Lipy</title>
+  <meta name="description" content="De quem você não abre mão? Acompanhe a jornada da sua torcida na reta final. Uma campanha Lipy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- tela de carregamento (some quando tudo carrega) -->
+  <div id="boot" class="boot"><div class="boot__wrap"><div class="boot__ball"></div><div class="boot__shadow"></div></div></div>
+
+  <div class="app">
+
+    <!-- Mascote solto pela tela (personagem principal) -->
+    <div id="mascot-stage" aria-hidden="true"></div>
+
+    <!-- ================= HOME / ESCOLHA DE TORCIDA ================= -->
+    <section class="screen screen--home is-active" id="screen-home">
+      <div class="dots-bg" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="logo"><img class="logo-img" src="assets/logo-lipy.png" alt="Lipy" onerror="this.replaceWith(document.createTextNode('Lipy'))"></div>
+        <!-- "AO VIVO": desligado por enquanto. Pra ligar, remova o atributo hidden
+             (ou tire via JS quando houver jogo ao vivo nos dados). -->
+        <div class="live" id="live-badge" hidden><span class="live__dot"></span>AO VIVO</div>
+      </header>
+
+      <h1 class="headline">de quem você não abre mão?</h1>
+
+      <div class="selector">
+        <div class="team" id="team-card">
+          <div class="carousel">
+            <img class="peek peek--prev" id="peek-prev" alt="" />
+            <button class="chev" id="btn-prev" aria-label="Seleção anterior"><i class="ti ti-chevron-left"></i></button>
+            <div class="orb">
+              <div class="orb__glow"></div>
+              <div class="orb__flag"><img id="team-flag" src="" alt="" /></div>
+            </div>
+            <button class="chev" id="btn-next" aria-label="Próxima seleção"><i class="ti ti-chevron-right"></i></button>
+            <img class="peek peek--next" id="peek-next" alt="" />
+          </div>
+          <div class="team__name" id="team-name">BRASIL</div>
+          <div class="team__status" id="team-status"><i class="ti ti-checks"></i><span>Classificado</span></div>
+          <div class="team__form" id="team-form"></div>
+          <div class="team__quip" id="team-quip"></div>
+          <div class="team__score" id="team-score"></div>
+        </div>
+      </div>
+
+      <div class="home-bottom">
+        <button class="cta" id="btn-cta">ENTRAR EM CAMPO <i class="ti ti-arrow-right"></i></button>
+
+        <button class="ov-link" id="btn-overview"><i class="ti ti-tournament"></i> ver as eliminatórias</button>
+
+        <div class="journey-teaser">
+          <div class="journey-teaser__label">sua jornada até o título</div>
+          <div class="journey-teaser__track" id="journey-track"></div>
+        </div>
+
+        <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
+      </div>
+    </section>
+
+    <!-- ================= JORNADA (Mapa de fases) ================= -->
+    <section class="screen screen--journey" id="screen-journey">
+      <div class="dots-bg" aria-hidden="true"></div>
+      <header class="topbar">
+        <button class="icon-btn" id="btn-back" aria-label="Voltar"><i class="ti ti-arrow-left"></i></button>
+        <div class="logo logo--sm"><img class="logo-img" src="assets/logo-lipy.png" alt="Lipy" onerror="this.replaceWith(document.createTextNode('Lipy'))"></div>
+        <span style="width:40px"></span>
+      </header>
+
+      <div class="jrn-head">
+        <div class="orb orb--sm">
+          <div class="orb__glow"></div>
+          <div class="orb__flag"><img id="journey-flag" src="" alt="" /></div>
+        </div>
+        <div class="jrn-head__name" id="journey-name">BRASIL</div>
+        <div class="jrn-head__sub">sua jornada até o título</div>
+      </div>
+
+      <div class="jrn-next" id="jrn-next"></div>
+
+      <div class="jrn-nav" id="jrn-nav"></div>
+
+      <div class="slider-wrap">
+        <button class="sld-arrow sld-arrow--left" id="jrn-prev-phase" aria-label="Fase anterior"><i class="ti ti-chevron-left"></i></button>
+        <div class="slider" id="jrn-slider"><div class="slider__track" id="jrn-track"></div></div>
+        <button class="sld-arrow sld-arrow--right" id="jrn-next-phase" aria-label="Próxima fase"><i class="ti ti-chevron-right"></i></button>
+      </div>
+
+      <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
+    </section>
+
+    <div class="popup" id="jrn-popup" aria-hidden="true">
+      <div class="popup__box">
+        <button class="popup__close" id="popup-close" aria-label="Fechar"><i class="ti ti-x"></i></button>
+        <div class="popup__title"></div>
+        <div class="popup__body"></div>
+      </div>
+    </div>
+
+    <!-- ================= VISÃO GERAL DO MATA-MATA ================= -->
+    <section class="screen screen--overview" id="screen-overview">
+      <div class="dots-bg" aria-hidden="true"></div>
+      <header class="topbar">
+        <button class="icon-btn" id="ov-back" aria-label="Voltar"><i class="ti ti-arrow-left"></i></button>
+        <div class="logo logo--sm"><img class="logo-img" src="assets/logo-lipy.png" alt="Lipy" onerror="this.replaceWith(document.createTextNode('Lipy'))"></div>
+        <span style="width:40px"></span>
+      </header>
+      <h2 class="ov-title">Eliminatórias</h2>
+      <p class="ov-sub">Todas as fases após a fase de grupos.</p>
+      <div class="ov-list" id="ov-list"></div>
+      <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
+    </section>
+
+    <!-- ================= OVERLAY "SÓ BRASIL" (gag) ================= -->
+    <div class="funny-dim" id="funny-dim" aria-hidden="true"></div>
+    <div class="funny" id="funny" aria-hidden="true">
+      <div class="funny__box">
+        <div class="funny__text" id="funny-text"></div>
+        <button class="cta funny__btn" id="funny-close">Bora de Brasil! 🇧🇷</button>
+      </div>
+    </div>
+
+    <!-- ================= OVERLAY DE BUSCA / PESQUISAR ================= -->
+    <div class="search-overlay" id="search-overlay" aria-hidden="true">
+      <div class="search-panel">
+        <div class="search-head">
+          <div class="search-title">Escolha sua torcida</div>
+          <button class="icon-btn" id="btn-close-search" aria-label="Fechar"><i class="ti ti-x"></i></button>
+        </div>
+        <div class="search-input-wrap">
+          <i class="ti ti-search"></i>
+          <input type="text" id="search-input" placeholder="Buscar país" autocomplete="off" />
+        </div>
+        <div class="search-list" id="search-list"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="teams.js"></script>
+  <!-- dados reais auto-gerados (football-data.org); ausente até rodar gerar_bracket.js -->
+  <script src="bracket-live.js" onerror="this.remove()"></script>
+  <script src="bracket.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

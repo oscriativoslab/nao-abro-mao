@@ -1,0 +1,6 @@
+# higiene (não tem nada sensível no projeto; a CHAVE fica como segredo no GitHub)
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.env

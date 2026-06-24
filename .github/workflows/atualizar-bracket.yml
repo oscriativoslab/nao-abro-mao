@@ -1,0 +1,44 @@
+name: Atualizar dados (NAO ABRO MAO)
+
+# Roda o gerador (football-data.org) e, se algo mudou, commita o bracket-live.js
+# e o teams.js. Como o site fica no Cloudflare Pages ligado a este repo, cada
+# commit republica o site sozinho.
+
+on:
+  workflow_dispatch: {}          # botao "Run workflow" (manual, pra testar)
+  schedule:
+    - cron: '*/10 * * * *'       # a cada ~10 min (o GitHub pode atrasar alguns minutos)
+
+permissions:
+  contents: write                # deixa o robo commitar de volta
+
+concurrency:
+  group: atualizar-bracket
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gerar bracket-live.js e teams.js
+        env:
+          FOOTBALL_DATA_KEY: ${{ secrets.FOOTBALL_DATA_KEY }}
+        run: node gerar_bracket.js
+
+      - name: Commitar se mudou
+        run: |
+          git config user.name "nao-abro-mao-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add bracket-live.js teams.js
+          if git diff --staged --quiet; then
+            echo "Nada mudou nesta rodada."
+          else
+            git commit -m "Atualiza dados ao vivo (auto)"
+            git push
+          fi

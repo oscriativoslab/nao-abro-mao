@@ -1,0 +1,13 @@
+MASCOTE DA LIPY
+
+Salve aqui o PNG do mascote com FUNDO TRANSPARENTE, com este nome exato:
+
+    mascote-frente.png
+
+(use a pose de frente, em pé)
+
+Assim que o arquivo estiver nesta pasta, o mascote real aparece no site
+automaticamente (na tela "Entrar em campo", em cima do nível atual).
+Enquanto não houver o arquivo, o site mostra um desenho cinza provisório.
+
+Depois dá pra adicionar mais poses (andando, comemorando) pra ele se mexer.
