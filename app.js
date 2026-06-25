@@ -625,8 +625,8 @@
       return { label: lbl, teams: groupTeams(g), group: g };
     }
     if (slot === "3*") return { label: "Melhor 3º colocado", teams: [], third: true };
-    if ((m = slot.match(/^W(\d+)$/))) return { label: "Vencedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)) };
-    if ((m = slot.match(/^L(\d+)$/))) return { label: "Perdedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)) };
+    if ((m = slot.match(/^W(\d+)$/))) return { label: "Vencedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
+    if ((m = slot.match(/^L(\d+)$/))) return { label: "Perdedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
     return { label: slot, teams: [] };
   }
   function koTeams(n) { var k = findKo(n); if (!k) return []; return uniqCodes(slotInfo(k.a).teams.concat(slotInfo(k.b).teams)); }
@@ -929,7 +929,7 @@
   function sideFinal(slot, code) {
     if (code) return true;
     var info = slotInfo(slot);
-    return info.teams.length === 1 && !info.provisional;
+    return info.teams.length === 1 && !info.provisional && !info.derived;
   }
   function koSide(slot, code) {
     if (code) {
@@ -937,7 +937,7 @@
       return '<div class="ko-side"><img class="ko-flag" src="' + flagUrl(code) + '" alt=""><span class="ko-lbl">' + (td ? td.name : code) + '</span></div>';
     }
     var info = slotInfo(slot);
-    if (info.teams.length === 1) {
+    if (!info.derived && info.teams.length === 1) {
       var t = teamByCode(info.teams[0]);
       var prov = info.provisional ? '<span class="ko-prov">provável</span>' : '';
       return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + '"><img class="ko-flag" src="' + flagUrl(info.teams[0]) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
