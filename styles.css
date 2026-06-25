@@ -423,6 +423,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 /* possibilidades (adversário a definir) */
 .scn__opp--ph{ cursor:pointer; }
 .scn__info{ font-size:14px; color:var(--purple); margin-left:auto; }
+.scn__prov{ flex:none; font-size:8px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:var(--orange-deep); background:#FFE7C2; border:1px solid #F2D199; border-radius:8px; padding:1px 5px; }
 .scn__note{ display:none; margin-top:8px; font-size:11px; line-height:1.45; color:var(--muted); background:#F4ECFA; border-radius:10px; padding:8px 10px; }
 .scn__note.is-open{ display:block; animation: itemin .3s ease both; }
 

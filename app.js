@@ -565,15 +565,19 @@
     var date = s.date || fallbackDate || "";
     var slot = s.slot || (s.oppCode ? null : oppToSlot(s.opp));
     var sInfo = slot ? slotInfo(slot) : null;
-    var exact = sInfo && sInfo.teams.length === 1 && !sInfo.provisional && !sInfo.derived;
-    var oppCode = s.oppCode || (exact ? sInfo.teams[0] : null);
-    var hasTeam = !!oppCode;
-    var oppName = hasTeam ? ((teamByCode(oppCode) || {}).name || s.opp || "") : (s.opp || "a definir");
-    var oppFlag = hasTeam ? '<img src="' + flagUrl(oppCode) + '" alt="">' : '<span class="scn__q">?</span>';
-    var cardAttr = hasTeam ? ' data-go="' + oppCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
-    var cardCls = "scn" + (hasTeam || slot ? " scn--click" : "");
-    var oppCls = "scn__opp" + (hasTeam ? "" : " scn__opp--ph");
-    var info = hasTeam ? "" : '<i class="ti ti-info-circle scn__info"></i>';
+    var single = sInfo && sInfo.teams.length === 1 && !sInfo.derived;   // 1 time (exato ou provável do grupo)
+    var prov = single && sInfo.provisional;
+    var exact = single && !sInfo.provisional;
+    var teamCode = s.oppCode || (single ? sInfo.teams[0] : null);
+    var hasTeam = !!teamCode;
+    var oppName = hasTeam ? ((teamByCode(teamCode) || {}).name || s.opp || "") : (s.opp || "a definir");
+    var provBadge = prov ? '<span class="scn__prov">parcial</span>' : '';
+    var oppFlag = hasTeam ? '<img src="' + flagUrl(teamCode) + '" alt="">' : '<span class="scn__q">?</span>';
+    // exato -> troca torcida (gag); provável/indefinido -> popup de possibilidades
+    var cardAttr = exact ? ' data-go="' + teamCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
+    var cardCls = "scn" + (exact || slot ? " scn--click" : "");
+    var oppCls = "scn__opp" + ((exact || prov) ? "" : " scn__opp--ph");
+    var info = exact ? "" : '<i class="ti ti-info-circle scn__info"></i>';
     var when = [];
     if (date) when.push(dateDay(date));
     if (s.time) when.push(s.time);
@@ -581,7 +585,7 @@
     return '<div class="' + cardCls + '"' + cardAttr + '><div class="scn__match">' +
       '<img class="scn__flag" src="' + flagUrl(selCode) + '" alt="">' +
       '<span class="scn__vs">x</span>' +
-      '<span class="' + oppCls + '">' + oppFlag + '<span>' + oppName + '</span>' + info + '</span></div>' +
+      '<span class="' + oppCls + '">' + oppFlag + '<span>' + oppName + '</span>' + provBadge + info + '</span></div>' +
       (when.length ? '<div class="scn__when">' + when.join(" · ") + '</div>' : "") +
       (place ? '<div class="scn__city"><i class="ti ti-building-stadium"></i> ' + place + '</div>' : "") +
       '</div>';
