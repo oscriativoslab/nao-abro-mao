@@ -1210,10 +1210,8 @@
     return out;
   }
   function upcomingAll() {
-    return allFixtures().filter(function (m) {
-      if (m.st === "finalizado") return false;
-      return m.stage === "grupos" || m.hc || m.ac;   // tira mata-mata 100% indefinido (?vs?)
-    }).slice(0, 28);
+    // todos os jogos que ainda não aconteceram, INCLUSIVE as eliminatórias sem seleção definida (?vs?)
+    return allFixtures().filter(function (m) { return m.st !== "finalizado"; });
   }
   function recentResults() { return allFixtures().filter(function (m) { return m.st === "finalizado"; }).slice(-12); }
   // monta as linhas agrupadas por dia
