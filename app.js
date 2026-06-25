@@ -1215,10 +1215,15 @@
       return m.stage === "grupos" || m.hc || m.ac;   // tira mata-mata 100% indefinido (?vs?)
     }).slice(0, 28);
   }
-  // "Todas as seleções": últimos resultados + próximos jogos (em ordem)
-  function fixturesAll() {
-    var fin = allFixtures().filter(function (m) { return m.st === "finalizado"; });
-    return fin.slice(-10).concat(upcomingAll());
+  function recentResults() { return allFixtures().filter(function (m) { return m.st === "finalizado"; }).slice(-12); }
+  // monta as linhas agrupadas por dia
+  function fixRowsHTML(list, focus) {
+    var html = "", last = null;
+    list.forEach(function (m) {
+      if (m.d !== last) { html += '<div class="jg-day">' + dateDay(m.d) + '</div>'; last = m.d; }
+      html += fixtureRow(m, focus);
+    });
+    return html;
   }
   function teamFixtures(code) {
     return allFixtures().filter(function (m) { return m.hc === code || m.ac === code; });
@@ -1256,19 +1261,32 @@
   var fixSel = "all";
   function renderFixtureList() {
     var host = document.getElementById("jg-list"); if (!host) return;
-    var fx = (fixSel === "all") ? fixturesAll() : teamFixtures(fixSel);
-    if (!fx.length) {
-      host.innerHTML = '<div class="grp-empty">' + (fixSel === "all"
-        ? "Os próximos jogos aparecem aqui assim que o calendário rolar."
-        : "Ainda não tem jogo pra mostrar dessa seleção.") + '</div>';
+    host.classList.remove("jg-list--scroll");
+    if (fixSel === "all") {
+      var past = recentResults(), up = upcomingAll();
+      if (!past.length && !up.length) {
+        host.innerHTML = '<div class="grp-empty">Os jogos aparecem aqui assim que o calendário rolar.</div>'; return;
+      }
+      var pastHTML = past.length ? '<div class="jg-pasthint">resultados anteriores</div>' + fixRowsHTML(past, null) : "";
+      host.innerHTML = '<div class="grp-pane">' + pastHTML + '<div id="jg-anchor"></div>' + fixRowsHTML(up, null) + '<div id="jg-spacer"></div></div>';
+      // abre rolado até o 1º jogo futuro (passado fica acima, aparece arrastando pra cima)
+      if (past.length) {
+        host.classList.add("jg-list--scroll");
+        host.scrollTop = 0;
+        var a = document.getElementById("jg-anchor");
+        if (a) {
+          var top = a.getBoundingClientRect().top - host.getBoundingClientRect().top;   // offset do anchor (scrollTop=0)
+          var below = host.scrollHeight - top;                                            // altura do que vem depois
+          var spacer = document.getElementById("jg-spacer");
+          if (spacer) spacer.style.height = Math.max(0, host.clientHeight - below) + "px"; // garante rolagem suficiente
+          host.scrollTop = top - 4;
+        }
+      }
       return;
     }
-    var html = "", lastDate = null;
-    fx.forEach(function (m) {
-      if (m.d !== lastDate) { html += '<div class="jg-day">' + dateDay(m.d) + '</div>'; lastDate = m.d; }
-      html += fixtureRow(m, fixSel === "all" ? null : fixSel);
-    });
-    host.innerHTML = '<div class="grp-pane">' + html + '</div>';
+    var fx = teamFixtures(fixSel);
+    if (!fx.length) { host.innerHTML = '<div class="grp-empty">Ainda não tem jogo pra mostrar dessa seleção.</div>'; return; }
+    host.innerHTML = '<div class="grp-pane">' + fixRowsHTML(fx, fixSel) + '</div>';
   }
   function renderFixtures() {
     var opts = '<option value="all">Todas as seleções</option>' +
