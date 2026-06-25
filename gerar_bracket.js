@@ -195,12 +195,13 @@ function mapTeam(name, unknown) {
           if (sc.home > sc.away) H.pts += 3; else if (sc.home < sc.away) A.pts += 3; else { H.pts++; A.pts++; }
         }
       });
-      var standings = {}, groupsDone = {};
+      var standings = {}, groupsDone = {}, groupsStarted = {};
       Object.keys(tbl).forEach(function (g) {
         var arr = Object.keys(tbl[g]).map(function (c) { return tbl[g][c]; });
         arr.sort(function (a, b) { return (b.pts - a.pts) || ((b.gf - b.ga) - (a.gf - a.ga)) || (b.gf - a.gf); });
         standings[g] = arr.map(function (x) { return x.c; });
         groupsDone[g] = (finByGroup[g] || 0) >= 6;
+        groupsStarted[g] = (finByGroup[g] || 0) > 0;   // já tem resultado -> dá pra mostrar "provável"
       });
 
       // ---- datas/horários REAIS do mata-mata (BRT) mapeados p/ os IDs da semente ----
@@ -256,6 +257,7 @@ function mapTeam(name, unknown) {
         "  groups: " + JSON.stringify(groups, null, 2) + ",\n" +
         "  standings: " + JSON.stringify(standings, null, 2) + ",\n" +
         "  groupsDone: " + JSON.stringify(groupsDone, null, 2) + ",\n" +
+        "  groupsStarted: " + JSON.stringify(groupsStarted, null, 2) + ",\n" +
         "  knockoutDates: " + JSON.stringify(koDates, null, 2) + ",\n" +
         "  knockoutTeams: " + JSON.stringify(koTeams, null, 2) + ",\n" +
         "  brGroupMatches: " + JSON.stringify(brGroupMatches, null, 2) + ",\n" +

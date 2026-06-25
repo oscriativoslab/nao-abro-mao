@@ -615,11 +615,14 @@
     if ((m = slot.match(/^([123])([A-L])$/))) {
       var pos = parseInt(m[1], 10), g = m[2];
       var lbl = (pos === 1 ? "1º" : pos === 2 ? "2º" : "3º") + " do Grupo " + g;
-      // se o grupo já terminou, "1º/2º/3º do Grupo X" vira o time EXATO (classificação real)
-      if (BRACKET.groupsDone && BRACKET.groupsDone[g] && BRACKET.standings && BRACKET.standings[g] && BRACKET.standings[g][pos - 1]) {
-        return { label: lbl, teams: [BRACKET.standings[g][pos - 1]] };
+      var st = BRACKET.standings && BRACKET.standings[g];
+      var done = !!(BRACKET.groupsDone && BRACKET.groupsDone[g]);
+      var started = !!(BRACKET.groupsStarted && BRACKET.groupsStarted[g]);
+      // grupo terminou -> time EXATO. grupo em andamento -> provável (classificação parcial).
+      if (st && st[pos - 1] && (done || started)) {
+        return { label: lbl, teams: [st[pos - 1]], provisional: !done, group: g, alt: groupTeams(g) };
       }
-      return { label: lbl, teams: groupTeams(g) };
+      return { label: lbl, teams: groupTeams(g), group: g };
     }
     if (slot === "3*") return { label: "Melhor 3º colocado", teams: [], third: true };
     if ((m = slot.match(/^W(\d+)$/))) return { label: "Vencedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)) };
@@ -635,8 +638,17 @@
     if ((m = opp.match(/Partida\s*(\d+)/i))) return "W" + m[1];
     return null;
   }
+  function teamChip(c) { var t = teamByCode(c); return t ? '<span class="popup__team popup__team--info"><img src="' + flagUrl(c) + '" alt=""><span>' + t.name + '</span></span>' : ''; }
   function slotChips(info) {
     if (info.third) return '<p class="popup__note">Um dos melhores terceiros colocados da fase de grupos (ainda a definir).</p>';
+    // provável (classificação parcial): mostra o favorito + os outros do grupo como alternativa
+    if (info.provisional && info.teams.length === 1) {
+      var h = '<p class="popup__note">Provável (classificação parcial — ainda pode mudar).</p>' +
+        '<div class="popup__teams">' + teamChip(info.teams[0]) + '</div>';
+      var others = (info.alt || []).filter(function (c) { return c !== info.teams[0]; });
+      if (others.length) h += '<div class="popup__slot">outros do grupo</div><div class="popup__teams">' + others.map(teamChip).join("") + '</div>';
+      return h;
+    }
     if (!info.teams.length) return '<p class="popup__note">A definir.</p>';
     if (info.teams.length > 8) return '<p class="popup__note">' + info.teams.length + ' seleções ainda possíveis — depende dos resultados das fases anteriores.</p>';
     var h = '<div class="popup__teams">';
@@ -913,19 +925,29 @@
 
   // ---- Visão geral do mata-mata ----
   // lado de um confronto do mata-mata: bandeira (se já definido) ou "?" + rótulo do slot
-  function sideCodes(slot, code) { return code ? [code] : slotInfo(slot).teams; }
+  // lado "final" = 100% definido (time real da API, ou grupo encerrado). Provável NÃO é final.
+  function sideFinal(slot, code) {
+    if (code) return true;
+    var info = slotInfo(slot);
+    return info.teams.length === 1 && !info.provisional;
+  }
   function koSide(slot, code) {
-    var codes = sideCodes(slot, code);
-    if (codes.length === 1) {
-      var t = teamByCode(codes[0]);
-      return '<div class="ko-side"><img class="ko-flag" src="' + flagUrl(codes[0]) + '" alt=""><span class="ko-lbl">' + (t ? t.name : slotInfo(slot).label) + '</span></div>';
+    if (code) {
+      var td = teamByCode(code);
+      return '<div class="ko-side"><img class="ko-flag" src="' + flagUrl(code) + '" alt=""><span class="ko-lbl">' + (td ? td.name : code) + '</span></div>';
     }
-    return '<div class="ko-side ko-side--open"><span class="ko-q">?</span><span class="ko-lbl">' + slotInfo(slot).label + '</span></div>';
+    var info = slotInfo(slot);
+    if (info.teams.length === 1) {
+      var t = teamByCode(info.teams[0]);
+      var prov = info.provisional ? '<span class="ko-prov">provável</span>' : '';
+      return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + '"><img class="ko-flag" src="' + flagUrl(info.teams[0]) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
+    }
+    return '<div class="ko-side ko-side--open"><span class="ko-q">?</span><span class="ko-lbl">' + info.label + '</span></div>';
   }
   function koCard(k) {
     var when = [dateDay(k.date), k.time].filter(Boolean).join(" · ");
     var place = [k.stadium, k.city].filter(Boolean).join(" · ");
-    var open = (sideCodes(k.a, k.aCode).length !== 1) || (sideCodes(k.b, k.bCode).length !== 1);
+    var open = !(sideFinal(k.a, k.aCode) && sideFinal(k.b, k.bCode));
     var inner =
       '<div class="ko-card__top"><span class="ko-num">Jogo ' + k.id + '</span>' + (when ? '<span class="ko-when">' + when + '</span>' : '') + '</div>' +
       koSide(k.a, k.aCode) + '<span class="ko-vs">×</span>' + koSide(k.b, k.bCode) +

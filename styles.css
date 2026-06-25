@@ -361,6 +361,8 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .ko-place i{ font-size:11px; color:var(--orange); }
 .ko-tap{ margin:3px 9px 0; display:flex; align-items:center; justify-content:center; gap:5px; font-size:9.5px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:#fff; background:linear-gradient(108deg,#FFB02E,#FF6A00); border-radius:10px; padding:6px 8px; box-shadow:0 4px 10px -3px rgba(255,106,0,.55); }
 .ko-tap i{ font-size:13px; }
+.ko-prov{ display:inline-block; margin-left:6px; font-size:8px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:#fff; background:var(--orange); border-radius:8px; padding:1px 5px; vertical-align:middle; }
+.ko-side--prov .ko-flag{ opacity:.92; box-shadow:0 0 0 2px #FFD9A0; }
 
 /* confronto possível da jornada: card inteiro clicável */
 .scn--click{ cursor:pointer; }
