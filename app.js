@@ -84,6 +84,10 @@
     screenOverview: document.getElementById("screen-overview"),
     ovBack: document.getElementById("ov-back"),
     ovList: document.getElementById("ov-list"),
+    btnGroups: document.getElementById("btn-groups"),
+    screenGroups: document.getElementById("screen-groups"),
+    grpBack: document.getElementById("grp-back"),
+    grpHost: document.getElementById("grp-host"),
     funny: document.getElementById("funny"),
     funnyDim: document.getElementById("funny-dim"),
     funnyClose: document.getElementById("funny-close"),
@@ -125,7 +129,7 @@
   function clearPos(c) { c.style.left = ""; c.style.right = ""; c.style.top = ""; c.style.bottom = ""; }
   function setStage(pos) {
     if (!el.mascotStage) return;
-    el.mascotStage.classList.remove("on-home", "on-journey", "on-overview", "gag");
+    el.mascotStage.classList.remove("on-home", "on-journey", "on-overview", "on-groups", "gag");
     el.mascotStage.classList.add(pos);
   }
   function mcCenter() { var w = (el.mascotStage && el.mascotStage.clientWidth) || 440; return Math.round((w - 150) / 2) + "px"; }
@@ -151,6 +155,27 @@
   }
   // entrada no mata-mata: anda da posição da HOME até o canto (igual a jornada)
   function overviewEnter(fromLeft, fromTop) {
+    var c = ensureChar(); if (!c) return;
+    clearTimeout(crossT1); clearTimeout(crossT2);
+    var startLeft = fromLeft || "-170px";
+    var startTop = fromTop || (ovTop() + "px");
+    c.style.transition = "none"; c.style.right = "auto"; c.style.bottom = "auto"; c.style.top = startTop; c.style.left = startLeft;
+    faceLeft(parseFloat(mcRight()) < parseFloat(startLeft));
+    walking(true); setPose("andando");
+    crossT1 = setTimeout(function () { c.style.transition = ""; c.style.top = ovTop() + "px"; c.style.left = mcRight(); }, 24);
+    crossT2 = setTimeout(function () { walking(false); faceLeft(false); setPose("frente"); }, 600);
+  }
+  // GRUPOS: mesmo canto da visão geral (parado à direita, em baixo)
+  function placeGroups(instant) {
+    var c = ensureChar(); if (!c) return;
+    setStage("on-groups"); faceLeft(false);
+    c.style.right = "auto"; c.style.bottom = "auto";
+    if (instant) c.style.transition = "none";
+    c.style.left = mcRight(); c.style.top = ovTop() + "px";
+    if (instant) { void c.offsetWidth; c.style.transition = ""; }
+    setPose("frente");
+  }
+  function groupsEnter(fromLeft, fromTop) {
     var c = ensureChar(); if (!c) return;
     clearTimeout(crossT1); clearTimeout(crossT2);
     var startLeft = fromLeft || "-170px";
@@ -949,6 +974,8 @@
     el.journeyFlag.src = flagUrl(t.code);
     el.journeyName.textContent = t.name.toUpperCase();
     el.screenHome.classList.remove("is-active");
+    el.screenOverview.classList.remove("is-active");
+    el.screenGroups.classList.remove("is-active");
     el.screenJourney.classList.add("is-active");
     setStage("on-journey");
     document.documentElement.classList.add("snap-journey");   // scroll com 2 paradas
@@ -979,6 +1006,7 @@
     document.documentElement.classList.remove("snap-journey");
     el.screenJourney.classList.remove("is-active");
     el.screenOverview.classList.remove("is-active");
+    el.screenGroups.classList.remove("is-active");
     el.screenHome.classList.add("is-active");
     setStage("on-home");
     homeEnter(fromLeft, fromTop);
@@ -1075,10 +1103,116 @@
     buildOverview();
     el.screenHome.classList.remove("is-active");
     el.screenJourney.classList.remove("is-active");
+    el.screenGroups.classList.remove("is-active");
     el.screenOverview.classList.add("is-active");
     setStage("on-overview");
     overviewEnter(fromLeft, fromTop);
     saveScreen("overview");
+    window.scrollTo(0, 0);
+  }
+
+  // ---- Os grupos (classificação + jogos) ----
+  function groupOrder() { return Object.keys(BRACKET.groups || {}).sort(); }
+  function brGroupLetter() {
+    var g = BRACKET.groups || {};
+    for (var k in g) { if ((g[k] || []).indexOf("br") >= 0) return k; }
+    return groupOrder()[0] || "A";
+  }
+  var grpSel = null;
+  function groupTableHTML(g) {
+    var done = !!(BRACKET.groupsDone && BRACKET.groupsDone[g]);
+    var started = !!(BRACKET.groupsStarted && BRACKET.groupsStarted[g]);
+    var statusLbl = done ? "classificação final" : (started ? "classificação parcial" : "ainda não começou");
+    var tagCls = done ? " is-done" : (started ? " is-part" : "");
+    var rows = (BRACKET.groupTable && BRACKET.groupTable[g]) || null;
+    var html = '<div class="grp-card"><div class="grp-card__head"><span class="grp-card__title">Grupo ' + g + '</span>' +
+      '<span class="grp-card__tag' + tagCls + '">' + statusLbl + '</span></div>' +
+      '<div class="grp-th"><span class="grp-th__pos">#</span><span class="grp-th__team">seleção</span><span>P</span><span>J</span><span>SG</span></div>';
+    function row(c, i, j, pts, sg) {
+      var t = teamByCode(c);
+      var cls = i < 2 ? " is-top" : (i === 2 ? " is-third" : "");
+      return '<div class="grp-row' + cls + (c === "br" ? " is-br" : "") + '">' +
+        '<span class="grp-pos">' + (i + 1) + '</span>' +
+        '<span class="grp-team"><img src="' + flagUrl(c) + '" alt=""><span>' + (t ? t.name : c) + '</span></span>' +
+        '<span class="grp-pts">' + pts + '</span>' +
+        '<span class="grp-num">' + j + '</span>' +
+        '<span class="grp-num">' + sg + '</span></div>';
+    }
+    if (rows && rows.length) {
+      rows.forEach(function (r, i) { html += row(r.c, i, r.j, r.pts, (r.sg > 0 ? "+" : "") + r.sg); });
+    } else {
+      var codes = (BRACKET.standings && BRACKET.standings[g]) || (BRACKET.groups && BRACKET.groups[g]) || [];
+      codes.forEach(function (c, i) { html += row(c, i, "-", "-", "-"); });
+    }
+    html += '<div class="grp-legend"><span class="grp-dot grp-dot--top"></span> 2 primeiros avançam' +
+      '<span class="grp-dot grp-dot--third"></span> 3º pode ir como melhor terceiro</div></div>';
+    return html;
+  }
+  function groupMatchesHTML(g) {
+    var ms = (BRACKET.groupMatches && BRACKET.groupMatches[g]) || null;
+    if (!ms || !ms.length) return '<div class="grp-empty">Os jogos deste grupo aparecem aqui assim que o calendário rolar.</div>';
+    var html = '<div class="grp-mlabel">jogos do grupo</div>';
+    ms.forEach(function (m) {
+      var live = m.st === "aovivo", fin = m.st === "finalizado";
+      var inner = (fin || live)
+        ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>'
+        : '<span class="grp-m__vs">' + (m.t || "x") + '</span>';
+      var when = [weekday(m.d), m.d].filter(Boolean).join(" ");
+      html += '<div class="grp-m' + (live ? " is-live" : "") + '">' +
+        '<span class="grp-m__d">' + (live ? "ao vivo · " : "") + when + '</span>' +
+        '<div class="grp-m__row">' +
+        '<span class="grp-m__t grp-m__t--h"><span class="grp-m__nm">' + m.hn + '</span><img src="' + flagUrl(m.hc) + '" alt=""></span>' +
+        '<span class="grp-m__mid">' + inner + '</span>' +
+        '<span class="grp-m__t grp-m__t--a"><img src="' + flagUrl(m.ac) + '" alt=""><span class="grp-m__nm">' + m.an + '</span></span>' +
+        '</div></div>';
+    });
+    return html;
+  }
+  function renderGroupBody() {
+    var host = document.getElementById("grp-body"); if (!host) return;
+    host.innerHTML = '<div class="grp-pane">' + groupTableHTML(grpSel) + groupMatchesHTML(grpSel) + '</div>';
+  }
+  function renderGroups() {
+    var order = groupOrder();
+    if (!grpSel || order.indexOf(grpSel) < 0) grpSel = brGroupLetter();
+    var tabs = '<div class="grp-tabs" id="grp-tabs">';
+    order.forEach(function (g) {
+      var isBr = (BRACKET.groups[g] || []).indexOf("br") >= 0;
+      tabs += '<button class="grp-tab' + (g === grpSel ? " is-sel" : "") + '" data-grp-tab="' + g + '">' +
+        '<span class="grp-tab__g">' + g + '</span>' +
+        '<span class="grp-tab__l">' + (isBr ? "🇧🇷" : "grupo") + '</span></button>';
+    });
+    tabs += '</div>';
+    el.grpHost.innerHTML = tabs + '<div id="grp-body"></div>';
+    renderGroupBody();
+    centerGrpTab();
+  }
+  function centerGrpTab() {
+    var tabs = document.getElementById("grp-tabs"); if (!tabs) return;
+    var sel = tabs.querySelector(".is-sel"); if (!sel) return;
+    tabs.scrollTo({ left: Math.max(0, sel.offsetLeft - (tabs.clientWidth - sel.offsetWidth) / 2), behavior: "smooth" });
+  }
+  function selectGroup(g) {
+    grpSel = g;
+    var tabs = document.getElementById("grp-tabs");
+    if (tabs) [].forEach.call(tabs.querySelectorAll(".grp-tab"), function (b) { b.classList.toggle("is-sel", b.getAttribute("data-grp-tab") === g); });
+    renderGroupBody();
+    centerGrpTab();
+  }
+  function showGroups() {
+    var c = ensureChar();
+    var fromLeft = c && c.style.left ? c.style.left : null;
+    var fromTop = c && c.style.top ? c.style.top : null;
+    userMoved = false;
+    document.documentElement.classList.remove("snap-journey");
+    renderGroups();
+    el.screenHome.classList.remove("is-active");
+    el.screenJourney.classList.remove("is-active");
+    el.screenOverview.classList.remove("is-active");
+    el.screenGroups.classList.add("is-active");
+    setStage("on-groups");
+    groupsEnter(fromLeft, fromTop);
+    saveScreen("groups");
     window.scrollTo(0, 0);
   }
 
@@ -1096,6 +1230,12 @@
   if (el.journeySearch) el.journeySearch.addEventListener("click", openSearch);
   el.btnOverview.addEventListener("click", showOverview);
   el.ovBack.addEventListener("click", showHome);
+  if (el.btnGroups) el.btnGroups.addEventListener("click", showGroups);
+  if (el.grpBack) el.grpBack.addEventListener("click", showHome);
+  if (el.screenGroups) el.screenGroups.addEventListener("click", function (e) {
+    var tab = e.target.closest ? e.target.closest("[data-grp-tab]") : null;
+    if (tab) selectGroup(tab.getAttribute("data-grp-tab"));
+  });
   el.funnyClose.addEventListener("click", closeFunny);
   el.funny.addEventListener("click", function (e) { if (e.target === el.funny) closeFunny(); });
   if (el.funnyDim) el.funnyDim.addEventListener("click", closeFunny);
@@ -1196,6 +1336,7 @@
   var saved = loadScreen();
   if (saved === "journey") showJourney();
   else if (saved === "overview") showOverview();
+  else if (saved === "groups") showGroups();
   else { placeHome(); }
 
   window.addEventListener("resize", function () {
@@ -1238,7 +1379,7 @@
       if (nL !== L || nT !== T) { c.style.left = nL + "px"; c.style.top = nT + "px"; }
       // pose referente à tela/posição onde foi solto
       var rp = el.mascotStage.classList.contains("on-journey") ? mascotPoseForSlide(slideIndex)
-             : (el.mascotStage.classList.contains("on-overview") ? "frente" : "apontando");
+             : ((el.mascotStage.classList.contains("on-overview") || el.mascotStage.classList.contains("on-groups")) ? "frente" : "apontando");
       setPose(rp);
     }
     st.addEventListener("mousedown", down);

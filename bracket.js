@@ -249,6 +249,8 @@ if (window.BRACKET_LIVE) {
   if (window.BRACKET_LIVE.standings) window.BRACKET.standings = window.BRACKET_LIVE.standings;
   if (window.BRACKET_LIVE.groupsDone) window.BRACKET.groupsDone = window.BRACKET_LIVE.groupsDone;
   if (window.BRACKET_LIVE.groupsStarted) window.BRACKET.groupsStarted = window.BRACKET_LIVE.groupsStarted;
+  if (window.BRACKET_LIVE.groupTable) window.BRACKET.groupTable = window.BRACKET_LIVE.groupTable;
+  if (window.BRACKET_LIVE.groupMatches) window.BRACKET.groupMatches = window.BRACKET_LIVE.groupMatches;
   if (window.BRACKET_LIVE.knockout) window.BRACKET.knockout = window.BRACKET_LIVE.knockout;
   // jogos reais do Brasil na fase de grupos (resultado/ao vivo/próximo)
   if (window.BRACKET_LIVE.brGroupMatches && window.BRACKET_LIVE.brGroupMatches.length &&

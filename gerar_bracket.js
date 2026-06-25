@@ -185,21 +185,25 @@ function mapTeam(name, unknown) {
         var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
         if (!hh || !aa) return;
         tbl[g] = tbl[g] || {};
-        tbl[g][hh.code] = tbl[g][hh.code] || { c: hh.code, pts: 0, gf: 0, ga: 0 };
-        tbl[g][aa.code] = tbl[g][aa.code] || { c: aa.code, pts: 0, gf: 0, ga: 0 };
+        tbl[g][hh.code] = tbl[g][hh.code] || { c: hh.code, pts: 0, j: 0, v: 0, e: 0, d: 0, gf: 0, ga: 0 };
+        tbl[g][aa.code] = tbl[g][aa.code] || { c: aa.code, pts: 0, j: 0, v: 0, e: 0, d: 0, gf: 0, ga: 0 };
         var sc = m.score && m.score.fullTime;
         if (m.status === "FINISHED" && sc && sc.home != null) {
           finByGroup[g] = (finByGroup[g] || 0) + 1;
           var H = tbl[g][hh.code], A = tbl[g][aa.code];
+          H.j++; A.j++;
           H.gf += sc.home; H.ga += sc.away; A.gf += sc.away; A.ga += sc.home;
-          if (sc.home > sc.away) H.pts += 3; else if (sc.home < sc.away) A.pts += 3; else { H.pts++; A.pts++; }
+          if (sc.home > sc.away) { H.pts += 3; H.v++; A.d++; }
+          else if (sc.home < sc.away) { A.pts += 3; A.v++; H.d++; }
+          else { H.pts++; A.pts++; H.e++; A.e++; }
         }
       });
-      var standings = {}, groupsDone = {}, groupsStarted = {};
+      var standings = {}, groupsDone = {}, groupsStarted = {}, groupTable = {};
       Object.keys(tbl).forEach(function (g) {
         var arr = Object.keys(tbl[g]).map(function (c) { return tbl[g][c]; });
         arr.sort(function (a, b) { return (b.pts - a.pts) || ((b.gf - b.ga) - (a.gf - a.ga)) || (b.gf - a.gf); });
         standings[g] = arr.map(function (x) { return x.c; });
+        groupTable[g] = arr.map(function (x) { return { c: x.c, j: x.j, v: x.v, e: x.e, d: x.d, gf: x.gf, ga: x.ga, sg: x.gf - x.ga, pts: x.pts }; });
         groupsDone[g] = (finByGroup[g] || 0) >= 6;
         groupsStarted[g] = (finByGroup[g] || 0) > 0;   // já tem resultado -> dá pra mostrar "provável"
       });
@@ -254,6 +258,24 @@ function mapTeam(name, unknown) {
       var brGroupMatches = brMatches.filter(function (o) { return o.stage === "GROUP_STAGE"; })
         .map(function (o) { var c = { date: o.date, time: o.time, opp: o.opp, oppCode: o.oppCode, status: o.status }; if (o.score) { c.score = o.score; c.result = o.result; } return c; });
 
+      // ---- jogos de TODOS os grupos (pra tela "Os grupos"): resultado / ao vivo / próximo ----
+      var groupMatches = {};
+      matches.forEach(function (m) {
+        if (m.stage !== "GROUP_STAGE") return;
+        var g = (m.group || "").replace("GROUP_", "").trim(); if (GROUP_LETTERS.indexOf(g) < 0) return;
+        var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
+        if (!hh || !aa) return;
+        var t = brt(m.utcDate);
+        var o = { d: t ? t.date : "", t: t ? t.time : "", hc: hh.code, hn: hh.pt, ac: aa.code, an: aa.pt, st: statusOf(m.status) };
+        var sc = m.score && m.score.fullTime;
+        if (sc && sc.home != null && sc.away != null) o.sc = sc.home + "-" + sc.away;
+        (groupMatches[g] = groupMatches[g] || []).push({ o: o, ts: new Date(m.utcDate).getTime() });
+      });
+      Object.keys(groupMatches).forEach(function (g) {
+        groupMatches[g].sort(function (a, b) { return a.ts - b.ts; });
+        groupMatches[g] = groupMatches[g].map(function (x) { return x.o; });
+      });
+
       // ---- escreve bracket-live.js (grupos + datas + jogos do Brasil; o front faz merge) ----
       var liveOut =
         "// GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.\n" +
@@ -263,6 +285,8 @@ function mapTeam(name, unknown) {
         "  standings: " + JSON.stringify(standings, null, 2) + ",\n" +
         "  groupsDone: " + JSON.stringify(groupsDone, null, 2) + ",\n" +
         "  groupsStarted: " + JSON.stringify(groupsStarted, null, 2) + ",\n" +
+        "  groupTable: " + JSON.stringify(groupTable, null, 2) + ",\n" +
+        "  groupMatches: " + JSON.stringify(groupMatches, null, 2) + ",\n" +
         "  knockoutDates: " + JSON.stringify(koDates, null, 2) + ",\n" +
         "  knockoutTeams: " + JSON.stringify(koTeams, null, 2) + ",\n" +
         "  brGroupMatches: " + JSON.stringify(brGroupMatches, null, 2) + ",\n" +
