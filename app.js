@@ -1311,6 +1311,7 @@
     var fromLeft = c && c.style.left ? c.style.left : null;
     var fromTop = c && c.style.top ? c.style.top : null;
     userMoved = false;
+    fixSel = "all";   // ao abrir, sempre volta pra "Todas as seleções"
     document.documentElement.classList.remove("snap-journey");
     el.screenHome.classList.remove("is-active");
     el.screenJourney.classList.remove("is-active");
