@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T22:02:17.569Z
+// Fonte: football-data.org. 2026-06-25T22:04:17.114Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -154,7 +154,7 @@ window.BRACKET_LIVE = {
   "B": true,
   "D": false,
   "C": true,
-  "E": false,
+  "E": true,
   "F": false,
   "H": false,
   "G": false,
@@ -365,46 +365,46 @@ window.BRACKET_LIVE = {
   "E": [
     {
       "c": "de",
-      "j": 2,
+      "j": 3,
       "v": 2,
       "e": 0,
-      "d": 0,
-      "gf": 9,
-      "ga": 2,
-      "sg": 7,
+      "d": 1,
+      "gf": 10,
+      "ga": 4,
+      "sg": 6,
       "pts": 6
     },
     {
       "c": "ci",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 0,
+      "d": 1,
+      "gf": 4,
+      "ga": 2,
+      "sg": 2,
+      "pts": 6
+    },
+    {
+      "c": "ec",
+      "j": 3,
+      "v": 1,
+      "e": 1,
       "d": 1,
       "gf": 2,
       "ga": 2,
       "sg": 0,
-      "pts": 3
-    },
-    {
-      "c": "ec",
-      "j": 2,
-      "v": 0,
-      "e": 1,
-      "d": 1,
-      "gf": 0,
-      "ga": 1,
-      "sg": -1,
-      "pts": 1
+      "pts": 4
     },
     {
       "c": "cw",
-      "j": 2,
+      "j": 3,
       "v": 0,
       "e": 1,
-      "d": 1,
+      "d": 2,
       "gf": 1,
-      "ga": 7,
-      "sg": -6,
+      "ga": 9,
+      "sg": -8,
       "pts": 1
     }
   ],
@@ -1026,7 +1026,7 @@ window.BRACKET_LIVE = {
       "hn": "Equador",
       "ac": "de",
       "an": "Alemanha",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "2-1"
     },
     {
@@ -1036,7 +1036,7 @@ window.BRACKET_LIVE = {
       "hn": "Curaçau",
       "ac": "ci",
       "an": "Costa do Marfim",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-2"
     }
   ],
