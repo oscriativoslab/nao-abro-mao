@@ -1215,6 +1215,11 @@
       return m.stage === "grupos" || m.hc || m.ac;   // tira mata-mata 100% indefinido (?vs?)
     }).slice(0, 28);
   }
+  // "Todas as seleções": últimos resultados + próximos jogos (em ordem)
+  function fixturesAll() {
+    var fin = allFixtures().filter(function (m) { return m.st === "finalizado"; });
+    return fin.slice(-10).concat(upcomingAll());
+  }
   function teamFixtures(code) {
     return allFixtures().filter(function (m) { return m.hc === code || m.ac === code; });
   }
@@ -1251,7 +1256,7 @@
   var fixSel = "all";
   function renderFixtureList() {
     var host = document.getElementById("jg-list"); if (!host) return;
-    var fx = (fixSel === "all") ? upcomingAll() : teamFixtures(fixSel);
+    var fx = (fixSel === "all") ? fixturesAll() : teamFixtures(fixSel);
     if (!fx.length) {
       host.innerHTML = '<div class="grp-empty">' + (fixSel === "all"
         ? "Os próximos jogos aparecem aqui assim que o calendário rolar."
