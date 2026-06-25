@@ -1445,6 +1445,44 @@
   else if (saved === "groups" || saved === "overview") showGroups();
   else { placeHome(); }
 
+  // ---- atualização ao vivo: rebusca os dados de tempos em tempos e re-renderiza a tela ativa ----
+  function rerenderActive() {
+    renderHomeScore();
+    if (el.screenJourney && el.screenJourney.classList.contains("is-active")) {
+      buildHud(TEAMS[current].code);
+      return;
+    }
+    if (el.screenGroups && el.screenGroups.classList.contains("is-active")) {
+      if (jgMode === "prox") {
+        // re-renderiza só a lista (mantém o seletor) e preserva a rolagem do usuário
+        var oldHost = document.getElementById("jg-list");
+        var savedScroll = (oldHost && oldHost.classList.contains("jg-list--scroll")) ? oldHost.scrollTop : null;
+        renderFixtureList();
+        if (savedScroll != null) { var nh = document.getElementById("jg-list"); if (nh) nh.scrollTop = savedScroll; }
+      } else {
+        renderJogos();
+      }
+    }
+  }
+  function startLivePolling() {
+    function tick() {
+      var bust = Math.floor(Date.now() / 30000);   // muda a cada 30s (amigável ao cache/CDN)
+      fetch("bracket-live.js?t=" + bust, { cache: "no-store" })
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (txt) {
+          if (!txt) return;
+          try {
+            (new Function(txt))();   // reatribui window.BRACKET_LIVE com o dado fresco
+            if (window.applyBracketLive) { window.applyBracketLive(window.BRACKET_LIVE); rerenderActive(); }
+          } catch (e) {}
+        })
+        .catch(function () {});   // file:// ou offline: ignora, fica com o que já carregou
+    }
+    setInterval(tick, 30000);
+    tick();   // logo após abrir, pega o dado fresco mesmo se o <script> veio do cache
+  }
+  startLivePolling();
+
   window.addEventListener("resize", function () {
     positionHomeMascot();
     if (el.mascotStage && el.mascotStage.classList.contains("on-journey")) journeyRest(true);

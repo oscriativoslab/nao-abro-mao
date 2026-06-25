@@ -244,26 +244,28 @@ window.BRACKET = {
 };
 
 // Dados REAIS gerados pela API (gerar_bracket.js -> bracket-live.js) sobrescrevem a semente.
-if (window.BRACKET_LIVE) {
-  if (window.BRACKET_LIVE.groups) window.BRACKET.groups = window.BRACKET_LIVE.groups;
-  if (window.BRACKET_LIVE.standings) window.BRACKET.standings = window.BRACKET_LIVE.standings;
-  if (window.BRACKET_LIVE.groupsDone) window.BRACKET.groupsDone = window.BRACKET_LIVE.groupsDone;
-  if (window.BRACKET_LIVE.groupsStarted) window.BRACKET.groupsStarted = window.BRACKET_LIVE.groupsStarted;
-  if (window.BRACKET_LIVE.groupTable) window.BRACKET.groupTable = window.BRACKET_LIVE.groupTable;
-  if (window.BRACKET_LIVE.groupMatches) window.BRACKET.groupMatches = window.BRACKET_LIVE.groupMatches;
-  if (window.BRACKET_LIVE.knockout) window.BRACKET.knockout = window.BRACKET_LIVE.knockout;
+// Função reutilizável: o app chama de novo quando rebusca os dados ao vivo (placar etc.).
+window.applyBracketLive = function (LIVE) {
+  if (!LIVE) return;
+  if (LIVE.groups) window.BRACKET.groups = LIVE.groups;
+  if (LIVE.standings) window.BRACKET.standings = LIVE.standings;
+  if (LIVE.groupsDone) window.BRACKET.groupsDone = LIVE.groupsDone;
+  if (LIVE.groupsStarted) window.BRACKET.groupsStarted = LIVE.groupsStarted;
+  if (LIVE.groupTable) window.BRACKET.groupTable = LIVE.groupTable;
+  if (LIVE.groupMatches) window.BRACKET.groupMatches = LIVE.groupMatches;
+  if (LIVE.knockout) window.BRACKET.knockout = LIVE.knockout;
   // jogos reais do Brasil na fase de grupos (resultado/ao vivo/próximo)
-  if (window.BRACKET_LIVE.brGroupMatches && window.BRACKET_LIVE.brGroupMatches.length &&
+  if (LIVE.brGroupMatches && LIVE.brGroupMatches.length &&
       window.BRACKET.journeys && window.BRACKET.journeys.br && window.BRACKET.journeys.br[0]) {
-    window.BRACKET.journeys.br[0].matches = window.BRACKET_LIVE.brGroupMatches;
+    window.BRACKET.journeys.br[0].matches = LIVE.brGroupMatches;
   }
   // todos os jogos do Brasil (qualquer fase) p/ o card de jogo (ao vivo/próximo/último)
-  if (window.BRACKET_LIVE.brMatches) window.BRACKET.brMatches = window.BRACKET_LIVE.brMatches;
+  if (LIVE.brMatches) window.BRACKET.brMatches = LIVE.brMatches;
   // CAMINHO 2: um time só entra no mata-mata quando o GRUPO DELE já terminou.
   // Assim cada grupo que fecha já atualiza, sem esperar todos (e evita seleção
   // pré-posicionada pela API antes do grupo dela acabar).
-  if (window.BRACKET_LIVE.knockoutTeams) {
-    var _kt = window.BRACKET_LIVE.knockoutTeams;
+  if (LIVE.knockoutTeams) {
+    var _kt = LIVE.knockoutTeams;
     var _gd = window.BRACKET.groupsDone || {};
     var _grp = window.BRACKET.groups || {};
     var _grpOf = function (code) { for (var g in _grp) { if (_grp[g] && _grp[g].indexOf(code) >= 0) return g; } return null; };
@@ -277,8 +279,8 @@ if (window.BRACKET_LIVE) {
   // datas/horários do mata-mata: usamos os OFICIAIS fixos (FIFA, em BRT) acima.
   // O override da API foi desligado porque a ordem dela embaralhava o horário entre
   // jogos do mesmo dia. (Mantido só venue/estádio, se a API trouxer.)
-  if (false && window.BRACKET_LIVE.knockoutDates) {
-    var _kd = window.BRACKET_LIVE.knockoutDates;
+  if (false && LIVE.knockoutDates) {
+    var _kd = LIVE.knockoutDates;
     (window.BRACKET.knockout || []).forEach(function (k) {
       var d = _kd[k.id]; if (!d) return;
       if (d.date) k.date = d.date;
@@ -286,5 +288,6 @@ if (window.BRACKET_LIVE) {
       if (d.stadium) k.stadium = d.stadium;
     });
   }
-}
+};
+window.applyBracketLive(window.BRACKET_LIVE);
 
