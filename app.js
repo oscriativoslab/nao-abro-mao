@@ -80,10 +80,6 @@
     nextPhase: document.getElementById("jrn-next-phase"),
     popup: document.getElementById("jrn-popup"),
     popupClose: document.getElementById("popup-close"),
-    btnOverview: document.getElementById("btn-overview"),
-    screenOverview: document.getElementById("screen-overview"),
-    ovBack: document.getElementById("ov-back"),
-    ovList: document.getElementById("ov-list"),
     btnGroups: document.getElementById("btn-groups"),
     screenGroups: document.getElementById("screen-groups"),
     grpBack: document.getElementById("grp-back"),
@@ -437,7 +433,7 @@
     var c = ensureChar(); if (!c) return;
     var onHome = el.mascotStage.classList.contains("on-home");
     var onJourney = el.mascotStage.classList.contains("on-journey");
-    if (!onHome && !onJourney) { placeOverview(); return; }   // overview não dispara gag; segurança
+    if (!onHome && !onJourney) { placeGroups(); return; }   // a tela de jogos não dispara gag; segurança
     // volta ANDANDO da posição do gag até a posição final
     c.style.transition = ""; c.style.right = "auto"; c.style.bottom = "auto";
     var curLeft = parseFloat(mcCenter());   // no gag ele está sempre no centro (offsetLeft congela no preview)
@@ -974,7 +970,6 @@
     el.journeyFlag.src = flagUrl(t.code);
     el.journeyName.textContent = t.name.toUpperCase();
     el.screenHome.classList.remove("is-active");
-    el.screenOverview.classList.remove("is-active");
     el.screenGroups.classList.remove("is-active");
     el.screenJourney.classList.add("is-active");
     setStage("on-journey");
@@ -1005,7 +1000,6 @@
     userMoved = false;
     document.documentElement.classList.remove("snap-journey");
     el.screenJourney.classList.remove("is-active");
-    el.screenOverview.classList.remove("is-active");
     el.screenGroups.classList.remove("is-active");
     el.screenHome.classList.add("is-active");
     setStage("on-home");
@@ -1069,7 +1063,7 @@
         '</button>';
     });
     tabs += '</div>';
-    el.ovList.innerHTML = tabs + '<div id="ph-games-host"></div>';
+    el.jgHost.innerHTML = tabs + '<div id="ph-games-host"></div>';
     renderOvGames();
   }
   function renderOvGames() {
@@ -1093,24 +1087,6 @@
     var target = sel.offsetLeft - (tabs.clientWidth - sel.offsetWidth) / 2;
     tabs.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
   }
-  function showOverview() {
-    var c = ensureChar();
-    var fromLeft = c && c.style.left ? c.style.left : null;
-    var fromTop = c && c.style.top ? c.style.top : null;
-    userMoved = false;
-    document.documentElement.classList.remove("snap-journey");
-    ovStage = null;
-    buildOverview();
-    el.screenHome.classList.remove("is-active");
-    el.screenJourney.classList.remove("is-active");
-    el.screenGroups.classList.remove("is-active");
-    el.screenOverview.classList.add("is-active");
-    setStage("on-overview");
-    overviewEnter(fromLeft, fromTop);
-    saveScreen("overview");
-    window.scrollTo(0, 0);
-  }
-
   // ---- Os grupos (classificação + jogos) ----
   function groupOrder() { return Object.keys(BRACKET.groups || {}).sort(); }
   function brGroupLetter() {
@@ -1302,7 +1278,9 @@
   function renderJogos() {
     var seg = document.getElementById("jg-seg");
     if (seg) [].forEach.call(seg.querySelectorAll("[data-jg]"), function (b) { b.classList.toggle("is-sel", b.getAttribute("data-jg") === jgMode); });
-    if (jgMode === "grupos") renderGroups(); else renderFixtures();
+    if (jgMode === "grupos") renderGroups();
+    else if (jgMode === "elim") buildOverview();
+    else renderFixtures();
   }
   function showGroups() {
     var c = ensureChar();
@@ -1313,7 +1291,6 @@
     renderJogos();
     el.screenHome.classList.remove("is-active");
     el.screenJourney.classList.remove("is-active");
-    el.screenOverview.classList.remove("is-active");
     el.screenGroups.classList.add("is-active");
     setStage("on-groups");
     groupsEnter(fromLeft, fromTop);
@@ -1333,16 +1310,21 @@
   el.cta.addEventListener("click", showJourney);
   el.back.addEventListener("click", showHome);
   if (el.journeySearch) el.journeySearch.addEventListener("click", openSearch);
-  el.btnOverview.addEventListener("click", showOverview);
-  el.ovBack.addEventListener("click", showHome);
   if (el.btnGroups) el.btnGroups.addEventListener("click", showGroups);
   if (el.grpBack) el.grpBack.addEventListener("click", showHome);
   if (el.screenGroups) el.screenGroups.addEventListener("click", function (e) {
     if (!e.target.closest) return;
+    // troca de modo (Jogos / Grupos / Eliminatórias)
     var seg = e.target.closest("[data-jg]");
     if (seg) { jgMode = seg.getAttribute("data-jg"); renderJogos(); return; }
+    // modo Grupos: troca de grupo
     var tab = e.target.closest("[data-grp-tab]");
-    if (tab) selectGroup(tab.getAttribute("data-grp-tab"));
+    if (tab) { selectGroup(tab.getAttribute("data-grp-tab")); return; }
+    // modo Eliminatórias: tab de fase + card de jogo (popup com quem pode cair)
+    var phTab = e.target.closest("[data-ph-tab]");
+    if (phTab) { selectOvStage(phTab.getAttribute("data-ph-tab")); return; }
+    var koCardEl = e.target.closest("[data-ko]");
+    if (koCardEl) { var k = findKo(parseInt(koCardEl.getAttribute("data-ko"), 10)); if (k) openKoPopup(k); }
   });
   if (el.screenGroups) el.screenGroups.addEventListener("change", function (e) {
     if (e.target && e.target.id === "jg-team") { fixSel = e.target.value; renderFixtureList(); }
@@ -1362,17 +1344,6 @@
     // 3) legado (adversário a definir sem slot mapeado)
     var ph = e.target.closest("[data-ph]");
     if (ph) { openPhPopup(ph.getAttribute("data-opp")); }
-  });
-
-  // cliques no infográfico do mata-mata -> popup com quem pode cair em cada jogo
-  el.screenOverview.addEventListener("click", function (e) {
-    if (!e.target.closest) return;
-    // tab de fase -> troca os jogos exibidos e centraliza a tab
-    var tab = e.target.closest("[data-ph-tab]");
-    if (tab) { selectOvStage(tab.getAttribute("data-ph-tab")); return; }
-    // card de jogo -> popup com as possíveis seleções
-    var card = e.target.closest("[data-ko]");
-    if (card) { var k = findKo(parseInt(card.getAttribute("data-ko"), 10)); if (k) openKoPopup(k); }
   });
 
   // slider de fases
@@ -1446,8 +1417,7 @@
   renderJourneyTeaser();
   var saved = loadScreen();
   if (saved === "journey") showJourney();
-  else if (saved === "overview") showOverview();
-  else if (saved === "groups") showGroups();
+  else if (saved === "groups" || saved === "overview") showGroups();
   else { placeHome(); }
 
   window.addEventListener("resize", function () {

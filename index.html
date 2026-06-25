@@ -71,9 +71,7 @@
       <div class="home-bottom">
         <button class="cta" id="btn-cta">ENTRAR EM CAMPO <i class="ti ti-arrow-right"></i></button>
 
-        <button class="ov-link" id="btn-groups"><i class="ti ti-calendar-event"></i> jogos e classificação</button>
-
-        <button class="ov-link" id="btn-overview"><i class="ti ti-tournament"></i> ver as eliminatórias</button>
+        <button class="ov-link" id="btn-groups"><i class="ti ti-calendar-event"></i> jogos, grupos e eliminatórias</button>
 
         <div class="journey-teaser">
           <div class="journey-teaser__label">sua jornada até o título</div>
@@ -123,21 +121,7 @@
       </div>
     </div>
 
-    <!-- ================= VISÃO GERAL DO MATA-MATA ================= -->
-    <section class="screen screen--overview" id="screen-overview">
-      <div class="dots-bg" aria-hidden="true"></div>
-      <header class="topbar">
-        <button class="icon-btn" id="ov-back" aria-label="Voltar"><i class="ti ti-arrow-left"></i></button>
-        <div class="logo logo--sm"><img class="logo-img" src="assets/logo-lipy.png" alt="Lipy" onerror="this.replaceWith(document.createTextNode('Lipy'))"></div>
-        <span style="width:40px"></span>
-      </header>
-      <h2 class="ov-title">Eliminatórias</h2>
-      <p class="ov-sub">Todas as fases após a fase de grupos.</p>
-      <div class="ov-list" id="ov-list"></div>
-      <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
-    </section>
-
-    <!-- ================= OS GRUPOS (classificação + jogos) ================= -->
+    <!-- ================= OS JOGOS (próximos jogos + grupos + eliminatórias) ================= -->
     <section class="screen screen--groups" id="screen-groups">
       <div class="dots-bg" aria-hidden="true"></div>
       <header class="topbar">
@@ -148,8 +132,9 @@
       <h2 class="ov-title">Os jogos</h2>
       <p class="ov-sub">Próximos jogos por seleção e a classificação dos grupos.</p>
       <div class="jg-seg" id="jg-seg">
-        <button class="jg-seg__b is-sel" data-jg="prox">Próximos jogos</button>
+        <button class="jg-seg__b is-sel" data-jg="prox">Jogos</button>
         <button class="jg-seg__b" data-jg="grupos">Grupos</button>
+        <button class="jg-seg__b" data-jg="elim">Eliminatórias</button>
       </div>
       <div class="jg-host" id="jg-host"></div>
       <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
