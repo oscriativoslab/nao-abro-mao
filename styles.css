@@ -466,6 +466,33 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 @keyframes grplive{ 0%,100%{ opacity:1 } 50%{ opacity:.6 } }
 .grp-empty{ text-align:center; font-size:12px; font-weight:600; color:var(--muted); background:#FBF6EE; border:1.5px dashed #EAD9BE; border-radius:14px; padding:20px 16px; }
 
+/* seletor de modo (Próximos jogos / Grupos) */
+.jg-seg{ display:flex; gap:6px; background:#F2E7D6; border:1.5px solid #EAD9BE; border-radius:14px; padding:4px; margin-bottom:14px; }
+.jg-seg__b{ flex:1; padding:9px 6px; border-radius:10px; font-size:12.5px; font-weight:800; color:#9b8aa8; transition:all .15s ease; }
+.jg-seg__b.is-sel{ background:#fff; color:var(--orange-deep); box-shadow:0 4px 10px -5px rgba(26,20,32,.35); }
+
+/* dropdown de seleção */
+.jg-pick{ margin-bottom:14px; }
+.jg-pick__lbl{ display:flex; align-items:center; gap:6px; font-size:10px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.jg-pick__lbl i{ font-size:13px; color:var(--orange); }
+.jg-select{ position:relative; }
+.jg-select select{ width:100%; appearance:none; -webkit-appearance:none; background:#fff; border:1.5px solid #F0E6D4; border-radius:13px; padding:13px 40px 13px 14px; font-family:var(--font-body); font-size:15px; font-weight:700; color:var(--ink); box-shadow:0 10px 22px -16px rgba(26,20,32,.4); }
+.jg-select select:focus{ outline:none; border-color:var(--orange); }
+.jg-select > i{ position:absolute; right:13px; top:50%; transform:translateY(-50%); font-size:18px; color:var(--orange); pointer-events:none; }
+
+.jg-day{ font-family:var(--font-title); font-weight:800; font-size:13px; color:var(--orange-deep); text-transform:capitalize; margin:14px 0 8px 2px; display:flex; align-items:center; gap:7px; }
+.jg-day::after{ content:""; flex:1; height:1px; background:#EFE2CC; }
+.jg-m{ background:#fff; border:1.5px solid #F0E6D4; border-radius:13px; padding:9px 11px; margin-bottom:7px; box-shadow:0 8px 18px -14px rgba(26,20,32,.3); }
+.jg-m.is-live{ border-color:#FFB780; }
+.jg-m__top{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:7px; }
+.jg-m__stage{ font-size:9px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:var(--orange-deep); background:#FFEFD6; border-radius:20px; padding:3px 8px; }
+.jg-m__when{ font-size:10px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:var(--muted); }
+.jg-m__live{ color:#fff; background:var(--orange-hot); border-radius:20px; padding:3px 8px; animation:grplive 1.4s ease-in-out infinite; }
+.jg-m__city{ margin-top:7px; font-size:10px; color:var(--muted); display:flex; align-items:center; gap:4px; }
+.jg-m__city i{ font-size:12px; color:var(--orange); }
+.grp-mq{ width:22px; height:22px; border-radius:50%; background:linear-gradient(150deg,#F0E4FA,#E3D1F2); color:#9b7bc0; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; flex:none; }
+.grp-m__t.is-focus .grp-m__nm{ color:var(--orange-deep); font-weight:800; }
+
 /* ---------- Overlay "só Brasil" (gag) ---------- */
 .funny{ position:fixed; inset:0; z-index:70; background:transparent; display:none; align-items:center; justify-content:center; padding:28px; }
 .funny.is-open{ display:flex; }

@@ -71,7 +71,7 @@
       <div class="home-bottom">
         <button class="cta" id="btn-cta">ENTRAR EM CAMPO <i class="ti ti-arrow-right"></i></button>
 
-        <button class="ov-link" id="btn-groups"><i class="ti ti-table"></i> acompanhar os grupos</button>
+        <button class="ov-link" id="btn-groups"><i class="ti ti-calendar-event"></i> jogos e classificação</button>
 
         <button class="ov-link" id="btn-overview"><i class="ti ti-tournament"></i> ver as eliminatórias</button>
 
@@ -145,9 +145,13 @@
         <div class="logo logo--sm"><img class="logo-img" src="assets/logo-lipy.png" alt="Lipy" onerror="this.replaceWith(document.createTextNode('Lipy'))"></div>
         <span style="width:40px"></span>
       </header>
-      <h2 class="ov-title">Os grupos</h2>
-      <p class="ov-sub">A briga pela classificação, grupo por grupo.</p>
-      <div class="grp-host" id="grp-host"></div>
+      <h2 class="ov-title">Os jogos</h2>
+      <p class="ov-sub">Próximos jogos por seleção e a classificação dos grupos.</p>
+      <div class="jg-seg" id="jg-seg">
+        <button class="jg-seg__b is-sel" data-jg="prox">Próximos jogos</button>
+        <button class="jg-seg__b" data-jg="grupos">Grupos</button>
+      </div>
+      <div class="jg-host" id="jg-host"></div>
       <div class="credit">uma campanha <a href="https://instagram.com/salgadinhoslipy" target="_blank" rel="noopener">@salgadinhoslipy</a></div>
     </section>
 

@@ -87,7 +87,7 @@
     btnGroups: document.getElementById("btn-groups"),
     screenGroups: document.getElementById("screen-groups"),
     grpBack: document.getElementById("grp-back"),
-    grpHost: document.getElementById("grp-host"),
+    jgHost: document.getElementById("jg-host"),
     funny: document.getElementById("funny"),
     funnyDim: document.getElementById("funny-dim"),
     funnyClose: document.getElementById("funny-close"),
@@ -1183,7 +1183,7 @@
         '<span class="grp-tab__l">' + (isBr ? "🇧🇷" : "grupo") + '</span></button>';
     });
     tabs += '</div>';
-    el.grpHost.innerHTML = tabs + '<div id="grp-body"></div>';
+    el.jgHost.innerHTML = tabs + '<div id="grp-body"></div>';
     renderGroupBody();
     centerGrpTab();
   }
@@ -1199,13 +1199,118 @@
     renderGroupBody();
     centerGrpTab();
   }
+  // ---- Próximos jogos (por seleção) ----
+  var JG_STAGE = { grupos: "Fase de grupos", dezesseis: "16 avos", oitavas: "Oitavas", quartas: "Quartas", semi: "Semifinal", terceiro: "3º lugar", final: "Final" };
+  // "DD/MM" + "14h30" -> número comparável p/ ordenar (ano 2026, todos no mesmo ano)
+  function fixTs(d, t) {
+    var md = (d || "").match(/(\d{1,2})\/(\d{1,2})/); if (!md) return 9e15;
+    var day = parseInt(md[1], 10), mon = parseInt(md[2], 10);
+    var hh = 0, mi = 0, mt = (t || "").match(/(\d{1,2})h(\d{2})?/);
+    if (mt) { hh = parseInt(mt[1], 10); mi = mt[2] ? parseInt(mt[2], 10) : 0; }
+    return ((mon * 100 + day) * 10000) + (hh * 100 + mi);
+  }
+  // lado de um jogo do mata-mata: time exato só quando 100% definido (igual ao infográfico)
+  function fixSideResolve(slot, code) {
+    if (code) return { code: code };
+    var info = slotInfo(slot);
+    if (!info.derived && info.teams.length === 1 && !info.provisional) return { code: info.teams[0] };
+    return { label: info.label };
+  }
+  // lista única de TODOS os jogos (grupos + mata-mata) num formato comum
+  function allFixtures() {
+    var out = [];
+    var gm = BRACKET.groupMatches || {};
+    Object.keys(gm).forEach(function (g) {
+      (gm[g] || []).forEach(function (m) {
+        out.push({ stage: "grupos", group: g, d: m.d, t: m.t, hc: m.hc, hn: m.hn, ac: m.ac, an: m.an, sc: m.sc, st: m.st });
+      });
+    });
+    (BRACKET.knockout || []).forEach(function (k) {
+      var a = fixSideResolve(k.a, k.aCode), b = fixSideResolve(k.b, k.bCode);
+      out.push({ stage: k.stage, id: k.id, d: k.date, t: k.time, city: k.city,
+        hc: a.code || null, hLbl: a.label, ac: b.code || null, aLbl: b.label, sc: null, st: "confirmado" });
+    });
+    out.sort(function (x, y) { return fixTs(x.d, x.t) - fixTs(y.d, y.t); });
+    return out;
+  }
+  function upcomingAll() {
+    return allFixtures().filter(function (m) {
+      if (m.st === "finalizado") return false;
+      return m.stage === "grupos" || m.hc || m.ac;   // tira mata-mata 100% indefinido (?vs?)
+    }).slice(0, 28);
+  }
+  function teamFixtures(code) {
+    return allFixtures().filter(function (m) { return m.hc === code || m.ac === code; });
+  }
+  function fixName(code, lbl, fb) {
+    if (code) { var t = teamByCode(code); return t ? t.name : (fb || code); }
+    return lbl || fb || "a definir";
+  }
+  function fixSideHTML(code, lbl, fb, side, focus) {
+    var nm = fixName(code, lbl, fb);
+    var fl = code ? '<img src="' + flagUrl(code) + '" alt="">' : '<span class="grp-mq">?</span>';
+    var cls = "grp-m__t grp-m__t--" + side + (code && code === focus ? " is-focus" : "");
+    return side === "h"
+      ? '<span class="' + cls + '"><span class="grp-m__nm">' + nm + '</span>' + fl + '</span>'
+      : '<span class="' + cls + '">' + fl + '<span class="grp-m__nm">' + nm + '</span></span>';
+  }
+  function fixtureRow(m, focus) {
+    var live = m.st === "aovivo", fin = m.st === "finalizado";
+    var tag = JG_STAGE[m.stage] || m.stage;
+    if (m.group) tag += " · Grupo " + m.group;
+    var right = live ? '<span class="jg-m__live">ao vivo</span>' : (fin ? "encerrado" : (m.t || ""));
+    var inner = (fin || live)
+      ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>'
+      : '<span class="grp-m__vs">x</span>';
+    return '<div class="jg-m' + (live ? " is-live" : "") + '">' +
+      '<div class="jg-m__top"><span class="jg-m__stage">' + tag + '</span><span class="jg-m__when">' + right + '</span></div>' +
+      '<div class="grp-m__row">' +
+      fixSideHTML(m.hc, m.hLbl, m.hn, "h", focus) +
+      '<span class="grp-m__mid">' + inner + '</span>' +
+      fixSideHTML(m.ac, m.aLbl, m.an, "a", focus) +
+      '</div>' +
+      (m.city ? '<div class="jg-m__city"><i class="ti ti-map-pin"></i> ' + m.city + '</div>' : "") +
+      '</div>';
+  }
+  var fixSel = "all";
+  function renderFixtureList() {
+    var host = document.getElementById("jg-list"); if (!host) return;
+    var fx = (fixSel === "all") ? upcomingAll() : teamFixtures(fixSel);
+    if (!fx.length) {
+      host.innerHTML = '<div class="grp-empty">' + (fixSel === "all"
+        ? "Os próximos jogos aparecem aqui assim que o calendário rolar."
+        : "Ainda não tem jogo pra mostrar dessa seleção.") + '</div>';
+      return;
+    }
+    var html = "", lastDate = null;
+    fx.forEach(function (m) {
+      if (m.d !== lastDate) { html += '<div class="jg-day">' + dateDay(m.d) + '</div>'; lastDate = m.d; }
+      html += fixtureRow(m, fixSel === "all" ? null : fixSel);
+    });
+    host.innerHTML = '<div class="grp-pane">' + html + '</div>';
+  }
+  function renderFixtures() {
+    var opts = '<option value="all">Todas as seleções</option>' +
+      TEAMS.map(function (t) { return '<option value="' + t.code + '"' + (t.code === fixSel ? " selected" : "") + '>' + t.name + '</option>'; }).join("");
+    el.jgHost.innerHTML =
+      '<div class="jg-pick"><span class="jg-pick__lbl"><i class="ti ti-flag"></i> escolha a seleção</span>' +
+      '<div class="jg-select"><select id="jg-team" aria-label="Escolha a seleção">' + opts + '</select><i class="ti ti-chevron-down"></i></div></div>' +
+      '<div id="jg-list"></div>';
+    renderFixtureList();
+  }
+  var jgMode = "prox";
+  function renderJogos() {
+    var seg = document.getElementById("jg-seg");
+    if (seg) [].forEach.call(seg.querySelectorAll("[data-jg]"), function (b) { b.classList.toggle("is-sel", b.getAttribute("data-jg") === jgMode); });
+    if (jgMode === "grupos") renderGroups(); else renderFixtures();
+  }
   function showGroups() {
     var c = ensureChar();
     var fromLeft = c && c.style.left ? c.style.left : null;
     var fromTop = c && c.style.top ? c.style.top : null;
     userMoved = false;
     document.documentElement.classList.remove("snap-journey");
-    renderGroups();
+    renderJogos();
     el.screenHome.classList.remove("is-active");
     el.screenJourney.classList.remove("is-active");
     el.screenOverview.classList.remove("is-active");
@@ -1233,8 +1338,14 @@
   if (el.btnGroups) el.btnGroups.addEventListener("click", showGroups);
   if (el.grpBack) el.grpBack.addEventListener("click", showHome);
   if (el.screenGroups) el.screenGroups.addEventListener("click", function (e) {
-    var tab = e.target.closest ? e.target.closest("[data-grp-tab]") : null;
+    if (!e.target.closest) return;
+    var seg = e.target.closest("[data-jg]");
+    if (seg) { jgMode = seg.getAttribute("data-jg"); renderJogos(); return; }
+    var tab = e.target.closest("[data-grp-tab]");
     if (tab) selectGroup(tab.getAttribute("data-grp-tab"));
+  });
+  if (el.screenGroups) el.screenGroups.addEventListener("change", function (e) {
+    if (e.target && e.target.id === "jg-team") { fixSel = e.target.value; renderFixtureList(); }
   });
   el.funnyClose.addEventListener("click", closeFunny);
   el.funny.addEventListener("click", function (e) { if (e.target === el.funny) closeFunny(); });
