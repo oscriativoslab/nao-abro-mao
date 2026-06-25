@@ -7,7 +7,7 @@ name: Atualizar dados (NAO ABRO MAO)
 on:
   workflow_dispatch: {}          # botao "Run workflow" (manual, pra testar)
   schedule:
-    - cron: '*/10 * * * *'       # a cada ~10 min (o GitHub pode atrasar alguns minutos)
+    - cron: '*/5 * * * *'        # a cada ~5 min (mínimo do GitHub; pode atrasar em horário de pico)
 
 permissions:
   contents: write                # deixa o robo commitar de volta
