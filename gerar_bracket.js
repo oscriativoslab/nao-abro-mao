@@ -203,8 +203,9 @@ function mapTeam(name, unknown) {
         groupsDone[g] = (finByGroup[g] || 0) >= 6;
         groupsStarted[g] = (finByGroup[g] || 0) > 0;   // já tem resultado -> dá pra mostrar "provável"
       });
-      // só confiar nos times do mata-mata depois que TODOS os 12 grupos terminarem
-      var allGroupsDone = GROUP_LETTERS.every(function (g) { return groupsDone[g]; });
+      // mapa código -> grupo, p/ liberar cada seleção no mata-mata quando o grupo DELA terminar
+      var codeToGroup = {};
+      Object.keys(groups).forEach(function (g) { (groups[g] || []).forEach(function (c) { codeToGroup[c] = g; }); });
 
       // ---- datas/horários REAIS do mata-mata (BRT) mapeados p/ os IDs da semente ----
       // (mapeia cada fase da API pelo nº de jogos: 16=>16avos, 8=>oitavas, 4=>quartas, 2=>semi, 1=>3º/final)
@@ -223,11 +224,11 @@ function mapTeam(name, unknown) {
           var id = ids[i]; if (id == null) return;
           var t = brt(m.utcDate);
           if (t) { koDates[id] = { date: t.date, time: t.time }; if (m.venue) koDates[id].stadium = m.venue; }
-          // CAMINHO 2: times JÁ DEFINIDOS — só depois que todos os grupos terminam
-          if (allGroupsDone) {
-            var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
-            if (hh || aa) { koTeams[id] = {}; if (hh) koTeams[id].a = hh.code; if (aa) koTeams[id].b = aa.code; }
-          }
+          // CAMINHO 2: grava o time só se o GRUPO dele já terminou (atualiza grupo a grupo)
+          var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
+          var okH = hh && groupsDone[codeToGroup[hh.code]];
+          var okA = aa && groupsDone[codeToGroup[aa.code]];
+          if (okH || okA) { koTeams[id] = {}; if (okH) koTeams[id].a = hh.code; if (okA) koTeams[id].b = aa.code; }
         });
       });
 

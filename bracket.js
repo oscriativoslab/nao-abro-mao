@@ -256,16 +256,19 @@ if (window.BRACKET_LIVE) {
   }
   // todos os jogos do Brasil (qualquer fase) p/ o card de jogo (ao vivo/próximo/último)
   if (window.BRACKET_LIVE.brMatches) window.BRACKET.brMatches = window.BRACKET_LIVE.brMatches;
-  // CAMINHO 2: times JÁ DEFINIDOS do mata-mata só valem DEPOIS que todos os grupos
-  // terminam (antes disso nada é certo; a API às vezes pré-posiciona seleções).
-  var _gd = window.BRACKET.groupsDone || {};
-  var _allDone = "ABCDEFGHIJKL".split("").every(function (g) { return _gd[g]; });
-  if (_allDone && window.BRACKET_LIVE.knockoutTeams) {
+  // CAMINHO 2: um time só entra no mata-mata quando o GRUPO DELE já terminou.
+  // Assim cada grupo que fecha já atualiza, sem esperar todos (e evita seleção
+  // pré-posicionada pela API antes do grupo dela acabar).
+  if (window.BRACKET_LIVE.knockoutTeams) {
     var _kt = window.BRACKET_LIVE.knockoutTeams;
+    var _gd = window.BRACKET.groupsDone || {};
+    var _grp = window.BRACKET.groups || {};
+    var _grpOf = function (code) { for (var g in _grp) { if (_grp[g] && _grp[g].indexOf(code) >= 0) return g; } return null; };
+    var _ok = function (code) { var g = _grpOf(code); return g && _gd[g]; };
     (window.BRACKET.knockout || []).forEach(function (k) {
       var d = _kt[k.id]; if (!d) return;
-      if (d.a) k.aCode = d.a;
-      if (d.b) k.bCode = d.b;
+      if (d.a && _ok(d.a)) k.aCode = d.a;
+      if (d.b && _ok(d.b)) k.bCode = d.b;
     });
   }
   // datas/horários reais por jogo (id) sobrescrevem a semente
