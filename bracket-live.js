@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T23:04:14.276Z
+// Fonte: football-data.org. 2026-06-25T23:06:19.621Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1088,7 +1088,8 @@ window.BRACKET_LIVE = {
       "hn": "Tunísia",
       "ac": "nl",
       "an": "Holanda",
-      "st": "confirmado"
+      "st": "aovivo",
+      "sc": "0-0"
     },
     {
       "d": "25/06",
@@ -1097,7 +1098,8 @@ window.BRACKET_LIVE = {
       "hn": "Japão",
       "ac": "se",
       "an": "Suécia",
-      "st": "confirmado"
+      "st": "aovivo",
+      "sc": "0-0"
     }
   ],
   "H": [
