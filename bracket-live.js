@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T22:54:15.829Z
+// Fonte: football-data.org. 2026-06-25T22:56:17.485Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -154,7 +154,7 @@ window.BRACKET_LIVE = {
   "B": true,
   "D": false,
   "C": true,
-  "E": true,
+  "E": false,
   "F": false,
   "H": false,
   "G": false,
@@ -365,46 +365,46 @@ window.BRACKET_LIVE = {
   "E": [
     {
       "c": "de",
-      "j": 3,
+      "j": 2,
       "v": 2,
       "e": 0,
-      "d": 1,
-      "gf": 10,
-      "ga": 4,
-      "sg": 6,
+      "d": 0,
+      "gf": 9,
+      "ga": 2,
+      "sg": 7,
       "pts": 6
     },
     {
       "c": "ci",
-      "j": 3,
-      "v": 2,
-      "e": 0,
-      "d": 1,
-      "gf": 4,
-      "ga": 2,
-      "sg": 2,
-      "pts": 6
-    },
-    {
-      "c": "ec",
-      "j": 3,
+      "j": 2,
       "v": 1,
-      "e": 1,
+      "e": 0,
       "d": 1,
       "gf": 2,
       "ga": 2,
       "sg": 0,
-      "pts": 4
+      "pts": 3
+    },
+    {
+      "c": "ec",
+      "j": 2,
+      "v": 0,
+      "e": 1,
+      "d": 1,
+      "gf": 0,
+      "ga": 1,
+      "sg": -1,
+      "pts": 1
     },
     {
       "c": "cw",
-      "j": 3,
+      "j": 2,
       "v": 0,
       "e": 1,
-      "d": 2,
+      "d": 1,
       "gf": 1,
-      "ga": 9,
-      "sg": -8,
+      "ga": 7,
+      "sg": -6,
       "pts": 1
     }
   ],
@@ -1026,8 +1026,7 @@ window.BRACKET_LIVE = {
       "hn": "Equador",
       "ac": "de",
       "an": "Alemanha",
-      "st": "finalizado",
-      "sc": "2-1"
+      "st": "confirmado"
     },
     {
       "d": "25/06",
@@ -1036,8 +1035,7 @@ window.BRACKET_LIVE = {
       "hn": "Curaçau",
       "ac": "ci",
       "an": "Costa do Marfim",
-      "st": "finalizado",
-      "sc": "0-2"
+      "st": "confirmado"
     }
   ],
   "F": [
@@ -1591,14 +1589,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "75": {
-    "a": "de"
-  },
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
