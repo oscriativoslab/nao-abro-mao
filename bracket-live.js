@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T20:10:21.431Z
+// Fonte: football-data.org. 2026-06-25T20:12:17.476Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1037,7 +1037,7 @@ window.BRACKET_LIVE = {
       "ac": "ci",
       "an": "Costa do Marfim",
       "st": "aovivo",
-      "sc": "0-0"
+      "sc": "0-1"
     }
   ],
   "F": [
