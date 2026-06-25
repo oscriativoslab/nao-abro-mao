@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T21:44:18.173Z
+// Fonte: football-data.org. 2026-06-25T21:46:17.695Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -151,7 +151,7 @@ window.BRACKET_LIVE = {
 },
   groupsDone: {
   "A": true,
-  "B": true,
+  "B": false,
   "D": false,
   "C": true,
   "E": false,
@@ -238,25 +238,25 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "ca",
-      "j": 3,
+      "j": 2,
       "v": 1,
-      "e": 1,
+      "e": 0,
       "d": 1,
-      "gf": 8,
-      "ga": 3,
+      "gf": 7,
+      "ga": 2,
       "sg": 5,
-      "pts": 4
+      "pts": 3
     },
     {
       "c": "ba",
-      "j": 3,
+      "j": 2,
       "v": 1,
-      "e": 1,
+      "e": 0,
       "d": 1,
-      "gf": 5,
-      "ga": 6,
+      "gf": 4,
+      "ga": 5,
       "sg": -1,
-      "pts": 4
+      "pts": 3
     },
     {
       "c": "qa",
@@ -802,8 +802,7 @@ window.BRACKET_LIVE = {
       "hn": "Canadá",
       "ac": "ba",
       "an": "Bósnia e Herzegovina",
-      "st": "finalizado",
-      "sc": "1-1"
+      "st": "finalizado"
     },
     {
       "d": "13/06",
@@ -1591,11 +1590,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
