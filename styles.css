@@ -488,6 +488,10 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .jg-day::after{ content:""; flex:1; height:1px; background:#EFE2CC; }
 .jg-m{ background:#fff; border:1.5px solid #F0E6D4; border-radius:13px; padding:9px 11px; margin-bottom:7px; box-shadow:0 8px 18px -14px rgba(26,20,32,.3); }
 .jg-m.is-live{ border-color:#FFB780; }
+.jg-m--open{ border-color:#FFD3A0; cursor:pointer; }
+.jg-m--open:active{ transform:scale(.99); }
+.jg-m__tap{ margin-top:8px; display:flex; align-items:center; justify-content:center; gap:5px; font-size:9.5px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:#fff; background:linear-gradient(108deg,#FFB02E,#FF6A00); border-radius:10px; padding:6px 8px; box-shadow:0 4px 10px -3px rgba(255,106,0,.55); }
+.jg-m__tap i{ font-size:13px; }
 .jg-m__top{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:7px; }
 .jg-m__stage{ font-size:9px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:var(--orange-deep); background:#FFEFD6; border-radius:20px; padding:3px 8px; }
 .jg-m__when{ font-size:10px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:var(--muted); }

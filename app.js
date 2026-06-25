@@ -1246,7 +1246,9 @@
     var inner = (fin || live)
       ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>'
       : '<span class="grp-m__vs">x</span>';
-    return '<div class="jg-m' + (live ? " is-live" : "") + '">' +
+    var open = m.id && (!m.hc || !m.ac);   // eliminatória com lado indefinido -> clicável (mostra possíveis seleções)
+    var tap = open ? '<div class="jg-m__tap"><i class="ti ti-hand-finger"></i> ver quem pode cair aqui</div>' : "";
+    return '<div class="jg-m' + (live ? " is-live" : "") + (open ? " jg-m--open" : "") + '"' + (open ? ' data-ko="' + m.id + '"' : "") + '>' +
       '<div class="jg-m__top"><span class="jg-m__stage">' + tag + '</span><span class="jg-m__when">' + right + '</span></div>' +
       '<div class="grp-m__row">' +
       fixSideHTML(m.hc, m.hLbl, m.hn, "h", focus) +
@@ -1254,6 +1256,7 @@
       fixSideHTML(m.ac, m.aLbl, m.an, "a", focus) +
       '</div>' +
       (m.city ? '<div class="jg-m__city"><i class="ti ti-map-pin"></i> ' + m.city + '</div>' : "") +
+      tap +
       '</div>';
   }
   var fixSel = "all";
