@@ -475,7 +475,40 @@
   }
 
   // ---- Mapa da Jornada ----
+  function findMatchWithSlot(slot) {
+    var k = BRACKET.knockout || [];
+    for (var i = 0; i < k.length; i++) if (k[i].a === slot || k[i].b === slot) return k[i];
+    return null;
+  }
+  function brBaseSlot() {
+    var gr = BRACKET.groups || {}, g = null;
+    for (var key in gr) { if ((gr[key] || []).indexOf("br") >= 0) { g = key; break; } }
+    if (!g) return null;
+    var st = BRACKET.standings && BRACKET.standings[g];
+    var pos = (st && st.indexOf("br") >= 0) ? st.indexOf("br") + 1 : 1;
+    if (pos > 2) pos = 1;
+    return pos + g;
+  }
+  // jornada do Brasil traçada na CHAVE OFICIAL (datas/cidades reais; adversário vem do slot)
+  function brBracketJourney() {
+    var grupos = (BRACKET.journeys && BRACKET.journeys.br && BRACKET.journeys.br[0])
+      ? BRACKET.journeys.br[0] : { stage: "grupos", status: "andamento", matches: [] };
+    var phases = [grupos];
+    var slot = brBaseSlot();
+    var m = slot ? findMatchWithSlot(slot) : null, guard = 0;
+    while (m && guard++ < 8) {
+      var oppSlot = (m.a === slot) ? m.b : m.a;
+      phases.push({
+        stage: m.stage, status: "possivel", date: m.date, time: m.time, city: m.city,
+        scenarios: [{ date: m.date, time: m.time, city: m.city, stadium: m.stadium, opp: slotInfo(oppSlot).label, slot: oppSlot }]
+      });
+      slot = "W" + m.id;
+      m = findMatchWithSlot(slot);
+    }
+    return phases;
+  }
   function getJourney(code) {
+    if (code === "br") return brBracketJourney();
     if (BRACKET.journeys && BRACKET.journeys[code]) return BRACKET.journeys[code];
     return (BRACKET.stagesOrder || []).map(function (s) {
       if (s === "grupos") return { stage: "grupos", status: "andamento", matches: [] };
@@ -530,10 +563,14 @@
   }
   function scnRow(s, selCode, fallbackDate) {
     var date = s.date || fallbackDate || "";
-    var hasTeam = !!s.oppCode;
-    var slot = hasTeam ? null : oppToSlot(s.opp);
-    var oppFlag = hasTeam ? '<img src="' + flagUrl(s.oppCode) + '" alt="">' : '<span class="scn__q">?</span>';
-    var cardAttr = hasTeam ? ' data-go="' + s.oppCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
+    var slot = s.slot || (s.oppCode ? null : oppToSlot(s.opp));
+    var sInfo = slot ? slotInfo(slot) : null;
+    var exact = sInfo && sInfo.teams.length === 1 && !sInfo.provisional && !sInfo.derived;
+    var oppCode = s.oppCode || (exact ? sInfo.teams[0] : null);
+    var hasTeam = !!oppCode;
+    var oppName = hasTeam ? ((teamByCode(oppCode) || {}).name || s.opp || "") : (s.opp || "a definir");
+    var oppFlag = hasTeam ? '<img src="' + flagUrl(oppCode) + '" alt="">' : '<span class="scn__q">?</span>';
+    var cardAttr = hasTeam ? ' data-go="' + oppCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
     var cardCls = "scn" + (hasTeam || slot ? " scn--click" : "");
     var oppCls = "scn__opp" + (hasTeam ? "" : " scn__opp--ph");
     var info = hasTeam ? "" : '<i class="ti ti-info-circle scn__info"></i>';
@@ -544,7 +581,7 @@
     return '<div class="' + cardCls + '"' + cardAttr + '><div class="scn__match">' +
       '<img class="scn__flag" src="' + flagUrl(selCode) + '" alt="">' +
       '<span class="scn__vs">x</span>' +
-      '<span class="' + oppCls + '">' + oppFlag + '<span>' + (s.opp || "a definir") + '</span>' + info + '</span></div>' +
+      '<span class="' + oppCls + '">' + oppFlag + '<span>' + oppName + '</span>' + info + '</span></div>' +
       (when.length ? '<div class="scn__when">' + when.join(" · ") + '</div>' : "") +
       (place ? '<div class="scn__city"><i class="ti ti-building-stadium"></i> ' + place + '</div>' : "") +
       '</div>';
@@ -822,8 +859,17 @@
       if (meta) html += '<div class="battle__meta"><i class="ti ti-building-stadium"></i> ' + meta + '</div>';
     } else if (nx && nx.possible) {
       var p = nx.possible;
-      html += '<div class="hud__nx">próximo jogo · ' + (names[p.stage] || "") + ' · ' + (p.date || "a definir") + '</div>';
-      html += '<div class="battle__meta">adversário a definir · veja os caminhos abaixo</div>';
+      var sc = (p.scenarios && p.scenarios[0]) || {};
+      var pw = sc.date ? (dateDay(sc.date) + (sc.time ? (" · " + sc.time) : "")) : (p.date || "a definir");
+      html += '<div class="hud__nx">próximo jogo · ' + (names[p.stage] || "") + ' · ' + pw + '</div>';
+      var oi = sc.slot ? slotInfo(sc.slot) : null;
+      var oppExact = (oi && oi.teams.length === 1 && !oi.provisional && !oi.derived) ? oi.teams[0] : null;
+      var sideAttr = oppExact ? ' data-go="' + oppExact + '"' : (sc.slot ? ' data-slot="' + sc.slot + '" data-opp="' + (sc.opp || "") + '"' : '');
+      html += '<div class="battle"><div class="battle__side"><img src="' + flagUrl(t.code) + '" alt=""><span>' + t.name + '</span></div>';
+      html += '<div class="battle__vs">VS</div>';
+      html += '<div class="battle__side"' + sideAttr + '>' + (oppExact ? '<img src="' + flagUrl(oppExact) + '" alt="">' : '<span class="battle__q">?</span>') + '<span>' + (sc.opp || "a definir") + '</span></div></div>';
+      var meta2 = sc.city || "";
+      if (meta2) html += '<div class="battle__meta"><i class="ti ti-building-stadium"></i> ' + meta2 + '</div>';
     }
     html += '</div>';
     el.jrnNext.innerHTML = html;
