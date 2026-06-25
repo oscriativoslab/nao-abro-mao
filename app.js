@@ -624,7 +624,16 @@
       }
       return { label: lbl, teams: groupTeams(g), group: g };
     }
-    if (slot === "3*") return { label: "Melhor 3º colocado", teams: [], third: true };
+    if (slot === "3*") return { label: "Melhor 3º colocado", teams: [], third: true, fromGroups: [] };
+    if ((m = slot.match(/^3:([A-L]+)$/))) {
+      var grps = m[1].split(""), cands = [];
+      grps.forEach(function (g) {
+        var stg = BRACKET.standings && BRACKET.standings[g];
+        var ok = (BRACKET.groupsDone && BRACKET.groupsDone[g]) || (BRACKET.groupsStarted && BRACKET.groupsStarted[g]);
+        if (stg && stg[2] && ok) cands.push(stg[2]);
+      });
+      return { label: "Melhor 3º colocado", teams: cands, provisional: true, third: true, fromGroups: grps };
+    }
     if ((m = slot.match(/^W(\d+)$/))) return { label: "Vencedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
     if ((m = slot.match(/^L(\d+)$/))) return { label: "Perdedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
     return { label: slot, teams: [] };
@@ -640,20 +649,24 @@
   }
   function teamChip(c) { var t = teamByCode(c); return t ? '<span class="popup__team popup__team--info"><img src="' + flagUrl(c) + '" alt=""><span>' + t.name + '</span></span>' : ''; }
   function slotChips(info) {
-    if (info.third) return '<p class="popup__note">Um dos melhores terceiros colocados da fase de grupos (ainda a definir).</p>';
-    // provável (classificação parcial): mostra o favorito + os outros do grupo como alternativa
-    if (info.provisional && info.teams.length === 1) {
-      var h = '<p class="popup__note">Provável (classificação parcial — ainda pode mudar).</p>' +
-        '<div class="popup__teams">' + teamChip(info.teams[0]) + '</div>';
-      var others = (info.alt || []).filter(function (c) { return c !== info.teams[0]; });
-      if (others.length) h += '<div class="popup__slot">outros do grupo</div><div class="popup__teams">' + others.map(teamChip).join("") + '</div>';
+    // vaga de melhor 3º colocado: explica a regra e mostra os candidatos
+    if (info.third) {
+      var h = '<p class="popup__note">Vaga de <b>melhor 3º colocado</b>. Dos 12 terceiros colocados, só os <b>8 melhores</b> avançam (por pontos e, em seguida, saldo de gols). Por isso fica como classificação parcial: depende de como os outros grupos terminarem.</p>';
+      if (info.fromGroups && info.fromGroups.length) h += '<p class="popup__note">Pode vir de um destes grupos: <b>' + info.fromGroups.join(", ") + '</b>.</p>';
+      if (info.teams && info.teams.length) h += '<div class="popup__slot">3º colocado de cada grupo (parcial)</div><div class="popup__teams">' + info.teams.map(teamChip).join("") + '</div>';
       return h;
     }
+    // classificação parcial: mostra o atual líder do slot + os outros do grupo como alternativa
+    if (info.provisional && info.teams.length === 1) {
+      var h2 = '<p class="popup__note">Classificação parcial, ainda pode mudar.</p>' +
+        '<div class="popup__teams">' + teamChip(info.teams[0]) + '</div>';
+      var others = (info.alt || []).filter(function (c) { return c !== info.teams[0]; });
+      if (others.length) h2 += '<div class="popup__slot">outros do grupo</div><div class="popup__teams">' + others.map(teamChip).join("") + '</div>';
+      return h2;
+    }
     if (!info.teams.length) return '<p class="popup__note">A definir.</p>';
-    if (info.teams.length > 8) return '<p class="popup__note">' + info.teams.length + ' seleções ainda possíveis — depende dos resultados das fases anteriores.</p>';
-    var h = '<div class="popup__teams">';
-    info.teams.forEach(function (c) { var t = teamByCode(c); if (t) h += '<span class="popup__team popup__team--info"><img src="' + flagUrl(c) + '" alt=""><span>' + t.name + '</span></span>'; });
-    return h + '</div>';
+    if (info.teams.length > 8) return '<p class="popup__note">' + info.teams.length + ' seleções ainda possíveis, depende dos resultados das fases anteriores.</p>';
+    return '<div class="popup__teams">' + info.teams.map(teamChip).join("") + '</div>';
   }
   // popup de um confronto inteiro do mata-mata (os dois lados)
   function openKoPopup(k) {
@@ -939,7 +952,7 @@
     var info = slotInfo(slot);
     if (!info.derived && info.teams.length === 1) {
       var t = teamByCode(info.teams[0]);
-      var prov = info.provisional ? '<span class="ko-prov">provável</span>' : '';
+      var prov = info.provisional ? '<span class="ko-prov">parcial</span>' : '';
       return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + '"><img class="ko-flag" src="' + flagUrl(info.teams[0]) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
     }
     return '<div class="ko-side ko-side--open"><span class="ko-q">?</span><span class="ko-lbl">' + info.label + '</span></div>';

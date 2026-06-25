@@ -30,9 +30,9 @@ window.BRACKET = {
   // (representativo, do caminho do Brasil — vira real com o bracket completo)
   defaults: {
     dezesseis: { date: "29/06", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
-    oitavas:   { date: "04–05/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
-    quartas:   { date: "09–11/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
-    semi:      { date: "14–15/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
+    oitavas:   { date: "04 a 05/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
+    quartas:   { date: "09 a 11/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
+    semi:      { date: "14 a 15/07", city: "a definir", tv: ["Globo", "SBT", "CazéTV"] },
     final:     { date: "19/07", city: "Nova York/NJ", tv: ["Globo", "SBT", "CazéTV"] }
   },
 
@@ -185,47 +185,48 @@ window.BRACKET = {
     L: ["cz", "tn", "py", "ba"]
   },
 
-  // Chaveamento do mata-mata (32 jogos). Cada slot é:
-  //   "1A"/"2A" = 1º/2º do Grupo A   |   "3*" = um dos melhores 3º colocados
-  //   "W73" = vencedor do Jogo 73    |   "L101" = perdedor do Jogo 101 (3º lugar)
-  // Estrutura fixa do torneio; quem cai em cada slot vem do gerador (resultados reais).
+  // Chaveamento OFICIAL do mata-mata (FIFA). Cada slot é:
+  //   "1A"/"2A" = 1º/2º do Grupo A
+  //   "3:ABCDF" = melhor 3º colocado vindo de um destes grupos (A,B,C,D,F)
+  //   "W73" = vencedor do Jogo 73   |   "L101" = perdedor do Jogo 101 (3º lugar)
+  // Datas/cidades reais; horários vêm do gerador (API). Times caem nos slots conforme os grupos terminam.
   knockout: [
-    { id: 73, stage: "dezesseis", a: "1A", b: "3*", date: "29/06", time: "13h", stadium: "MetLife Stadium", city: "Nova York/NJ" },
-    { id: 74, stage: "dezesseis", a: "1B", b: "3*", date: "29/06", time: "16h", stadium: "Mercedes-Benz Stadium", city: "Atlanta" },
-    { id: 75, stage: "dezesseis", a: "1C", b: "3*", date: "30/06", time: "13h", stadium: "AT&T Stadium", city: "Dallas" },
-    { id: 76, stage: "dezesseis", a: "1D", b: "3*", date: "30/06", time: "16h", stadium: "Arrowhead Stadium", city: "Kansas City" },
-    { id: 77, stage: "dezesseis", a: "1E", b: "3*", date: "01/07", time: "13h", stadium: "Estadio Azteca", city: "Cidade do México" },
-    { id: 78, stage: "dezesseis", a: "1F", b: "3*", date: "01/07", time: "16h", stadium: "BC Place", city: "Vancouver" },
-    { id: 79, stage: "dezesseis", a: "1G", b: "3*", date: "02/07", time: "13h", stadium: "SoFi Stadium", city: "Los Angeles" },
-    { id: 80, stage: "dezesseis", a: "1H", b: "3*", date: "02/07", time: "16h", stadium: "Lincoln Financial Field", city: "Filadélfia" },
-    { id: 81, stage: "dezesseis", a: "1I", b: "2A", date: "03/07", time: "13h", stadium: "Hard Rock Stadium", city: "Miami" },
-    { id: 82, stage: "dezesseis", a: "1J", b: "2B", date: "03/07", time: "16h", stadium: "NRG Stadium", city: "Houston" },
-    { id: 83, stage: "dezesseis", a: "1K", b: "2C", date: "03/07", time: "19h", stadium: "Levi's Stadium", city: "San Francisco" },
-    { id: 84, stage: "dezesseis", a: "1L", b: "2D", date: "03/07", time: "22h", stadium: "Estadio Akron", city: "Guadalajara" },
-    { id: 85, stage: "dezesseis", a: "2E", b: "2F", date: "29/06", time: "19h", stadium: "Gillette Stadium", city: "Boston" },
-    { id: 86, stage: "dezesseis", a: "2G", b: "2H", date: "30/06", time: "19h", stadium: "Estadio BBVA", city: "Monterrey" },
-    { id: 87, stage: "dezesseis", a: "2I", b: "2J", date: "01/07", time: "19h", stadium: "Lumen Field", city: "Seattle" },
-    { id: 88, stage: "dezesseis", a: "2K", b: "2L", date: "02/07", time: "19h", stadium: "BMO Field", city: "Toronto" },
+    { id: 73, stage: "dezesseis", a: "2A", b: "2B", date: "28/06", city: "Los Angeles" },
+    { id: 74, stage: "dezesseis", a: "1E", b: "3:ABCDF", date: "29/06", city: "Boston" },
+    { id: 75, stage: "dezesseis", a: "1F", b: "2C", date: "29/06", city: "Monterrey" },
+    { id: 76, stage: "dezesseis", a: "1C", b: "2F", date: "29/06", city: "Houston" },
+    { id: 77, stage: "dezesseis", a: "1I", b: "3:CDFGH", date: "30/06", city: "Nova York/NJ" },
+    { id: 78, stage: "dezesseis", a: "2E", b: "2I", date: "30/06", city: "Dallas" },
+    { id: 79, stage: "dezesseis", a: "1A", b: "3:CEFHI", date: "30/06", city: "Cidade do México" },
+    { id: 80, stage: "dezesseis", a: "1L", b: "3:EHIJK", date: "01/07", city: "Atlanta" },
+    { id: 81, stage: "dezesseis", a: "1D", b: "3:BEFIJ", date: "01/07", city: "San Francisco" },
+    { id: 82, stage: "dezesseis", a: "1G", b: "3:AEHIJ", date: "01/07", city: "Seattle" },
+    { id: 83, stage: "dezesseis", a: "2K", b: "2L", date: "02/07", city: "Toronto" },
+    { id: 84, stage: "dezesseis", a: "1H", b: "2J", date: "02/07", city: "Los Angeles" },
+    { id: 85, stage: "dezesseis", a: "1B", b: "3:EFGIJ", date: "02/07", city: "Vancouver" },
+    { id: 86, stage: "dezesseis", a: "1J", b: "2H", date: "03/07", city: "Miami" },
+    { id: 87, stage: "dezesseis", a: "1K", b: "3:DEIJL", date: "03/07", city: "Kansas City" },
+    { id: 88, stage: "dezesseis", a: "2D", b: "2G", date: "03/07", city: "Dallas" },
 
-    { id: 89, stage: "oitavas", a: "W74", b: "W77", date: "04/07", time: "14h", stadium: "NRG Stadium", city: "Houston" },
-    { id: 90, stage: "oitavas", a: "W73", b: "W75", date: "04/07", time: "18h", stadium: "Lincoln Financial Field", city: "Filadélfia" },
-    { id: 91, stage: "oitavas", a: "W76", b: "W78", date: "05/07", time: "14h", stadium: "Estadio Azteca", city: "Cidade do México" },
-    { id: 92, stage: "oitavas", a: "W79", b: "W80", date: "05/07", time: "17h", stadium: "MetLife Stadium", city: "Nova York/NJ" },
-    { id: 93, stage: "oitavas", a: "W83", b: "W84", date: "06/07", time: "14h", stadium: "AT&T Stadium", city: "Dallas" },
-    { id: 94, stage: "oitavas", a: "W81", b: "W82", date: "06/07", time: "17h", stadium: "Hard Rock Stadium", city: "Miami" },
-    { id: 95, stage: "oitavas", a: "W86", b: "W88", date: "07/07", time: "14h", stadium: "BC Place", city: "Vancouver" },
-    { id: 96, stage: "oitavas", a: "W85", b: "W87", date: "07/07", time: "17h", stadium: "Gillette Stadium", city: "Boston" },
+    { id: 89, stage: "oitavas", a: "W74", b: "W77", date: "04/07", city: "Filadélfia" },
+    { id: 90, stage: "oitavas", a: "W73", b: "W75", date: "04/07", city: "Houston" },
+    { id: 91, stage: "oitavas", a: "W76", b: "W78", date: "05/07", city: "Nova York/NJ" },
+    { id: 92, stage: "oitavas", a: "W79", b: "W80", date: "05/07", city: "Cidade do México" },
+    { id: 93, stage: "oitavas", a: "W83", b: "W84", date: "06/07", city: "Dallas" },
+    { id: 94, stage: "oitavas", a: "W81", b: "W82", date: "06/07", city: "Seattle" },
+    { id: 95, stage: "oitavas", a: "W86", b: "W88", date: "07/07", city: "Atlanta" },
+    { id: 96, stage: "oitavas", a: "W85", b: "W87", date: "07/07", city: "Vancouver" },
 
-    { id: 97, stage: "quartas", a: "W89", b: "W90", date: "09/07", time: "17h", stadium: "Gillette Stadium", city: "Boston" },
-    { id: 98, stage: "quartas", a: "W93", b: "W94", date: "10/07", time: "17h", stadium: "SoFi Stadium", city: "Los Angeles" },
-    { id: 99, stage: "quartas", a: "W91", b: "W92", date: "11/07", time: "14h", stadium: "Arrowhead Stadium", city: "Kansas City" },
-    { id: 100, stage: "quartas", a: "W95", b: "W96", date: "11/07", time: "18h", stadium: "Hard Rock Stadium", city: "Miami" },
+    { id: 97, stage: "quartas", a: "W89", b: "W90", date: "09/07", city: "Boston" },
+    { id: 98, stage: "quartas", a: "W93", b: "W94", date: "10/07", city: "Los Angeles" },
+    { id: 99, stage: "quartas", a: "W91", b: "W92", date: "11/07", city: "Miami" },
+    { id: 100, stage: "quartas", a: "W95", b: "W96", date: "11/07", city: "Kansas City" },
 
-    { id: 101, stage: "semi", a: "W97", b: "W98", date: "14/07", time: "16h", stadium: "AT&T Stadium", city: "Dallas" },
-    { id: 102, stage: "semi", a: "W99", b: "W100", date: "15/07", time: "16h", stadium: "Mercedes-Benz Stadium", city: "Atlanta" },
+    { id: 101, stage: "semi", a: "W97", b: "W98", date: "14/07", city: "Dallas" },
+    { id: 102, stage: "semi", a: "W99", b: "W100", date: "15/07", city: "Atlanta" },
 
-    { id: 103, stage: "terceiro", a: "L101", b: "L102", date: "18/07", time: "16h", stadium: "Hard Rock Stadium", city: "Miami" },
-    { id: 104, stage: "final", a: "W101", b: "W102", date: "19/07", time: "16h", stadium: "MetLife Stadium", city: "Nova York/NJ" }
+    { id: 103, stage: "terceiro", a: "L101", b: "L102", date: "18/07", city: "Miami" },
+    { id: 104, stage: "final", a: "W101", b: "W102", date: "19/07", city: "Nova York/NJ" }
   ],
 
   // Visão geral do mata-mata (igual pra todos, não por seleção).

@@ -350,7 +350,7 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .ko-card:active{ transform:translateY(2px); }
 .ko-card__top{ display:flex; align-items:center; justify-content:space-between; gap:6px; padding:8px 11px; background:linear-gradient(120deg,#FFF3D9,#FFE7C2); border-bottom:1px solid #F4E4C6; }
 .ko-num{ font-family:var(--font-title); font-size:11px; font-weight:800; color:var(--orange-deep); }
-.ko-when{ font-size:9px; font-weight:800; color:#9a7b3d; text-transform:uppercase; letter-spacing:.2px; }
+.ko-when{ font-size:11px; font-weight:800; color:#fff; background:var(--orange); border-radius:20px; padding:3px 10px; text-transform:uppercase; letter-spacing:.3px; box-shadow:0 3px 8px -3px rgba(255,138,0,.6); }
 .ko-side{ display:flex; align-items:center; gap:8px; min-width:0; padding:0 11px; }
 .ko-flag{ width:26px; height:26px; border-radius:50%; object-fit:cover; flex:none; box-shadow:0 2px 6px rgba(0,0,0,.18); }
 .ko-q{ width:26px; height:26px; border-radius:50%; background:linear-gradient(150deg,#F0E4FA,#E3D1F2); color:#9b7bc0; font-weight:800; font-size:14px; display:flex; align-items:center; justify-content:center; flex:none; }
@@ -361,8 +361,9 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .ko-place i{ font-size:11px; color:var(--orange); }
 .ko-tap{ margin:3px 9px 0; display:flex; align-items:center; justify-content:center; gap:5px; font-size:9.5px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; color:#fff; background:linear-gradient(108deg,#FFB02E,#FF6A00); border-radius:10px; padding:6px 8px; box-shadow:0 4px 10px -3px rgba(255,106,0,.55); }
 .ko-tap i{ font-size:13px; }
-.ko-prov{ display:inline-block; margin-left:6px; font-size:8px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:#fff; background:var(--orange); border-radius:8px; padding:1px 5px; vertical-align:middle; }
-.ko-side--prov .ko-flag{ opacity:.92; box-shadow:0 0 0 2px #FFD9A0; }
+.ko-prov{ display:inline-block; margin-left:6px; font-size:8px; font-weight:800; letter-spacing:.4px; text-transform:uppercase; color:var(--orange-deep); background:#FFE7C2; border:1px solid #F2D199; border-radius:8px; padding:1px 5px; vertical-align:middle; }
+/* time só parcial: fica mais apagado pra sinalizar que não é certo */
+.ko-side--prov{ opacity:.55; }
 
 /* confronto possível da jornada: card inteiro clicável */
 .scn--click{ cursor:pointer; }
@@ -560,9 +561,9 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
   /* a coluna do app some no fundo (sem moldura de "celular"), só com uma leve elevação */
   .app{
     position: relative; z-index: 1; margin: 0 auto; background: transparent;
-    box-shadow: 0 0 90px -40px rgba(146,74,0,.45);
+    box-shadow: none;   /* sem moldura: a coluna se funde na cena */
   }
-  .app .dots-bg{ display:none; }   /* a textura vem do fundo da página */
+  .app .dots-bg{ display:none; }   /* a textura de pontos vem do fundo da página (uniforme) */
 }
 
 @media (min-width: 1180px){
