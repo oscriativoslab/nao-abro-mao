@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T18:58:16.545Z
+// Fonte: football-data.org. 2026-06-25T19:00:27.403Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1589,11 +1589,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
