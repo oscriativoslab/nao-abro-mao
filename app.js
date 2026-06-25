@@ -1312,10 +1312,10 @@
     var fromTop = c && c.style.top ? c.style.top : null;
     userMoved = false;
     document.documentElement.classList.remove("snap-journey");
-    renderJogos();
     el.screenHome.classList.remove("is-active");
     el.screenJourney.classList.remove("is-active");
-    el.screenGroups.classList.add("is-active");
+    el.screenGroups.classList.add("is-active");   // tela visível ANTES de montar a lista (medidas de rolagem corretas)
+    renderJogos();
     setStage("on-groups");
     groupsEnter(fromLeft, fromTop);
     saveScreen("groups");
