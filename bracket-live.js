@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-25T20:48:20.181Z
+// Fonte: football-data.org. 2026-06-25T20:50:23.756Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1026,8 +1026,7 @@ window.BRACKET_LIVE = {
       "hn": "Equador",
       "ac": "de",
       "an": "Alemanha",
-      "st": "aovivo",
-      "sc": "1-1"
+      "st": "confirmado"
     },
     {
       "d": "25/06",
@@ -1036,8 +1035,7 @@ window.BRACKET_LIVE = {
       "hn": "Curaçau",
       "ac": "ci",
       "an": "Costa do Marfim",
-      "st": "aovivo",
-      "sc": "0-1"
+      "st": "confirmado"
     }
   ],
   "F": [
@@ -1591,11 +1589,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
