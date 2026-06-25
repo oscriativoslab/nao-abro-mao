@@ -542,3 +542,53 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .search-item.is-selected{ background:#FFF6E2; }
 .search-item img{ width:30px; height:30px; border-radius:50%; object-fit:cover; background:#F4F1F7; flex:none; }
 .search-empty{ text-align:center; color:var(--muted); font-size:14px; padding:24px 0; }
+
+/* ============================================================
+   DESKTOP — só telas largas (mobile fica 100% intocado)
+   Vira um "palco" da marca: coluna do app flutuando + laterais.
+   ============================================================ */
+.deskonly{ display:none; }
+
+@media (min-width: 860px){
+  /* fundo: palco escuro com brilho quente da marca */
+  body{ background: radial-gradient(95% 75% at 50% -12%, #3a1430 0%, #241022 38%, #160e1c 100%); }
+  /* a coluna vira um "celular" flutuante */
+  .app{
+    position: relative; z-index: 1;
+    margin: 26px auto; min-height: calc(100vh - 52px);
+    border-radius: 28px;
+    box-shadow: 0 40px 120px -24px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.05);
+  }
+}
+
+@media (min-width: 1180px){
+  .deskonly{ display:block; position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  /* marca à ESQUERDA da coluna */
+  .deskonly__left{
+    position: absolute; top: 50%; transform: translateY(-50%);
+    right: calc(50vw + 252px); width: 320px; text-align: left;
+  }
+  .deskonly__logo{ height: 52px; width:auto; margin-bottom: 20px; }
+  .deskonly__kicker{ font-family: var(--font-body); font-weight: 800; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--orange); }
+  .deskonly__title{ font-family: var(--font-title); font-weight: 800; font-size: 66px; line-height: .9; color: #fff; margin: 10px 0 16px; text-shadow: 0 8px 36px rgba(0,0,0,.55); }
+  .deskonly__sub{ font-size: 15px; line-height: 1.55; color: #c9b6d6; max-width: 300px; }
+  .deskonly__ig{
+    pointer-events: auto; display: inline-block; margin-top: 20px;
+    font-family: var(--font-title); font-weight: 800; font-size: 15px; color: var(--ink);
+    background: linear-gradient(108deg, #FFCB2E, #FF6A00); padding: 10px 18px; border-radius: 22px; text-decoration: none;
+    box-shadow: 0 10px 24px -8px rgba(255,106,0,.6);
+  }
+  /* mascote à DIREITA da coluna */
+  .deskonly__mascot{
+    position: absolute; bottom: 0; left: calc(50vw + 240px);
+    height: 76vh; max-height: 700px; width: auto; object-fit: contain;
+    filter: drop-shadow(0 24px 44px rgba(0,0,0,.55));
+  }
+}
+
+/* telas bem largas: empurra a marca/mascote um tico pra fora */
+@media (min-width: 1480px){
+  .deskonly__left{ right: calc(50vw + 300px); width: 360px; }
+  .deskonly__title{ font-size: 76px; }
+  .deskonly__mascot{ left: calc(50vw + 280px); height: 82vh; }
+}
