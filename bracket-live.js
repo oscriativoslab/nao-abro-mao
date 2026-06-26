@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-26T04:02:18.319Z
+// Fonte: football-data.org. 2026-06-26T04:04:14.126Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -284,25 +284,25 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "au",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 0,
+      "e": 1,
       "d": 1,
       "gf": 2,
       "ga": 2,
       "sg": 0,
-      "pts": 3
+      "pts": 4
     },
     {
       "c": "py",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 0,
+      "e": 1,
       "d": 1,
       "gf": 2,
       "ga": 4,
       "sg": -2,
-      "pts": 3
+      "pts": 4
     },
     {
       "c": "tr",
@@ -914,7 +914,7 @@ window.BRACKET_LIVE = {
       "hn": "Paraguai",
       "ac": "au",
       "an": "Austrália",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-0"
     }
   ],
@@ -1595,14 +1595,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "75": {
-    "a": "de"
-  },
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
