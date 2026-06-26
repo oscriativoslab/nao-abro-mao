@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-26T01:02:17.838Z
+// Fonte: football-data.org. 2026-06-26T01:04:13.638Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -155,7 +155,7 @@ window.BRACKET_LIVE = {
   "D": false,
   "C": true,
   "E": true,
-  "F": false,
+  "F": true,
   "H": false,
   "G": false,
   "I": false,
@@ -422,25 +422,25 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "jp",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 1,
+      "e": 2,
       "d": 0,
-      "gf": 6,
-      "ga": 2,
+      "gf": 7,
+      "ga": 3,
       "sg": 4,
-      "pts": 4
+      "pts": 5
     },
     {
       "c": "se",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 0,
+      "e": 1,
       "d": 1,
-      "gf": 6,
-      "ga": 6,
+      "gf": 7,
+      "ga": 7,
       "sg": 0,
-      "pts": 3
+      "pts": 4
     },
     {
       "c": "tn",
@@ -1098,7 +1098,7 @@ window.BRACKET_LIVE = {
       "hn": "Japão",
       "ac": "se",
       "an": "Suécia",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "1-1"
     }
   ],
