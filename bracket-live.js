@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-26T04:06:17.961Z
+// Fonte: football-data.org. 2026-06-26T04:08:16.394Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -152,7 +152,7 @@ window.BRACKET_LIVE = {
   groupsDone: {
   "A": true,
   "B": true,
-  "D": false,
+  "D": true,
   "C": true,
   "E": true,
   "F": true,
@@ -273,13 +273,13 @@ window.BRACKET_LIVE = {
   "D": [
     {
       "c": "us",
-      "j": 2,
+      "j": 3,
       "v": 2,
       "e": 0,
-      "d": 0,
-      "gf": 6,
-      "ga": 1,
-      "sg": 5,
+      "d": 1,
+      "gf": 8,
+      "ga": 4,
+      "sg": 4,
       "pts": 6
     },
     {
@@ -306,14 +306,14 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "tr",
-      "j": 2,
-      "v": 0,
+      "j": 3,
+      "v": 1,
       "e": 0,
       "d": 2,
-      "gf": 0,
-      "ga": 3,
-      "sg": -3,
-      "pts": 0
+      "gf": 3,
+      "ga": 5,
+      "sg": -2,
+      "pts": 3
     }
   ],
   "C": [
@@ -904,7 +904,7 @@ window.BRACKET_LIVE = {
       "hn": "Turquia",
       "ac": "us",
       "an": "Estados Unidos",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "3-2"
     },
     {
@@ -1595,14 +1595,7 @@ window.BRACKET_LIVE = {
     "time": "16h"
   }
 },
-  knockoutTeams: {
-  "75": {
-    "a": "de"
-  },
-  "79": {
-    "a": "mx"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
