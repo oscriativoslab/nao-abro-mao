@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-26T00:58:16.789Z
+// Fonte: football-data.org. 2026-06-26T01:00:25.244Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -411,14 +411,14 @@ window.BRACKET_LIVE = {
   "F": [
     {
       "c": "nl",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 1,
       "d": 0,
-      "gf": 7,
-      "ga": 3,
-      "sg": 4,
-      "pts": 4
+      "gf": 10,
+      "ga": 4,
+      "sg": 6,
+      "pts": 7
     },
     {
       "c": "jp",
@@ -444,13 +444,13 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "tn",
-      "j": 2,
+      "j": 3,
       "v": 0,
       "e": 0,
-      "d": 2,
-      "gf": 1,
-      "ga": 9,
-      "sg": -8,
+      "d": 3,
+      "gf": 2,
+      "ga": 12,
+      "sg": -10,
       "pts": 0
     }
   ],
@@ -1088,7 +1088,7 @@ window.BRACKET_LIVE = {
       "hn": "Tunísia",
       "ac": "nl",
       "an": "Holanda",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "1-3"
     },
     {
