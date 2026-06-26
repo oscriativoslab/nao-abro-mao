@@ -512,10 +512,11 @@
   }
   // jornada do Brasil traçada na CHAVE OFICIAL (datas/cidades reais; adversário vem do slot)
   function brBracketJourney() {
-    var grupos = (BRACKET.journeys && BRACKET.journeys.br && BRACKET.journeys.br[0])
-      ? BRACKET.journeys.br[0] : { stage: "grupos", status: "andamento", matches: [] };
+    var seed = (BRACKET.journeys && BRACKET.journeys.br && BRACKET.journeys.br[0]) || { stage: "grupos", status: "andamento", matches: [] };
+    var grupos = { stage: "grupos", status: seed.status, matches: seed.matches || [] };   // cópia (não muta a semente)
     var phases = [grupos];
-    var slot = brBaseSlot();
+    var baseSlot = brBaseSlot();
+    var slot = baseSlot;
     var m = slot ? findMatchWithSlot(slot) : null, guard = 0;
     while (m && guard++ < 8) {
       var oppSlot = (m.a === slot) ? m.b : m.a;
@@ -525,6 +526,21 @@
       });
       slot = "W" + m.id;
       m = findMatchWithSlot(slot);
+    }
+    // grupo terminou -> fase de grupos concluída; a jornada passa a abrir no mata-mata
+    var brG = baseSlot ? baseSlot.replace(/^[123]/, "") : null;
+    var groupDone = !!(brG && BRACKET.groupsDone && BRACKET.groupsDone[brG]);
+    grupos.status = groupDone ? "concluido" : "andamento";
+    if (groupDone && phases.length > 1) {
+      // avança conforme os resultados reais do Brasil no mata-mata (se a API trouxer)
+      var ko = (BRACKET.brMatches || []).filter(function (x) { return x.stage && x.stage !== "GROUP_STAGE"; });
+      var wins = ko.filter(function (x) { return x.status === "finalizado" && x.result === "v"; }).length;
+      var lost = ko.some(function (x) { return x.status === "finalizado" && x.result === "d"; });
+      for (var z = 1; z <= wins && z < phases.length; z++) phases[z].status = "concluido";
+      var cur = 1 + wins;
+      if (lost && phases[cur]) phases[cur].status = "eliminado";
+      else if (cur >= phases.length) phases[phases.length - 1].status = "campeao";
+      // senão, phases[cur] segue "possivel" = é a fase atual (ex.: 16 avos)
     }
     return phases;
   }
@@ -554,11 +570,15 @@
     return wd ? (wd + " " + dateStr) : (dateStr || "");
   }
   function currentStageIndex(j) {
-    for (var i = 0; i < j.length; i++) if (j[i].status === "andamento" || j[i].status === "eliminado") return i;
-    return 0;
+    for (var i = 0; i < j.length; i++) {
+      var s = j[i].status;
+      if (s === "eliminado") return i;
+      if (s !== "concluido" && s !== "campeao") return i;   // 1ª fase ainda não concluída = onde a seleção está
+    }
+    return Math.max(0, j.length - 1);
   }
   function badgeText(st) {
-    return { andamento: "em andamento", possivel: "possível", eliminado: "eliminado", campeao: "campeão" }[st.status] || st.status;
+    return { andamento: "em andamento", possivel: "possível", concluido: "classificado", eliminado: "eliminado", campeao: "campeão" }[st.status] || st.status;
   }
   function matchRow(m, selCode) {
     var right = (m.status === "finalizado")

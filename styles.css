@@ -573,6 +573,9 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .stg__badge{ font-size:9px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; padding:3px 8px; border-radius:20px; white-space:nowrap; }
 .stg__badge.andamento{ color:var(--orange-deep); background:#FFEFD6; }
 .stg__badge.possivel{ color:#7a6a8e; background:#F1ECF6; }
+.stg__badge.concluido{ color:var(--green); background:var(--green-soft); }
+.stg__badge.eliminado{ color:#fff; background:#E76A6A; }
+.stg__badge.campeao{ color:var(--ink); background:var(--yellow); }
 .stg__here{ font-size:10px; font-weight:800; color:var(--orange); letter-spacing:.5px; text-transform:uppercase; margin-top:4px; }
 .stg__empty{ font-size:12px; color:var(--muted); margin-top:8px; }
 .stg__meta{ font-size:11px; color:var(--muted); margin-top:8px; display:flex; align-items:center; gap:4px; flex-wrap:wrap; }
