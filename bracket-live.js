@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-26T21:02:18.632Z
+// Fonte: football-data.org. 2026-06-26T21:04:14.491Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1273,7 +1273,7 @@ window.BRACKET_LIVE = {
       "ac": "fr",
       "an": "França",
       "st": "aovivo",
-      "sc": "1-3"
+      "sc": "1-4"
     },
     {
       "d": "26/06",
@@ -1468,36 +1468,7 @@ window.BRACKET_LIVE = {
   ]
 },
   knockoutDates: {},
-  knockoutTeams: {
-  "73": {
-    "a": "za",
-    "b": "ca"
-  },
-  "74": {
-    "a": "de"
-  },
-  "75": {
-    "a": "nl",
-    "b": "ma"
-  },
-  "76": {
-    "a": "br",
-    "b": "jp"
-  },
-  "79": {
-    "a": "mx"
-  },
-  "81": {
-    "a": "us",
-    "b": "ba"
-  },
-  "85": {
-    "a": "ch"
-  },
-  "88": {
-    "a": "au"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -1557,14 +1528,6 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "3-0",
     "result": "v"
-  },
-  {
-    "stage": "LAST_32",
-    "date": "29/06",
-    "time": "14h",
-    "opp": "Japão",
-    "oppCode": "jp",
-    "status": "confirmado"
   }
 ]
 };
