@@ -227,29 +227,32 @@ function mapTeam(name, unknown) {
       var codeToGroup = {};
       Object.keys(groups).forEach(function (g) { (groups[g] || []).forEach(function (c) { codeToGroup[c] = g; }); });
 
-      // ---- datas/horários REAIS do mata-mata (BRT) mapeados p/ os IDs da semente ----
-      // (mapeia cada fase da API pelo nº de jogos: 16=>16avos, 8=>oitavas, 4=>quartas, 2=>semi, 1=>3º/final)
-      var koByStage = {};
-      matches.forEach(function (m) { if (m.stage && m.stage !== "GROUP_STAGE") (koByStage[m.stage] = koByStage[m.stage] || []).push(m); });
-      var koDates = {}, koTeams = {}, stageLog = [];
-      Object.keys(koByStage).forEach(function (apiStage) {
-        var list = koByStage[apiStage].slice().sort(function (a, b) { return new Date(a.utcDate) - new Date(b.utcDate); });
-        var n = list.length, target = null;
-        if (n === 16) target = "dezesseis"; else if (n === 8) target = "oitavas"; else if (n === 4) target = "quartas";
-        else if (n === 2) target = "semi"; else if (n === 1) target = /third|3rd|terc/i.test(apiStage) ? "terceiro" : "final";
-        stageLog.push("   " + apiStage + " (" + n + " jogos) -> " + (target || "ignorado"));
-        if (!target) return;
-        var ids = KO_IDS[target] || [];
-        list.forEach(function (m, i) {
-          var id = ids[i]; if (id == null) return;
-          var t = brt(m.utcDate);
-          if (t) { koDates[id] = { date: t.date, time: t.time }; if (m.venue) koDates[id].stadium = m.venue; }
-          // CAMINHO 2: grava o time só se o GRUPO dele já terminou (atualiza grupo a grupo)
-          var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
-          var okH = hh && groupsDone[codeToGroup[hh.code]];
-          var okA = aa && groupsDone[codeToGroup[aa.code]];
-          if (okH || okA) { koTeams[id] = {}; if (okH) koTeams[id].a = hh.code; if (okA) koTeams[id].b = aa.code; }
-        });
+      // ---- coloca os times do mata-mata no JOGO CERTO da grade oficial ----
+      // Casa cada jogo da API com o nosso ID pelo DIA+HORÁRIO (BRT) — único e igual à
+      // grade oficial. (Antes era pela ordem cronológica, o que punha o time no horário
+      // errado, pois nossa numeração não segue a ordem do calendário.)
+      var KO_SCHEDULE = {
+        "28/06|16h": 73, "29/06|17h30": 74, "29/06|22h": 75, "29/06|14h": 76,
+        "30/06|18h": 77, "30/06|14h": 78, "30/06|22h": 79, "01/07|13h": 80,
+        "01/07|21h": 81, "01/07|17h": 82, "02/07|20h": 83, "02/07|16h": 84,
+        "03/07|0h": 85, "03/07|19h": 86, "03/07|22h30": 87, "03/07|15h": 88,
+        "04/07|18h": 89, "04/07|14h": 90, "05/07|17h": 91, "05/07|21h": 92,
+        "06/07|16h": 93, "06/07|21h": 94, "07/07|13h": 95, "07/07|17h": 96,
+        "09/07|17h": 97, "10/07|16h": 98, "11/07|18h": 99, "11/07|22h": 100,
+        "14/07|16h": 101, "15/07|16h": 102, "18/07|18h": 103, "19/07|16h": 104
+      };
+      var koDates = {}, koTeams = {}, koUnmatched = [];
+      matches.forEach(function (m) {
+        if (!m.stage || m.stage === "GROUP_STAGE") return;
+        var t = brt(m.utcDate); if (!t) return;
+        var id = KO_SCHEDULE[t.date + "|" + t.time];
+        if (!id) { koUnmatched.push(t.date + " " + t.time + " (" + m.stage + ")"); return; }
+        if (m.venue) koDates[id] = { date: t.date, time: t.time, stadium: m.venue };
+        // CAMINHO 2: grava o time só se o GRUPO dele já terminou (atualiza grupo a grupo)
+        var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
+        var okH = hh && groupsDone[codeToGroup[hh.code]];
+        var okA = aa && groupsDone[codeToGroup[aa.code]];
+        if (okH || okA) { koTeams[id] = {}; if (okH) koTeams[id].a = hh.code; if (okA) koTeams[id].b = aa.code; }
       });
 
       // ---- jogos do BRASIL (todas as fases): resultado / ao vivo / próximo ----
@@ -326,7 +329,7 @@ function mapTeam(name, unknown) {
 
       console.log("OK: " + nGroups + " grupos, " + nTeams + " seleções, " + Object.keys(koDates).length + " jogos do mata-mata com data.");
       console.log(" -> bracket-live.js e teams.js atualizados.");
-      if (stageLog.length) { console.log("Fases do mata-mata (conferir o mapeamento):"); stageLog.forEach(function (l) { console.log(l); }); }
+      if (koUnmatched.length) { console.log("⚠ Jogos do mata-mata sem dia/horário na grade oficial (confira o KO_SCHEDULE):"); koUnmatched.forEach(function (l) { console.log("   - " + l); }); }
       var miss = Object.keys(unknown);
       if (miss.length) {
         console.log("\n⚠ Sem mapeamento (me mande esta lista p/ eu completar o NAME2):");
