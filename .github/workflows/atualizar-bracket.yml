@@ -40,5 +40,12 @@ jobs:
             echo "Nada mudou nesta rodada."
           else
             git commit -m "Atualiza dados ao vivo (auto)"
-            git push
+            # tenta empurrar; se o remoto avançou (ex.: push de codigo ou outra rodada),
+            # sincroniza e tenta de novo. Evita falha por corrida de push.
+            for i in 1 2 3; do
+              git push origin HEAD:main && break
+              echo "push recusado (tentativa $i), sincronizando..."
+              git pull --rebase origin main || true
+              sleep 3
+            done
           fi

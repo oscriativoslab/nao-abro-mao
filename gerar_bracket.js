@@ -136,12 +136,28 @@ function brt(iso) {
   };
 }
 
-function api(endpoint) {
+function sleep(ms) { return new Promise(function (res) { setTimeout(res, ms); }); }
+function api(endpoint, _try) {
+  _try = _try || 1;
   return fetch(BASE + endpoint, { headers: { "X-Auth-Token": KEY } }).then(function (r) {
     return r.text().then(function (t) {
-      if (!r.ok) throw new Error("HTTP " + r.status + " em " + endpoint + " -> " + t.slice(0, 200));
+      if (!r.ok) {
+        // 429 (limite) ou 5xx (instabilidade momentânea) -> espera e tenta de novo
+        if ((r.status === 429 || r.status >= 500) && _try < 4) {
+          console.error("HTTP " + r.status + " (tentativa " + _try + "), repetindo...");
+          return sleep(_try * 6000).then(function () { return api(endpoint, _try + 1); });
+        }
+        throw new Error("HTTP " + r.status + " em " + endpoint + " -> " + t.slice(0, 200));
+      }
       try { return JSON.parse(t); } catch (e) { throw new Error("Resposta não-JSON de " + endpoint); }
     });
+  }).catch(function (e) {
+    // erro de rede (não foi HTTP) -> espera e tenta de novo
+    if (_try < 4 && !/^HTTP |não-JSON/.test(String(e.message))) {
+      console.error("Falha de rede (tentativa " + _try + "): " + e.message + ", repetindo...");
+      return sleep(_try * 6000).then(function () { return api(endpoint, _try + 1); });
+    }
+    throw e;
   });
 }
 
