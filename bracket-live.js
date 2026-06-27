@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T18:18:13.895Z
+// Fonte: football-data.org. 2026-06-27T18:20:19.414Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -120,8 +120,8 @@ window.BRACKET_LIVE = {
   ],
   "G": [
     "be",
-    "eg",
     "ir",
+    "eg",
     "nz"
   ],
   "I": [
@@ -158,7 +158,7 @@ window.BRACKET_LIVE = {
   "F": true,
   "H": true,
   "G": true,
-  "I": true,
+  "I": false,
   "J": false,
   "K": false,
   "L": false
@@ -513,26 +513,26 @@ window.BRACKET_LIVE = {
       "pts": 5
     },
     {
-      "c": "eg",
+      "c": "ir",
       "j": 3,
       "v": 1,
       "e": 2,
       "d": 0,
-      "gf": 5,
+      "gf": 4,
       "ga": 3,
-      "sg": 2,
+      "sg": 1,
       "pts": 5
     },
     {
-      "c": "ir",
+      "c": "eg",
       "j": 3,
-      "v": 0,
-      "e": 3,
-      "d": 0,
-      "gf": 3,
-      "ga": 3,
-      "sg": 0,
-      "pts": 3
+      "v": 1,
+      "e": 1,
+      "d": 1,
+      "gf": 5,
+      "ga": 4,
+      "sg": 1,
+      "pts": 4
     },
     {
       "c": "nz",
@@ -549,46 +549,46 @@ window.BRACKET_LIVE = {
   "I": [
     {
       "c": "fr",
-      "j": 3,
-      "v": 3,
+      "j": 2,
+      "v": 2,
       "e": 0,
       "d": 0,
-      "gf": 10,
-      "ga": 2,
-      "sg": 8,
-      "pts": 9
+      "gf": 6,
+      "ga": 1,
+      "sg": 5,
+      "pts": 6
     },
     {
       "c": "no",
-      "j": 3,
+      "j": 2,
       "v": 2,
       "e": 0,
-      "d": 1,
-      "gf": 8,
-      "ga": 7,
-      "sg": 1,
+      "d": 0,
+      "gf": 7,
+      "ga": 3,
+      "sg": 4,
       "pts": 6
     },
     {
       "c": "sn",
-      "j": 3,
-      "v": 1,
+      "j": 2,
+      "v": 0,
       "e": 0,
       "d": 2,
-      "gf": 8,
+      "gf": 3,
       "ga": 6,
-      "sg": 2,
-      "pts": 3
+      "sg": -3,
+      "pts": 0
     },
     {
       "c": "iq",
-      "j": 3,
+      "j": 2,
       "v": 0,
       "e": 0,
-      "d": 3,
+      "d": 2,
       "gf": 1,
-      "ga": 12,
-      "sg": -11,
+      "ga": 7,
+      "sg": -6,
       "pts": 0
     }
   ],
@@ -1225,7 +1225,7 @@ window.BRACKET_LIVE = {
       "ac": "ir",
       "an": "Irã",
       "st": "finalizado",
-      "sc": "1-1"
+      "sc": "1-2"
     }
   ],
   "I": [
@@ -1276,8 +1276,7 @@ window.BRACKET_LIVE = {
       "hn": "Noruega",
       "ac": "fr",
       "an": "França",
-      "st": "finalizado",
-      "sc": "1-4"
+      "st": "confirmado"
     },
     {
       "d": "26/06",
@@ -1286,8 +1285,7 @@ window.BRACKET_LIVE = {
       "hn": "Senegal",
       "ac": "iq",
       "an": "Iraque",
-      "st": "finalizado",
-      "sc": "5-0"
+      "st": "confirmado"
     }
   ],
   "J": [
@@ -1472,7 +1470,36 @@ window.BRACKET_LIVE = {
   ]
 },
   knockoutDates: {},
-  knockoutTeams: {},
+  knockoutTeams: {
+  "73": {
+    "a": "za",
+    "b": "ca"
+  },
+  "74": {
+    "a": "de"
+  },
+  "75": {
+    "a": "nl",
+    "b": "ma"
+  },
+  "76": {
+    "a": "br",
+    "b": "jp"
+  },
+  "79": {
+    "a": "mx"
+  },
+  "81": {
+    "a": "us",
+    "b": "ba"
+  },
+  "85": {
+    "a": "ch"
+  },
+  "88": {
+    "a": "au"
+  }
+},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -1532,6 +1559,14 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "3-0",
     "result": "v"
+  },
+  {
+    "stage": "LAST_32",
+    "date": "29/06",
+    "time": "14h",
+    "opp": "Japão",
+    "oppCode": "jp",
+    "status": "confirmado"
   }
 ]
 };
