@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T23:02:17.132Z
+// Fonte: football-data.org. 2026-06-27T23:04:14.916Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -144,8 +144,8 @@ window.BRACKET_LIVE = {
   ],
   "L": [
     "gb-eng",
-    "gh",
     "hr",
+    "gh",
     "pa"
   ]
 },
@@ -161,7 +161,7 @@ window.BRACKET_LIVE = {
   "I": true,
   "J": false,
   "K": false,
-  "L": false
+  "L": true
 },
   groupsStarted: {
   "A": true,
@@ -697,26 +697,26 @@ window.BRACKET_LIVE = {
       "pts": 7
     },
     {
-      "c": "gh",
-      "j": 2,
-      "v": 1,
-      "e": 1,
-      "d": 0,
-      "gf": 1,
-      "ga": 0,
-      "sg": 1,
-      "pts": 4
-    },
-    {
       "c": "hr",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 0,
       "d": 1,
-      "gf": 3,
-      "ga": 4,
-      "sg": -1,
-      "pts": 3
+      "gf": 5,
+      "ga": 5,
+      "sg": 0,
+      "pts": 6
+    },
+    {
+      "c": "gh",
+      "j": 3,
+      "v": 1,
+      "e": 1,
+      "d": 1,
+      "gf": 2,
+      "ga": 2,
+      "sg": 0,
+      "pts": 4
     },
     {
       "c": "pa",
@@ -1468,7 +1468,7 @@ window.BRACKET_LIVE = {
       "hn": "Croácia",
       "ac": "gh",
       "an": "Gana",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "2-1"
     }
   ]
