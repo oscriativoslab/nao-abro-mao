@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T22:58:16.723Z
+// Fonte: football-data.org. 2026-06-27T23:00:28.266Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -687,14 +687,14 @@ window.BRACKET_LIVE = {
   "L": [
     {
       "c": "gb-eng",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 1,
       "d": 0,
-      "gf": 4,
+      "gf": 6,
       "ga": 2,
-      "sg": 2,
-      "pts": 4
+      "sg": 4,
+      "pts": 7
     },
     {
       "c": "gh",
@@ -720,13 +720,13 @@ window.BRACKET_LIVE = {
     },
     {
       "c": "pa",
-      "j": 2,
+      "j": 3,
       "v": 0,
       "e": 0,
-      "d": 2,
+      "d": 3,
       "gf": 0,
-      "ga": 2,
-      "sg": -2,
+      "ga": 4,
+      "sg": -4,
       "pts": 0
     }
   ]
@@ -1458,7 +1458,7 @@ window.BRACKET_LIVE = {
       "hn": "Panamá",
       "ac": "gb-eng",
       "an": "Inglaterra",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-2"
     },
     {
