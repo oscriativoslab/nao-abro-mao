@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T05:08:16.231Z
+// Fonte: football-data.org. 2026-06-27T05:10:20.985Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -120,8 +120,8 @@ window.BRACKET_LIVE = {
   ],
   "G": [
     "be",
-    "eg",
     "ir",
+    "eg",
     "nz"
   ],
   "I": [
@@ -157,7 +157,7 @@ window.BRACKET_LIVE = {
   "E": true,
   "F": true,
   "H": true,
-  "G": false,
+  "G": true,
   "I": true,
   "J": false,
   "K": false,
@@ -513,26 +513,26 @@ window.BRACKET_LIVE = {
       "pts": 5
     },
     {
-      "c": "eg",
-      "j": 2,
-      "v": 1,
-      "e": 1,
-      "d": 0,
-      "gf": 4,
-      "ga": 2,
-      "sg": 2,
-      "pts": 4
-    },
-    {
       "c": "ir",
-      "j": 2,
-      "v": 0,
+      "j": 3,
+      "v": 1,
       "e": 2,
       "d": 0,
-      "gf": 2,
-      "ga": 2,
-      "sg": 0,
-      "pts": 2
+      "gf": 4,
+      "ga": 3,
+      "sg": 1,
+      "pts": 5
+    },
+    {
+      "c": "eg",
+      "j": 3,
+      "v": 1,
+      "e": 1,
+      "d": 1,
+      "gf": 5,
+      "ga": 4,
+      "sg": 1,
+      "pts": 4
     },
     {
       "c": "nz",
@@ -1224,7 +1224,7 @@ window.BRACKET_LIVE = {
       "hn": "Egito",
       "ac": "ir",
       "an": "Irã",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "1-2"
     }
   ],
@@ -1472,7 +1472,36 @@ window.BRACKET_LIVE = {
   ]
 },
   knockoutDates: {},
-  knockoutTeams: {},
+  knockoutTeams: {
+  "73": {
+    "a": "za",
+    "b": "ca"
+  },
+  "74": {
+    "a": "de"
+  },
+  "75": {
+    "a": "nl",
+    "b": "ma"
+  },
+  "76": {
+    "a": "br",
+    "b": "jp"
+  },
+  "79": {
+    "a": "mx"
+  },
+  "81": {
+    "a": "us",
+    "b": "ba"
+  },
+  "85": {
+    "a": "ch"
+  },
+  "88": {
+    "a": "au"
+  }
+},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -1532,6 +1561,14 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "3-0",
     "result": "v"
+  },
+  {
+    "stage": "LAST_32",
+    "date": "29/06",
+    "time": "14h",
+    "opp": "Japão",
+    "oppCode": "jp",
+    "status": "confirmado"
   }
 ]
 };
