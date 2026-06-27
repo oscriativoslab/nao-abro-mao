@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T21:04:14.364Z
+// Fonte: football-data.org. 2026-06-27T21:06:18.096Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1458,7 +1458,8 @@ window.BRACKET_LIVE = {
       "hn": "Panamá",
       "ac": "gb-eng",
       "an": "Inglaterra",
-      "st": "confirmado"
+      "st": "aovivo",
+      "sc": "0-0"
     },
     {
       "d": "27/06",
@@ -1467,12 +1468,45 @@ window.BRACKET_LIVE = {
       "hn": "Croácia",
       "ac": "gh",
       "an": "Gana",
-      "st": "confirmado"
+      "st": "aovivo",
+      "sc": "0-0"
     }
   ]
 },
   knockoutDates: {},
-  knockoutTeams: {},
+  knockoutTeams: {
+  "73": {
+    "a": "za",
+    "b": "ca"
+  },
+  "74": {
+    "a": "de"
+  },
+  "75": {
+    "a": "nl",
+    "b": "ma"
+  },
+  "76": {
+    "a": "br",
+    "b": "jp"
+  },
+  "78": {
+    "a": "ci"
+  },
+  "79": {
+    "a": "mx"
+  },
+  "81": {
+    "a": "us",
+    "b": "ba"
+  },
+  "85": {
+    "a": "ch"
+  },
+  "88": {
+    "a": "au"
+  }
+},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -1532,6 +1566,14 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "3-0",
     "result": "v"
+  },
+  {
+    "stage": "LAST_32",
+    "date": "29/06",
+    "time": "14h",
+    "opp": "Japão",
+    "oppCode": "jp",
+    "status": "confirmado"
   }
 ]
 };
