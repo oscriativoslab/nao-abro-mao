@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T22:30:21.541Z
+// Fonte: football-data.org. 2026-06-27T22:32:16.190Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1459,7 +1459,7 @@ window.BRACKET_LIVE = {
       "ac": "gb-eng",
       "an": "Inglaterra",
       "st": "aovivo",
-      "sc": "0-1"
+      "sc": "0-2"
     },
     {
       "d": "27/06",
