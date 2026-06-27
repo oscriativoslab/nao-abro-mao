@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T02:04:14.317Z
+// Fonte: football-data.org. 2026-06-27T02:06:18.731Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -114,8 +114,8 @@ window.BRACKET_LIVE = {
   ],
   "H": [
     "es",
-    "uy",
     "cv",
+    "uy",
     "sa"
   ],
   "G": [
@@ -156,7 +156,7 @@ window.BRACKET_LIVE = {
   "C": true,
   "E": true,
   "F": true,
-  "H": false,
+  "H": true,
   "G": false,
   "I": true,
   "J": false,
@@ -457,47 +457,47 @@ window.BRACKET_LIVE = {
   "H": [
     {
       "c": "es",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 1,
       "d": 0,
-      "gf": 4,
+      "gf": 5,
       "ga": 0,
-      "sg": 4,
-      "pts": 4
-    },
-    {
-      "c": "uy",
-      "j": 2,
-      "v": 0,
-      "e": 2,
-      "d": 0,
-      "gf": 3,
-      "ga": 3,
-      "sg": 0,
-      "pts": 2
+      "sg": 5,
+      "pts": 7
     },
     {
       "c": "cv",
-      "j": 2,
+      "j": 3,
       "v": 0,
-      "e": 2,
+      "e": 3,
       "d": 0,
       "gf": 2,
       "ga": 2,
       "sg": 0,
+      "pts": 3
+    },
+    {
+      "c": "uy",
+      "j": 3,
+      "v": 0,
+      "e": 2,
+      "d": 1,
+      "gf": 3,
+      "ga": 4,
+      "sg": -1,
       "pts": 2
     },
     {
       "c": "sa",
-      "j": 2,
+      "j": 3,
       "v": 0,
-      "e": 1,
+      "e": 2,
       "d": 1,
       "gf": 1,
       "ga": 5,
       "sg": -4,
-      "pts": 1
+      "pts": 2
     }
   ],
   "G": [
@@ -1152,7 +1152,7 @@ window.BRACKET_LIVE = {
       "hn": "Uruguai",
       "ac": "es",
       "an": "Espanha",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-1"
     },
     {
@@ -1162,7 +1162,7 @@ window.BRACKET_LIVE = {
       "hn": "Cabo Verde",
       "ac": "sa",
       "an": "Arábia Saudita",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-0"
     }
   ],
