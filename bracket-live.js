@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-27T04:04:14.032Z
+// Fonte: football-data.org. 2026-06-27T04:06:18.356Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -158,7 +158,7 @@ window.BRACKET_LIVE = {
   "F": true,
   "H": true,
   "G": false,
-  "I": true,
+  "I": false,
   "J": false,
   "K": false,
   "L": false
@@ -549,46 +549,46 @@ window.BRACKET_LIVE = {
   "I": [
     {
       "c": "fr",
-      "j": 3,
-      "v": 3,
+      "j": 2,
+      "v": 2,
       "e": 0,
       "d": 0,
-      "gf": 10,
-      "ga": 2,
-      "sg": 8,
-      "pts": 9
+      "gf": 6,
+      "ga": 1,
+      "sg": 5,
+      "pts": 6
     },
     {
       "c": "no",
-      "j": 3,
+      "j": 2,
       "v": 2,
       "e": 0,
-      "d": 1,
-      "gf": 8,
-      "ga": 7,
-      "sg": 1,
+      "d": 0,
+      "gf": 7,
+      "ga": 3,
+      "sg": 4,
       "pts": 6
     },
     {
       "c": "sn",
-      "j": 3,
-      "v": 1,
+      "j": 2,
+      "v": 0,
       "e": 0,
       "d": 2,
-      "gf": 8,
+      "gf": 3,
       "ga": 6,
-      "sg": 2,
-      "pts": 3
+      "sg": -3,
+      "pts": 0
     },
     {
       "c": "iq",
-      "j": 3,
+      "j": 2,
       "v": 0,
       "e": 0,
-      "d": 3,
+      "d": 2,
       "gf": 1,
-      "ga": 12,
-      "sg": -11,
+      "ga": 7,
+      "sg": -6,
       "pts": 0
     }
   ],
@@ -1276,8 +1276,7 @@ window.BRACKET_LIVE = {
       "hn": "Noruega",
       "ac": "fr",
       "an": "França",
-      "st": "finalizado",
-      "sc": "1-4"
+      "st": "confirmado"
     },
     {
       "d": "26/06",
@@ -1286,8 +1285,7 @@ window.BRACKET_LIVE = {
       "hn": "Senegal",
       "ac": "iq",
       "an": "Iraque",
-      "st": "finalizado",
-      "sc": "5-0"
+      "st": "confirmado"
     }
   ],
   "J": [
