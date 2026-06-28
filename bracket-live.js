@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-28T01:36:19.290Z
+// Fonte: football-data.org. 2026-06-28T01:38:14.116Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -144,8 +144,8 @@ window.BRACKET_LIVE = {
   ],
   "L": [
     "gb-eng",
-    "gh",
     "hr",
+    "gh",
     "pa"
   ]
 },
@@ -160,8 +160,8 @@ window.BRACKET_LIVE = {
   "G": true,
   "I": true,
   "J": false,
-  "K": false,
-  "L": false
+  "K": true,
+  "L": true
 },
   groupsStarted: {
   "A": true,
@@ -641,92 +641,92 @@ window.BRACKET_LIVE = {
   "K": [
     {
       "c": "co",
-      "j": 2,
+      "j": 3,
       "v": 2,
-      "e": 0,
+      "e": 1,
       "d": 0,
       "gf": 4,
       "ga": 1,
       "sg": 3,
-      "pts": 6
+      "pts": 7
     },
     {
       "c": "pt",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 1,
+      "e": 2,
       "d": 0,
       "gf": 6,
       "ga": 1,
       "sg": 5,
-      "pts": 4
+      "pts": 5
     },
     {
       "c": "cd",
-      "j": 2,
-      "v": 0,
+      "j": 3,
+      "v": 1,
       "e": 1,
       "d": 1,
-      "gf": 1,
-      "ga": 2,
-      "sg": -1,
-      "pts": 1
+      "gf": 4,
+      "ga": 3,
+      "sg": 1,
+      "pts": 4
     },
     {
       "c": "uz",
-      "j": 2,
+      "j": 3,
       "v": 0,
       "e": 0,
-      "d": 2,
-      "gf": 1,
-      "ga": 8,
-      "sg": -7,
+      "d": 3,
+      "gf": 2,
+      "ga": 11,
+      "sg": -9,
       "pts": 0
     }
   ],
   "L": [
     {
       "c": "gb-eng",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 1,
       "d": 0,
-      "gf": 4,
+      "gf": 6,
       "ga": 2,
-      "sg": 2,
-      "pts": 4
-    },
-    {
-      "c": "gh",
-      "j": 2,
-      "v": 1,
-      "e": 1,
-      "d": 0,
-      "gf": 1,
-      "ga": 0,
-      "sg": 1,
-      "pts": 4
+      "sg": 4,
+      "pts": 7
     },
     {
       "c": "hr",
-      "j": 2,
-      "v": 1,
+      "j": 3,
+      "v": 2,
       "e": 0,
       "d": 1,
-      "gf": 3,
-      "ga": 4,
-      "sg": -1,
-      "pts": 3
+      "gf": 5,
+      "ga": 5,
+      "sg": 0,
+      "pts": 6
+    },
+    {
+      "c": "gh",
+      "j": 3,
+      "v": 1,
+      "e": 1,
+      "d": 1,
+      "gf": 2,
+      "ga": 2,
+      "sg": 0,
+      "pts": 4
     },
     {
       "c": "pa",
-      "j": 2,
+      "j": 3,
       "v": 0,
       "e": 0,
-      "d": 2,
+      "d": 3,
       "gf": 0,
-      "ga": 2,
-      "sg": -2,
+      "ga": 4,
+      "sg": -4,
       "pts": 0
     }
   ]
@@ -1398,7 +1398,8 @@ window.BRACKET_LIVE = {
       "hn": "Colômbia",
       "ac": "pt",
       "an": "Portugal",
-      "st": "finalizado"
+      "st": "finalizado",
+      "sc": "0-0"
     },
     {
       "d": "27/06",
@@ -1407,7 +1408,7 @@ window.BRACKET_LIVE = {
       "hn": "RD Congo",
       "ac": "uz",
       "an": "Uzbequistão",
-      "st": "confirmado",
+      "st": "finalizado",
       "sc": "3-1"
     }
   ],
@@ -1459,7 +1460,8 @@ window.BRACKET_LIVE = {
       "hn": "Panamá",
       "ac": "gb-eng",
       "an": "Inglaterra",
-      "st": "confirmado"
+      "st": "finalizado",
+      "sc": "0-2"
     },
     {
       "d": "27/06",
@@ -1468,7 +1470,8 @@ window.BRACKET_LIVE = {
       "hn": "Croácia",
       "ac": "gh",
       "an": "Gana",
-      "st": "confirmado"
+      "st": "finalizado",
+      "sc": "2-1"
     }
   ]
 },
