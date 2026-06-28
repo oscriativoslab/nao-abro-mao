@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-28T03:46:18.464Z
+// Fonte: football-data.org. 2026-06-28T03:48:14.712Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1339,7 +1339,7 @@ window.BRACKET_LIVE = {
       "ac": "ar",
       "an": "Argentina",
       "st": "aovivo",
-      "sc": "1-2"
+      "sc": "1-3"
     },
     {
       "d": "27/06",
