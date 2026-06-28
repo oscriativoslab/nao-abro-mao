@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-28T06:24:15.424Z
+// Fonte: football-data.org. 2026-06-28T06:26:17.954Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1478,72 +1478,7 @@ window.BRACKET_LIVE = {
   ]
 },
   knockoutDates: {},
-  knockoutTeams: {
-  "73": {
-    "a": "za",
-    "b": "ca"
-  },
-  "74": {
-    "a": "de",
-    "b": "py"
-  },
-  "75": {
-    "a": "nl",
-    "b": "ma"
-  },
-  "76": {
-    "a": "br",
-    "b": "jp"
-  },
-  "77": {
-    "a": "fr",
-    "b": "se"
-  },
-  "78": {
-    "a": "ci",
-    "b": "no"
-  },
-  "79": {
-    "a": "mx",
-    "b": "ec"
-  },
-  "80": {
-    "a": "gb-eng",
-    "b": "cd"
-  },
-  "81": {
-    "a": "us",
-    "b": "ba"
-  },
-  "82": {
-    "a": "be",
-    "b": "sn"
-  },
-  "83": {
-    "a": "pt",
-    "b": "hr"
-  },
-  "84": {
-    "a": "es",
-    "b": "at"
-  },
-  "85": {
-    "a": "ch",
-    "b": "dz"
-  },
-  "86": {
-    "a": "ar",
-    "b": "cv"
-  },
-  "87": {
-    "a": "co",
-    "b": "gh"
-  },
-  "88": {
-    "a": "au",
-    "b": "eg"
-  }
-},
+  knockoutTeams: {},
   brGroupMatches: [
   {
     "date": "13/06",
@@ -1603,14 +1538,6 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "3-0",
     "result": "v"
-  },
-  {
-    "stage": "LAST_32",
-    "date": "29/06",
-    "time": "14h",
-    "opp": "Japão",
-    "oppCode": "jp",
-    "status": "confirmado"
   }
 ]
 };
