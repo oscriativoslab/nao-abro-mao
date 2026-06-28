@@ -241,7 +241,7 @@ function mapTeam(name, unknown) {
         "09/07|17h": 97, "10/07|16h": 98, "11/07|18h": 99, "11/07|22h": 100,
         "14/07|16h": 101, "15/07|16h": 102, "18/07|18h": 103, "19/07|16h": 104
       };
-      var koDates = {}, koTeams = {}, koUnmatched = [];
+      var koDates = {}, koTeams = {}, koMatches = {}, koUnmatched = [];
       matches.forEach(function (m) {
         if (!m.stage || m.stage === "GROUP_STAGE") return;
         var t = brt(m.utcDate); if (!t) return;
@@ -253,6 +253,22 @@ function mapTeam(name, unknown) {
         var okH = hh && groupsDone[codeToGroup[hh.code]];
         var okA = aa && groupsDone[codeToGroup[aa.code]];
         if (okH || okA) { koTeams[id] = {}; if (okH) koTeams[id].a = hh.code; if (okA) koTeams[id].b = aa.code; }
+        // placar / status (ao vivo, encerrado) / vencedor do jogo do mata-mata
+        var st = (m.status === "FINISHED") ? "finalizado" : ((m.status === "IN_PLAY" || m.status === "PAUSED" || m.status === "LIVE") ? "aovivo" : "confirmado");
+        var rec = { st: st };
+        var sc = m.score && m.score.fullTime;
+        if (sc && sc.home != null && sc.away != null) {
+          rec.sc = sc.home + "-" + sc.away;
+          if (m.status === "FINISHED" && hh && aa) {
+            var hw = sc.home > sc.away, aw = sc.away > sc.home, pen = m.score && m.score.penalties;
+            if (!hw && !aw && pen && pen.home != null && pen.away != null) {
+              hw = pen.home > pen.away; aw = pen.away > pen.home;
+              if (pen.home !== pen.away) rec.pen = pen.home + "-" + pen.away;   // decidido nos pênaltis
+            }
+            rec.w = hw ? hh.code : (aw ? aa.code : null);
+          }
+        }
+        koMatches[id] = rec;
       });
 
       // ---- jogos do BRASIL (todas as fases): resultado / ao vivo / próximo ----
@@ -308,6 +324,7 @@ function mapTeam(name, unknown) {
         "  groupMatches: " + JSON.stringify(groupMatches, null, 2) + ",\n" +
         "  knockoutDates: " + JSON.stringify(koDates, null, 2) + ",\n" +
         "  knockoutTeams: " + JSON.stringify(koTeams, null, 2) + ",\n" +
+        "  koMatches: " + JSON.stringify(koMatches, null, 2) + ",\n" +
         "  brGroupMatches: " + JSON.stringify(brGroupMatches, null, 2) + ",\n" +
         "  brMatches: " + JSON.stringify(brMatches, null, 2) + "\n};\n";
       fs.writeFileSync(path.join(DIR, "bracket-live.js"), liveOut, "utf8");

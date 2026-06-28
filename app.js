@@ -716,8 +716,16 @@
       });
       return { label: "Melhor 3º colocado", teams: cands, provisional: true, third: true, fromGroups: grps };
     }
-    if ((m = slot.match(/^W(\d+)$/))) return { label: "Vencedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
-    if ((m = slot.match(/^L(\d+)$/))) return { label: "Perdedor do Jogo " + m[1], teams: koTeams(parseInt(m[1], 10)), derived: true };
+    if ((m = slot.match(/^W(\d+)$/))) {
+      var nW = parseInt(m[1], 10), kW = findKo(nW);
+      if (kW && kW.winner) return { label: "Vencedor do Jogo " + nW, teams: [kW.winner] };   // jogo já decidido
+      return { label: "Vencedor do Jogo " + nW, teams: koTeams(nW), derived: true };
+    }
+    if ((m = slot.match(/^L(\d+)$/))) {
+      var nL = parseInt(m[1], 10), kL = findKo(nL);
+      if (kL && kL.winner) { var lo = (kL.aCode === kL.winner) ? kL.bCode : kL.aCode; if (lo) return { label: "Perdedor do Jogo " + nL, teams: [lo] }; }
+      return { label: "Perdedor do Jogo " + nL, teams: koTeams(nL), derived: true };
+    }
     return { label: slot, teams: [] };
   }
   function koTeams(n) { var k = findKo(n); if (!k) return []; return uniqCodes(slotInfo(k.a).teams.concat(slotInfo(k.b).teams)); }
@@ -1036,31 +1044,42 @@
     var info = slotInfo(slot);
     return info.teams.length === 1 && !info.provisional && !info.derived;
   }
-  function koSide(slot, code) {
+  function koWinLose(sideCode, winCode, played) {
+    if (!played || !winCode || !sideCode) return "";
+    return sideCode === winCode ? " ko-side--win" : " ko-side--lose";
+  }
+  function koSide(slot, code, winCode, played) {
     if (code) {
       var td = teamByCode(code);
-      return '<div class="ko-side"><img class="ko-flag" src="' + flagUrl(code) + '" alt=""><span class="ko-lbl">' + (td ? td.name : code) + '</span></div>';
+      return '<div class="ko-side' + koWinLose(code, winCode, played) + '"><img class="ko-flag" src="' + flagUrl(code) + '" alt=""><span class="ko-lbl">' + (td ? td.name : code) + '</span></div>';
     }
     var info = slotInfo(slot);
     if (!info.derived && info.teams.length === 1) {
-      var t = teamByCode(info.teams[0]);
+      var sc = info.teams[0], t = teamByCode(sc);
       var prov = info.provisional ? '<span class="ko-prov">parcial</span>' : '';
-      return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + '"><img class="ko-flag" src="' + flagUrl(info.teams[0]) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
+      return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + koWinLose(sc, winCode, played) + '"><img class="ko-flag" src="' + flagUrl(sc) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
     }
     return '<div class="ko-side ko-side--open"><span class="ko-q">?</span><span class="ko-lbl">' + info.label + '</span></div>';
   }
   function koCard(k) {
+    var live = k.status === "aovivo", fin = k.status === "finalizado", played = live || fin;
     var when = [dateDay(k.date), k.time].filter(Boolean).join(" · ");
     var place = [k.stadium, k.city].filter(Boolean).join(" · ");
     var open = !(sideFinal(k.a, k.aCode) && sideFinal(k.b, k.bCode));
+    var topRight = live ? '<span class="ko-when ko-when--live">ao vivo</span>'
+      : (fin ? '<span class="ko-when ko-when--done">encerrado</span>'
+        : (when ? '<span class="ko-when">' + when + '</span>' : ''));
+    var mid = (played && k.score)
+      ? '<span class="ko-score' + (live ? ' is-live' : '') + '">' + k.score + '</span>' + (k.pen ? '<span class="ko-pen">pên ' + k.pen + '</span>' : '')
+      : '<span class="ko-vs">×</span>';
     var inner =
-      '<div class="ko-card__top"><span class="ko-num">Jogo ' + k.id + '</span>' + (when ? '<span class="ko-when">' + when + '</span>' : '') + '</div>' +
-      koSide(k.a, k.aCode) + '<span class="ko-vs">×</span>' + koSide(k.b, k.bCode) +
+      '<div class="ko-card__top"><span class="ko-num">Jogo ' + k.id + '</span>' + topRight + '</div>' +
+      koSide(k.a, k.aCode, k.winner, played) + mid + koSide(k.b, k.bCode, k.winner, played) +
       (place ? '<div class="ko-place"><i class="ti ti-map-pin"></i> ' + place + '</div>' : '') +
       (open ? '<span class="ko-tap"><i class="ti ti-hand-finger"></i> ver quem pode cair aqui</span>' : '');
     // indefinido = botão clicável (abre possíveis); definido = card estático
     if (open) return '<button class="ko-card ko-card--open" data-ko="' + k.id + '">' + inner + '</button>';
-    return '<div class="ko-card ko-card--set">' + inner + '</div>';
+    return '<div class="ko-card ko-card--set' + (live ? ' ko-card--live' : '') + '">' + inner + '</div>';
   }
   var STAGE_ICON = { dezesseis: "ti-grid-dots", oitavas: "ti-layout-grid", quartas: "ti-tournament", semi: "ti-medal", terceiro: "ti-award", final: "ti-trophy" };
   var OV_ORDER = ["dezesseis", "oitavas", "quartas", "semi", "terceiro", "final"];
@@ -1224,7 +1243,8 @@
     (BRACKET.knockout || []).forEach(function (k) {
       var a = fixSideResolve(k.a, k.aCode), b = fixSideResolve(k.b, k.bCode);
       out.push({ stage: k.stage, id: k.id, d: k.date, t: k.time, city: k.city,
-        hc: a.code || null, hLbl: a.label, ac: b.code || null, aLbl: b.label, sc: null, st: "confirmado" });
+        hc: a.code || null, hLbl: a.label, ac: b.code || null, aLbl: b.label,
+        sc: k.score || null, pen: k.pen || null, st: k.status || "confirmado" });
     });
     out.sort(function (x, y) { return fixTs(x.d, x.t) - fixTs(y.d, y.t); });
     return out;
@@ -1264,7 +1284,7 @@
     if (m.group) tag += " · Grupo " + m.group;
     var right = live ? '<span class="jg-m__live">ao vivo</span>' : (fin ? "encerrado" : (m.t || ""));
     var inner = (fin || live)
-      ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>'
+      ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>' + (m.pen ? '<span class="grp-m__pen">pên ' + m.pen + '</span>' : '')
       : '<span class="grp-m__vs">x</span>';
     var open = m.id && (!m.hc || !m.ac);   // eliminatória com lado indefinido -> clicável (mostra possíveis seleções)
     var tap = open ? '<div class="jg-m__tap"><i class="ti ti-hand-finger"></i> ver quem pode cair aqui</div>' : "";

@@ -276,6 +276,17 @@ window.applyBracketLive = function (LIVE) {
       if (d.b && _ok(d.b)) k.bCode = d.b;
     });
   }
+  // placar / status (ao vivo, encerrado) / vencedor de cada jogo do mata-mata
+  if (LIVE.koMatches) {
+    var _km = LIVE.koMatches;
+    (window.BRACKET.knockout || []).forEach(function (k) {
+      var r = _km[k.id]; if (!r) return;
+      if (r.st) k.status = r.st;
+      if (r.sc) k.score = r.sc; else delete k.score;
+      if (r.pen) k.pen = r.pen; else delete k.pen;
+      if (r.w) k.winner = r.w; else delete k.winner;
+    });
+  }
   // datas/horários do mata-mata: usamos os OFICIAIS fixos (FIFA, em BRT) acima.
   // O override da API foi desligado porque a ordem dela embaralhava o horário entre
   // jogos do mesmo dia. (Mantido só venue/estádio, se a API trouxer.)
