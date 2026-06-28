@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-28T23:50:21.916Z
+// Fonte: football-data.org. 2026-06-28T23:52:14.135Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1542,6 +1542,106 @@ window.BRACKET_LIVE = {
   "88": {
     "a": "au",
     "b": "eg"
+  }
+},
+  koMatches: {
+  "73": {
+    "st": "finalizado",
+    "sc": "0-1",
+    "w": "ca"
+  },
+  "74": {
+    "st": "confirmado"
+  },
+  "75": {
+    "st": "confirmado"
+  },
+  "76": {
+    "st": "confirmado"
+  },
+  "77": {
+    "st": "confirmado"
+  },
+  "78": {
+    "st": "confirmado"
+  },
+  "79": {
+    "st": "confirmado"
+  },
+  "80": {
+    "st": "confirmado"
+  },
+  "81": {
+    "st": "confirmado"
+  },
+  "82": {
+    "st": "confirmado"
+  },
+  "83": {
+    "st": "confirmado"
+  },
+  "84": {
+    "st": "confirmado"
+  },
+  "85": {
+    "st": "confirmado"
+  },
+  "86": {
+    "st": "confirmado"
+  },
+  "87": {
+    "st": "confirmado"
+  },
+  "88": {
+    "st": "confirmado"
+  },
+  "89": {
+    "st": "confirmado"
+  },
+  "90": {
+    "st": "confirmado"
+  },
+  "91": {
+    "st": "confirmado"
+  },
+  "92": {
+    "st": "confirmado"
+  },
+  "93": {
+    "st": "confirmado"
+  },
+  "94": {
+    "st": "confirmado"
+  },
+  "95": {
+    "st": "confirmado"
+  },
+  "96": {
+    "st": "confirmado"
+  },
+  "97": {
+    "st": "confirmado"
+  },
+  "98": {
+    "st": "confirmado"
+  },
+  "99": {
+    "st": "confirmado"
+  },
+  "100": {
+    "st": "confirmado"
+  },
+  "101": {
+    "st": "confirmado"
+  },
+  "102": {
+    "st": "confirmado"
+  },
+  "103": {
+    "st": "confirmado"
+  },
+  "104": {
+    "st": "confirmado"
   }
 },
   brGroupMatches: [
