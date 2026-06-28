@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-28T01:32:15.539Z
+// Fonte: football-data.org. 2026-06-28T01:34:15.004Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -641,25 +641,25 @@ window.BRACKET_LIVE = {
   "K": [
     {
       "c": "co",
-      "j": 2,
+      "j": 3,
       "v": 2,
-      "e": 0,
+      "e": 1,
       "d": 0,
       "gf": 4,
       "ga": 1,
       "sg": 3,
-      "pts": 6
+      "pts": 7
     },
     {
       "c": "pt",
-      "j": 2,
+      "j": 3,
       "v": 1,
-      "e": 1,
+      "e": 2,
       "d": 0,
       "gf": 6,
       "ga": 1,
       "sg": 5,
-      "pts": 4
+      "pts": 5
     },
     {
       "c": "cd",
@@ -1398,7 +1398,7 @@ window.BRACKET_LIVE = {
       "hn": "Colômbia",
       "ac": "pt",
       "an": "Portugal",
-      "st": "aovivo",
+      "st": "finalizado",
       "sc": "0-0"
     },
     {
