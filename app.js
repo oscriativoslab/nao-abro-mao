@@ -1048,18 +1048,22 @@
     if (!played || !winCode || !sideCode) return "";
     return sideCode === winCode ? " ko-side--win" : " ko-side--lose";
   }
-  function koSide(slot, code, winCode, played) {
-    if (code) {
-      var td = teamByCode(code);
-      return '<div class="ko-side' + koWinLose(code, winCode, played) + '"><img class="ko-flag" src="' + flagUrl(code) + '" alt=""><span class="ko-lbl">' + (td ? td.name : code) + '</span></div>';
+  function koSide(slot, code, winCode, played, side) {
+    var sc = null, name, prov = "", open = false;
+    if (code) { var td = teamByCode(code); sc = code; name = td ? td.name : code; }
+    else {
+      var info = slotInfo(slot);
+      if (!info.derived && info.teams.length === 1) {
+        sc = info.teams[0]; var t = teamByCode(sc); name = t ? t.name : info.label;
+        if (info.provisional) prov = '<span class="ko-prov">parcial</span>';
+      } else { open = true; name = info.label; }
     }
-    var info = slotInfo(slot);
-    if (!info.derived && info.teams.length === 1) {
-      var sc = info.teams[0], t = teamByCode(sc);
-      var prov = info.provisional ? '<span class="ko-prov">parcial</span>' : '';
-      return '<div class="ko-side' + (info.provisional ? ' ko-side--prov' : '') + koWinLose(sc, winCode, played) + '"><img class="ko-flag" src="' + flagUrl(sc) + '" alt=""><span class="ko-lbl">' + (t ? t.name : info.label) + prov + '</span></div>';
-    }
-    return '<div class="ko-side ko-side--open"><span class="ko-q">?</span><span class="ko-lbl">' + info.label + '</span></div>';
+    var cls = "ko-side ko-side--" + side + (open ? " ko-side--open" : "") + ((sc && prov) ? " ko-side--prov" : "") + koWinLose(sc, winCode, played);
+    var check = (played && winCode && sc === winCode) ? '<i class="ti ti-check ko-check"></i>' : '';
+    var flag = open ? '<span class="ko-q">?</span>' : '<img class="ko-flag" src="' + flagUrl(sc) + '" alt="">';
+    var lbl = '<span class="ko-lbl">' + name + prov + '</span>';
+    var body = (side === "b") ? (check + lbl + flag) : (flag + lbl + check);   // lado b espelhado (bandeira na ponta)
+    return '<div class="' + cls + '">' + body + '</div>';
   }
   function koCard(k) {
     var live = k.status === "aovivo", fin = k.status === "finalizado", played = live || fin;
@@ -1069,12 +1073,12 @@
     var topRight = live ? '<span class="ko-when ko-when--live">ao vivo</span>'
       : (fin ? '<span class="ko-when ko-when--done">encerrado</span>'
         : (when ? '<span class="ko-when">' + when + '</span>' : ''));
-    var mid = (played && k.score)
+    var midInner = (played && k.score)
       ? '<span class="ko-score' + (live ? ' is-live' : '') + '">' + k.score + '</span>' + (k.pen ? '<span class="ko-pen">pên ' + k.pen + '</span>' : '')
       : '<span class="ko-vs">×</span>';
     var inner =
       '<div class="ko-card__top"><span class="ko-num">Jogo ' + k.id + '</span>' + topRight + '</div>' +
-      koSide(k.a, k.aCode, k.winner, played) + mid + koSide(k.b, k.bCode, k.winner, played) +
+      '<div class="ko-match">' + koSide(k.a, k.aCode, k.winner, played, "a") + '<div class="ko-mid">' + midInner + '</div>' + koSide(k.b, k.bCode, k.winner, played, "b") + '</div>' +
       (place ? '<div class="ko-place"><i class="ti ti-map-pin"></i> ' + place + '</div>' : '') +
       (open ? '<span class="ko-tap"><i class="ti ti-hand-finger"></i> ver quem pode cair aqui</span>' : '');
     // indefinido = botão clicável (abre possíveis); definido = card estático
