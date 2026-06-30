@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-30T04:34:13.463Z
+// Fonte: football-data.org. 2026-06-30T04:36:17.505Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1560,8 +1560,8 @@ window.BRACKET_LIVE = {
   },
   "75": {
     "st": "finalizado",
-    "sc": "3-4",
-    "w": "ma"
+    "sc": "4-4",
+    "w": null
   },
   "76": {
     "st": "finalizado",
