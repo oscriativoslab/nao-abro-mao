@@ -256,16 +256,22 @@ function mapTeam(name, unknown) {
         // placar / status (ao vivo, encerrado) / vencedor do jogo do mata-mata
         var st = (m.status === "FINISHED") ? "finalizado" : ((m.status === "IN_PLAY" || m.status === "PAUSED" || m.status === "LIVE") ? "aovivo" : "confirmado");
         var rec = { st: st };
-        var sc = m.score && m.score.fullTime;
-        if (sc && sc.home != null && sc.away != null) {
-          rec.sc = sc.home + "-" + sc.away;
-          if (m.status === "FINISHED" && hh && aa) {
-            var hw = sc.home > sc.away, aw = sc.away > sc.home, pen = m.score && m.score.penalties;
-            if (!hw && !aw && pen && pen.home != null && pen.away != null) {
-              hw = pen.home > pen.away; aw = pen.away > pen.home;
-              if (pen.home !== pen.away) rec.pen = pen.home + "-" + pen.away;   // decidido nos pênaltis
-            }
-            rec.w = hw ? hh.code : (aw ? aa.code : null);
+        var ft = m.score && m.score.fullTime;
+        if (ft && ft.home != null && ft.away != null) {
+          var dur = m.score && m.score.duration, pen = m.score && m.score.penalties;
+          var temPen = pen && pen.home != null && pen.away != null;
+          var fin = m.status === "FINISHED" && hh && aa;
+          if (dur === "PENALTY_SHOOTOUT" && temPen) {
+            // a API soma os pênaltis no fullTime -> tira pra ter o placar normal (sempre empate)
+            var nh = ft.home - pen.home, na = ft.away - pen.away;
+            if (nh < 0 || na < 0) { nh = ft.home; na = ft.away; }   // se o fullTime já vinha sem os pênaltis
+            rec.sc = nh + "-" + na;
+            rec.pen = pen.home + "-" + pen.away;
+            if (fin) rec.w = pen.home > pen.away ? hh.code : (pen.away > pen.home ? aa.code : null);
+          } else {
+            rec.sc = ft.home + "-" + ft.away;
+            if (dur === "EXTRA_TIME") rec.aet = true;   // foi pra prorrogação (decidido lá, sem pênaltis)
+            if (fin) rec.w = ft.home > ft.away ? hh.code : (ft.away > ft.home ? aa.code : null);
           }
         }
         koMatches[id] = rec;

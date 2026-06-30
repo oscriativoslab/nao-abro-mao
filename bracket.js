@@ -284,6 +284,7 @@ window.applyBracketLive = function (LIVE) {
       if (r.st) k.status = r.st;
       if (r.sc) k.score = r.sc; else delete k.score;
       if (r.pen) k.pen = r.pen; else delete k.pen;
+      if (r.aet) k.aet = true; else delete k.aet;
       if (r.w) k.winner = r.w; else delete k.winner;
     });
   }

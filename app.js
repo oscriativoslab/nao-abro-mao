@@ -1073,8 +1073,9 @@
     var topRight = live ? '<span class="ko-when ko-when--live">ao vivo</span>'
       : (fin ? '<span class="ko-when ko-when--done">encerrado</span>'
         : (when ? '<span class="ko-when">' + when + '</span>' : ''));
+    var note = k.pen ? '<span class="ko-pen">pênaltis ' + k.pen + '</span>' : (k.aet ? '<span class="ko-pen">após prorrogação</span>' : '');
     var midInner = (played && k.score)
-      ? '<span class="ko-score' + (live ? ' is-live' : '') + '">' + k.score + '</span>' + (k.pen ? '<span class="ko-pen">pên ' + k.pen + '</span>' : '')
+      ? '<span class="ko-score' + (live ? ' is-live' : '') + '">' + k.score + '</span>' + note
       : '<span class="ko-vs">×</span>';
     var inner =
       '<div class="ko-card__top"><span class="ko-num">Jogo ' + k.id + '</span>' + topRight + '</div>' +
@@ -1248,7 +1249,7 @@
       var a = fixSideResolve(k.a, k.aCode), b = fixSideResolve(k.b, k.bCode);
       out.push({ stage: k.stage, id: k.id, d: k.date, t: k.time, city: k.city,
         hc: a.code || null, hLbl: a.label, ac: b.code || null, aLbl: b.label,
-        sc: k.score || null, pen: k.pen || null, st: k.status || "confirmado" });
+        sc: k.score || null, pen: k.pen || null, aet: k.aet || false, st: k.status || "confirmado" });
     });
     out.sort(function (x, y) { return fixTs(x.d, x.t) - fixTs(y.d, y.t); });
     return out;
@@ -1288,7 +1289,7 @@
     if (m.group) tag += " · Grupo " + m.group;
     var right = live ? '<span class="jg-m__live">ao vivo</span>' : (fin ? "encerrado" : (m.t || ""));
     var inner = (fin || live)
-      ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>' + (m.pen ? '<span class="grp-m__pen">pên ' + m.pen + '</span>' : '')
+      ? '<span class="grp-m__sc' + (live ? " is-live" : "") + '">' + (m.sc || "0-0") + '</span>' + (m.pen ? '<span class="grp-m__pen">pên ' + m.pen + '</span>' : (m.aet ? '<span class="grp-m__pen">prorrog.</span>' : ''))
       : '<span class="grp-m__vs">x</span>';
     var open = m.id && (!m.hc || !m.ac);   // eliminatória com lado indefinido -> clicável (mostra possíveis seleções)
     var tap = open ? '<div class="jg-m__tap"><i class="ti ti-hand-finger"></i> ver quem pode cair aqui</div>' : "";
