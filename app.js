@@ -602,7 +602,7 @@
     if (/vencedor|partida/i.test(opp)) return "Sai do vencedor de uma partida anterior do mata-mata. O time real aparece quando aquele jogo acontecer.";
     return "Adversário ainda a definir.";
   }
-  function scnRow(s, selCode, fallbackDate) {
+  function scnRow(s, selCode, fallbackDate, confirmed) {
     var date = s.date || fallbackDate || "";
     var slot = s.slot || (s.oppCode ? null : oppToSlot(s.opp));
     var sInfo = slot ? slotInfo(slot) : null;
@@ -616,7 +616,7 @@
     var oppFlag = hasTeam ? '<img src="' + flagUrl(teamCode) + '" alt="">' : '<span class="scn__q">?</span>';
     // exato -> troca torcida (gag); provável/indefinido -> popup de possibilidades
     var cardAttr = exact ? ' data-go="' + teamCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
-    var cardCls = "scn" + (exact ? " scn--set" : "") + (exact || slot ? " scn--click" : "");
+    var cardCls = "scn" + (confirmed ? " scn--set" : "") + (exact || slot ? " scn--click" : "");
     var oppCls = "scn__opp" + ((exact || prov) ? "" : " scn__opp--ph");
     var info = exact ? "" : '<i class="ti ti-info-circle scn__info"></i>';
     var when = [];
@@ -635,7 +635,7 @@
   var slideCount = 0;
   var jData = [], jCur = 0, jElim = false;
 
-  function phaseBody(st, code) {
+  function phaseBody(st, code, confirmed) {
     var body = "";
     if (st.matches) {
       if (st.matches.length) st.matches.forEach(function (m) { body += matchRow(m, code); });
@@ -643,8 +643,8 @@
     }
     if (st.scenarios) {
       if (st.tv && st.tv.length) body += '<div class="stg__meta"><i class="ti ti-device-tv"></i> ' + tvLine(st.tv) + '</div>';
-      body += '<div class="scn-label">caminhos possíveis · se avançar</div>';
-      st.scenarios.forEach(function (s) { body += scnRow(s, code, st.date); });
+      body += '<div class="scn-label">' + (confirmed ? 'jogo desta fase' : 'caminhos possíveis · se avançar') + '</div>';
+      st.scenarios.forEach(function (s) { body += scnRow(s, code, st.date, confirmed); });
     }
     return body;
   }
@@ -652,11 +652,12 @@
   function stageSlide(st, idx, curIdx, code) {
     var names = BRACKET.stageNames || {};
     var isCurrent = idx === curIdx;
+    var confirmed = idx <= curIdx;   // Brasil já está (ou esteve) nesta fase -> opacidade cheia
     var here = isCurrent ? '<div class="stg__here"><i class="ti ti-map-pin"></i> você está aqui</div>' : "";
     return '<div class="slide"><div class="phase-card' + (isCurrent ? ' phase-card--current' : '') + '">' +
       '<div class="phase-head"><span class="phase-name">' + (names[st.stage] || st.stage) + '</span><span class="stg__badge ' + st.status + '">' + badgeText(st) + '</span></div>' +
       here +
-      '<div class="phase-body">' + phaseBody(st, code) + '</div>' +
+      '<div class="phase-body">' + phaseBody(st, code, confirmed) + '</div>' +
       '</div></div>';
   }
 
