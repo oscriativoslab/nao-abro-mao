@@ -742,8 +742,14 @@
     }
     return { label: slot, teams: [] };
   }
-  function koTeams(n) { var k = findKo(n); if (!k) return []; return uniqCodes(slotInfo(k.a).teams.concat(slotInfo(k.b).teams)); }
-  function koGameTeams(k) { return uniqCodes(slotInfo(k.a).teams.concat(slotInfo(k.b).teams)); }
+  // times de um jogo: usa os já definidos (aCode/bCode) e só cai nas possibilidades do slot p/ os lados ainda indefinidos
+  function koGameTeams(k) {
+    if (!k) return [];
+    var aT = k.aCode ? [k.aCode] : slotInfo(k.a).teams;
+    var bT = k.bCode ? [k.bCode] : slotInfo(k.b).teams;
+    return uniqCodes(aT.concat(bT));
+  }
+  function koTeams(n) { return koGameTeams(findKo(n)); }
   // "2º do Grupo F" / "Vencedor da Partida 73" -> slot
   function oppToSlot(opp) {
     var m; opp = opp || "";
