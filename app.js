@@ -522,7 +522,7 @@
       var oppSlot = (m.a === slot) ? m.b : m.a;
       phases.push({
         stage: m.stage, status: "possivel", date: m.date, time: m.time, city: m.city,
-        scenarios: [{ date: m.date, time: m.time, city: m.city, stadium: m.stadium, opp: slotInfo(oppSlot).label, slot: oppSlot }]
+        scenarios: [{ date: m.date, time: m.time, city: m.city, stadium: m.stadium, opp: slotInfo(oppSlot).label, slot: oppSlot, gameId: m.id }]
       });
       slot = "W" + m.id;
       m = findMatchWithSlot(slot);
@@ -619,6 +619,18 @@
     var cardCls = "scn" + (confirmed ? " scn--set" : "") + (exact || slot ? " scn--click" : "");
     var oppCls = "scn__opp" + ((exact || prov) ? "" : " scn__opp--ph");
     var info = exact ? "" : '<i class="ti ti-info-circle scn__info"></i>';
+    // placar do jogo (se já rolou), no ponto de vista do selecionado, com pênaltis/prorrogação
+    var game = s.gameId ? findKo(s.gameId) : null;
+    var resHtml = "";
+    if (game && game.score && (game.status === "finalizado" || game.status === "aovivo")) {
+      var live = game.status === "aovivo";
+      var brHome = game.aCode === selCode, brAway = game.bCode === selCode;
+      var flip = function (sc) { var p = (sc || "").split("-"); return brAway ? (p[1] + "-" + p[0]) : (p[0] + "-" + p[1]); };
+      var resCls = live ? " is-live" : (game.winner ? (game.winner === selCode ? " is-v" : " is-d") : " is-e");
+      var note = game.pen ? ("pênaltis " + flip(game.pen)) : (game.aet ? "após prorrogação" : "");
+      resHtml = '<div class="scn__res' + resCls + '">' + flip(game.score) + (live ? ' <span class="scn__live">ao vivo</span>' : '') + '</div>' +
+        (note ? '<div class="scn__resnote">' + note + '</div>' : "");
+    }
     var when = [];
     if (date) when.push(dateDay(date));
     if (s.time) when.push(s.time);
@@ -627,6 +639,7 @@
       '<img class="scn__flag" src="' + flagUrl(selCode) + '" alt="">' +
       '<span class="scn__vs">x</span>' +
       '<span class="' + oppCls + '">' + oppFlag + '<span>' + oppName + '</span>' + provBadge + info + '</span></div>' +
+      resHtml +
       (when.length ? '<div class="scn__when">' + when.join(" · ") + '</div>' : "") +
       (place ? '<div class="scn__city"><i class="ti ti-building-stadium"></i> ' + place + '</div>' : "") +
       '</div>';
