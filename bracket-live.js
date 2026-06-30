@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-06-30T06:12:19.146Z
+// Fonte: football-data.org. 2026-06-30T06:14:18.826Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1543,8 +1543,15 @@ window.BRACKET_LIVE = {
     "a": "au",
     "b": "eg"
   },
+  "89": {
+    "a": "py"
+  },
   "90": {
-    "a": "ca"
+    "a": "ca",
+    "b": "ma"
+  },
+  "91": {
+    "a": "br"
   }
 },
   koMatches: {
@@ -1560,8 +1567,8 @@ window.BRACKET_LIVE = {
   },
   "75": {
     "st": "finalizado",
-    "sc": "4-4",
-    "w": null
+    "sc": "3-4",
+    "w": "ma"
   },
   "76": {
     "st": "finalizado",
@@ -1722,6 +1729,14 @@ window.BRACKET_LIVE = {
     "status": "finalizado",
     "score": "2-1",
     "result": "v"
+  },
+  {
+    "stage": "LAST_16",
+    "date": "05/07",
+    "time": "17h",
+    "opp": "",
+    "oppCode": "",
+    "status": "confirmado"
   }
 ]
 };
