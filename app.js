@@ -616,7 +616,7 @@
     var oppFlag = hasTeam ? '<img src="' + flagUrl(teamCode) + '" alt="">' : '<span class="scn__q">?</span>';
     // exato -> troca torcida (gag); provável/indefinido -> popup de possibilidades
     var cardAttr = exact ? ' data-go="' + teamCode + '"' : (slot ? ' data-slot="' + slot + '" data-opp="' + (s.opp || "") + '"' : '');
-    var cardCls = "scn" + (exact || slot ? " scn--click" : "");
+    var cardCls = "scn" + (exact ? " scn--set" : "") + (exact || slot ? " scn--click" : "");
     var oppCls = "scn__opp" + ((exact || prov) ? "" : " scn__opp--ph");
     var info = exact ? "" : '<i class="ti ti-info-circle scn__info"></i>';
     var when = [];

@@ -619,6 +619,9 @@ button{ font-family: inherit; cursor:pointer; border:none; background:none; colo
 .scn-label{ font-size:9px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:#b3a3c2; margin:10px 0 6px; }
 .scn{ background:#FAF6F0; border:1.5px dashed #DFD2BC; border-radius:12px; padding:9px 11px; margin-bottom:7px; opacity:.45; }
 .scn .scn__flag, .scn .scn__opp img{ filter:grayscale(.4); }
+/* adversário já confirmado: linha cheia (não apagada) */
+.scn--set{ opacity:1; background:#fff; border-style:solid; border-color:#F0E6D4; }
+.scn--set .scn__flag, .scn--set .scn__opp img{ filter:none; }
 .scn__match{ display:flex; align-items:center; gap:8px; }
 .scn__flag{ width:26px; height:26px; border-radius:50%; object-fit:cover; flex:none; }
 .scn__vs{ font-family:var(--font-title); font-weight:800; font-size:12px; color:var(--orange); flex:none; }
