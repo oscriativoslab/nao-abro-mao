@@ -719,12 +719,12 @@
     if ((m = slot.match(/^W(\d+)$/))) {
       var nW = parseInt(m[1], 10), kW = findKo(nW);
       if (kW && kW.winner) return { label: "Vencedor do Jogo " + nW, teams: [kW.winner] };   // jogo já decidido
-      return { label: "Vencedor do Jogo " + nW, teams: koTeams(nW), derived: true };
+      return { label: "Vencedor do Jogo " + nW, teams: koTeams(nW), derived: true, fromGame: nW };
     }
     if ((m = slot.match(/^L(\d+)$/))) {
       var nL = parseInt(m[1], 10), kL = findKo(nL);
       if (kL && kL.winner) { var lo = (kL.aCode === kL.winner) ? kL.bCode : kL.aCode; if (lo) return { label: "Perdedor do Jogo " + nL, teams: [lo] }; }
-      return { label: "Perdedor do Jogo " + nL, teams: koTeams(nL), derived: true };
+      return { label: "Perdedor do Jogo " + nL, teams: koTeams(nL), derived: true, fromGame: nL };
     }
     return { label: slot, teams: [] };
   }
@@ -754,9 +754,19 @@
       if (others.length) h2 += '<div class="popup__slot">outros do grupo</div><div class="popup__teams">' + others.map(teamChip).join("") + '</div>';
       return h2;
     }
-    if (!info.teams.length) return '<p class="popup__note">A definir.</p>';
-    if (info.teams.length > 8) return '<p class="popup__note">' + info.teams.length + ' seleções ainda possíveis, depende dos resultados das fases anteriores.</p>';
-    return '<div class="popup__teams">' + info.teams.map(teamChip).join("") + '</div>';
+    // se vem do vencedor/perdedor de um jogo, mostra quando esse jogo acontece
+    var when = "";
+    if (info.fromGame) {
+      var g = findKo(info.fromGame);
+      if (g) {
+        var w = [dateDay(g.date), g.time].filter(Boolean).join(" · ");
+        var pl = [g.stadium, g.city].filter(Boolean).join(" · ");
+        when = '<p class="popup__when"><i class="ti ti-calendar-event"></i> Jogo ' + info.fromGame + ': ' + w + (pl ? ' · ' + pl : '') + '</p>';
+      }
+    }
+    if (!info.teams.length) return when + '<p class="popup__note">A definir.</p>';
+    if (info.teams.length > 8) return when + '<p class="popup__note">' + info.teams.length + ' seleções ainda possíveis, depende dos resultados das fases anteriores.</p>';
+    return when + '<div class="popup__teams">' + info.teams.map(teamChip).join("") + '</div>';
   }
   // popup de um confronto inteiro do mata-mata (os dois lados)
   function openKoPopup(k) {
