@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-01T18:04:17.499Z
+// Fonte: football-data.org. 2026-07-01T18:06:17.414Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1595,8 +1595,9 @@ window.BRACKET_LIVE = {
     "w": "mx"
   },
   "80": {
-    "st": "aovivo",
-    "sc": "2-1"
+    "st": "finalizado",
+    "sc": "2-1",
+    "w": "gb-eng"
   },
   "81": {
     "st": "confirmado"
