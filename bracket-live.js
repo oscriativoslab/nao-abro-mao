@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-01T06:10:31.844Z
+// Fonte: football-data.org. 2026-07-01T06:12:15.941Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1544,14 +1544,16 @@ window.BRACKET_LIVE = {
     "b": "eg"
   },
   "89": {
-    "a": "py"
+    "a": "py",
+    "b": "fr"
   },
   "90": {
     "a": "ca",
     "b": "ma"
   },
   "91": {
-    "a": "br"
+    "a": "br",
+    "b": "no"
   }
 },
   koMatches: {
@@ -1742,8 +1744,8 @@ window.BRACKET_LIVE = {
     "stage": "LAST_16",
     "date": "05/07",
     "time": "17h",
-    "opp": "",
-    "oppCode": "",
+    "opp": "Noruega",
+    "oppCode": "no",
     "status": "confirmado"
   }
 ]
