@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-02T05:20:20.939Z
+// Fonte: football-data.org. 2026-07-02T05:22:13.803Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1598,6 +1598,7 @@ window.BRACKET_LIVE = {
   "82": {
     "st": "finalizado",
     "sc": "3-2",
+    "aet": true,
     "w": "be"
   },
   "83": {
