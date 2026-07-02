@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-02T06:08:13.033Z
+// Fonte: football-data.org. 2026-07-02T06:10:18.846Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1550,6 +1550,14 @@ window.BRACKET_LIVE = {
   "91": {
     "a": "br",
     "b": "no"
+  },
+  "92": {
+    "a": "mx",
+    "b": "gb-eng"
+  },
+  "94": {
+    "a": "us",
+    "b": "be"
   }
 },
   koMatches: {
@@ -1598,6 +1606,7 @@ window.BRACKET_LIVE = {
   "82": {
     "st": "finalizado",
     "sc": "3-2",
+    "aet": true,
     "w": "be"
   },
   "83": {
