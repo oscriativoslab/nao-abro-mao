@@ -241,15 +241,31 @@ function mapTeam(name, unknown) {
         "09/07|17h": 97, "10/07|16h": 98, "11/07|18h": 99, "11/07|22h": 100,
         "14/07|16h": 101, "15/07|16h": 102, "18/07|18h": 103, "19/07|16h": 104
       };
+      // Estrutura oficial dos 16 avos (lados 1X/2X são conhecidos pela classificação).
+      // Serve p/ casar o jogo da API pelo TIME já conhecido, sem depender do horário
+      // (o horário da API às vezes diverge do oficial que usamos no display).
+      var KO_R32 = {
+        73: ["2A", "2B"], 74: ["1E"], 75: ["1F", "2C"], 76: ["1C", "2F"], 77: ["1I"], 78: ["2E", "2I"],
+        79: ["1A"], 80: ["1L"], 81: ["1D"], 82: ["1G"], 83: ["2K", "2L"], 84: ["1H", "2J"],
+        85: ["1B"], 86: ["1J", "2H"], 87: ["1K"], 88: ["2D", "2G"]
+      };
+      function groupPosTeam(slot) { var mm = /^([12])([A-L])$/.exec(slot); if (!mm) return null; var arr = standings[mm[2]]; return (arr && arr[+mm[1] - 1]) || null; }
+      var knownSideToId = {};
+      Object.keys(KO_R32).forEach(function (id) { KO_R32[id].forEach(function (sl) { var c = groupPosTeam(sl); if (c) knownSideToId[c] = +id; }); });
+
       var koDates = {}, koTeams = {}, koMatches = {}, koUnmatched = [];
       matches.forEach(function (m) {
         if (!m.stage || m.stage === "GROUP_STAGE") return;
         var t = brt(m.utcDate); if (!t) return;
-        var id = KO_SCHEDULE[t.date + "|" + t.time];
+        var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
+        // 16 avos (LAST_32): casa pelo TIME conhecido (robusto a horário, e sem confundir
+        // com fases seguintes onde o mesmo time reaparece). Demais fases: por dia+horário.
+        var id = null;
+        if (/32/.test(m.stage || "")) id = (hh && knownSideToId[hh.code]) || (aa && knownSideToId[aa.code]) || null;
+        if (!id) id = KO_SCHEDULE[t.date + "|" + t.time] || null;
         if (!id) { koUnmatched.push(t.date + " " + t.time + " (" + m.stage + ")"); return; }
         if (m.venue) koDates[id] = { date: t.date, time: t.time, stadium: m.venue };
         // CAMINHO 2: grava o time só se o GRUPO dele já terminou (atualiza grupo a grupo)
-        var hh = mapTeam(m.homeTeam && m.homeTeam.name, {}), aa = mapTeam(m.awayTeam && m.awayTeam.name, {});
         var okH = hh && groupsDone[codeToGroup[hh.code]];
         var okA = aa && groupsDone[codeToGroup[aa.code]];
         if (okH || okA) { koTeams[id] = {}; if (okH) koTeams[id].a = hh.code; if (okA) koTeams[id].b = aa.code; }
