@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-05T21:56:14.852Z
+// Fonte: football-data.org. 2026-07-05T21:58:13.771Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1678,7 +1678,7 @@ window.BRACKET_LIVE = {
   },
   "91": {
     "st": "aovivo",
-    "sc": "0-1"
+    "sc": "0-2"
   },
   "92": {
     "st": "confirmado"
@@ -1797,7 +1797,7 @@ window.BRACKET_LIVE = {
     "opp": "Noruega",
     "oppCode": "no",
     "status": "aovivo",
-    "score": "0-1",
+    "score": "0-2",
     "result": "d"
   }
 ]
