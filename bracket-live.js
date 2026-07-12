@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-07-12T04:41:41.389Z
+// Fonte: football-data.org. 2026-07-12T07:15:22.260Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
@@ -1590,6 +1590,10 @@ window.BRACKET_LIVE = {
   "101": {
     "a": "fr",
     "b": "es"
+  },
+  "102": {
+    "a": "gb-eng",
+    "b": "ar"
   }
 },
   koMatches: {
