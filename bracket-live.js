@@ -1,5 +1,5 @@
 // GERADO AUTOMATICAMENTE por gerar_bracket.js — NÃO editar à mão.
-// Fonte: football-data.org. 2026-09-08T17:32:21.513Z
+// Fonte: football-data.org. 2026-09-08T20:10:16.056Z
 window.BRACKET_LIVE = {
   groups: {
   "A": [
